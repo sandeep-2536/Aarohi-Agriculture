@@ -1,0 +1,54 @@
+<% layout('layouts/boilerplate') %>
+<body class="weather-body">
+  <h1 class="weather-title">Current Weather</h1>
+
+  <% if (weather) { %>
+    <div class="weather-card">
+      <h3 class="weather-card-title">
+        Weather for 
+        <% if (weather.name && weather.sys && weather.sys.country) { %>
+          <%= weather.name %>, <%= weather.sys.country %>
+        <% } else { %>
+          Your Location
+        <% } %>
+      </h3>
+      <p class="weather-detail"><strong>Condition:</strong> <%= weather.weather[0].description %></p>
+      <p class="weather-detail"><strong>Temperature:</strong> <%= weather.main.temp %> °C</p>
+      <p class="weather-detail"><strong>Humidity:</strong> <%= weather.main.humidity %> %</p>
+      <p class="weather-detail"><strong>Wind Speed:</strong> <%= weather.wind.speed %> m/s</p>
+    </div>
+  <% } else { %>
+    <div class="weather-card weather-prompt">
+      <p>
+        To provide accurate weather updates, please share your location.
+        <br>
+        <button class="weather-btn" id="getLocationBtn">Share Location</button>
+      </p>
+    </div>
+  <% } %>
+
+  <% if (!weather) { %>
+  <script>
+    (function() {
+      const btn = document.getElementById('getLocationBtn');
+      if (!btn) return;
+
+      btn.addEventListener('click', function() {
+        // This is the official way to trigger location dialog
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            window.location.href = "/features/weather?lat=" + encodeURIComponent(lat) + "&lon=" + encodeURIComponent(lon);
+          }, function(error) {
+            // Show custom error message
+            alert('Permission denied. Weather updates need your location to be accurate.');
+          });
+        } else {
+          alert('Geolocation is not supported by your browser.');
+        }
+      });
+    })();
+  </script>
+  <% } %>
+</body>

@@ -1,0 +1,29 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container animal-detail-page">
+  <h1><%= animal.breed %> Details</h1>
+  <div class="detail-content">
+    <div class="image-gallery">
+      <% animal.images.forEach(function(image) { %>
+        <img src="<%= image %>" alt="<%= animal.breed %>" class="main-image">
+      <% }) %>
+    </div>
+
+    <div class="detail-info">
+      <p class="price-big">Price: ₹<%= animal.price.toFixed(2) %></p>
+      <p><strong>Type:</strong> <%= animal.type %></p>
+      <p><strong>Gender:</strong> <%= animal.gender %></p>
+      <p><strong>Age:</strong> <%= animal.age %> months</p>
+      <p><strong>Weight:</strong> <%= animal.weight %> kg</p>
+      <p><strong>Location:</strong> <%= animal.location %></p>
+      <div>
+        <h4>Description</h4>
+        <p><%= animal.description %></p>
+      </div>
+      <div class="button-group">
+        <a href="/features/animaltrading" class="btn-back">← Back to Listings</a>
+        <a href="tel:SELLER_PHONE_NUMBER" class="btn-contact">Contact Seller</a>
+      </div>
+    </div>
+  </div>
+</main>

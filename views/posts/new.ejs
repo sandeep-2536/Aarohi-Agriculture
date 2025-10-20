@@ -1,0 +1,8 @@
+<h2>Create a New Discussion</h2>
+<form action="/features/community" method="POST" enctype="multipart/form-data">
+  <input type="text" name="title" placeholder="Title" required>
+  <textarea name="content" placeholder="Write your discussion..." required></textarea>
+  <input type="text" name="author" placeholder="Your name" required>
+  <input type="file" name="image" accept="image/*">
+  <button type="submit">Post</button>
+</form>

@@ -1,0 +1,12 @@
+<h2>Add Your Crop or Seed</h2>
+<form action="/features/crops" method="POST" enctype="multipart/form-data">
+  <input type="text" name="name" placeholder="Crop Name" required>
+  <input type="text" name="type" placeholder="Type (e.g., grain, seed)" required>
+  <input type="number" name="quantity" placeholder="Quantity (kg)" required>
+  <input type="text" name="region" placeholder="Region" required>
+  <input type="number" name="pricePerKg" placeholder="Price per Kg" required>
+  <input type="text" name="farmerName" placeholder="Farmer Name" required>
+  <input type="text" name="contact" placeholder="Contact Info" required>
+  <input type="file" name="image" accept="image/*">
+  <button type="submit">Upload Crop</button>
+</form>

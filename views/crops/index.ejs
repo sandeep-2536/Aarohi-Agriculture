@@ -1,0 +1,14 @@
+<h2>All Crops & Seeds</h2>
+<a href="/features/crops/new">+ Add Crop</a>
+
+<ul>
+  <% crops.forEach(crop => { %>
+    <li>
+      <% if (crop.image) { %>
+        <img src="<%= crop.image %>" alt="Crop Image" style="max-width:150px;">
+      <% } %>
+      <a href="/features/crops/<%= crop._id %>"><%= crop.name %></a>
+      <small>(<%= crop.type %>) - ₹<%= crop.pricePerKg %>/kg - <%= crop.region %></small>
+    </li>
+  <% }) %>
+</ul>

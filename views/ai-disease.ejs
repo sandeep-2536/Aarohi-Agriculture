@@ -1,0 +1,183 @@
+<% layout('layouts/boilerplate') %>
+
+<body>
+  <div class="ai-disease-body">
+    <h1 class="page-title">AI Crop Disease Detection</h1>
+      
+    <!-- Upload Section -->
+    <section class="upload-section">
+      <p>Upload a clear image of the crop leaf or capture one using your camera.</p>
+
+      <div id="imagePreviewContainer" class="image-preview-container" style="display: none">
+        <p>Preview:</p>
+        <img id="imagePreview" src="" alt="Image Preview" class="image-preview" />
+      </div>
+
+      <form id="uploadForm" style="margin-bottom: 20px">
+        <input type="file" name="leafImage" id="leafImage" accept="image/*" required />
+        <button type="submit" class="btn-submit">Detect Disease</button>
+      </form>
+
+      <p style="text-align: center; margin: 10px 0">OR</p>
+
+      <div class="camera-section" style="text-align: center">
+        <button type="button" id="startCameraBtn" class="btn-camera">📸 Capture Photo</button><br /><br />
+        <video id="cameraStream" autoplay style="display: none; width: 300px; border-radius: 8px"></video><br />
+        <button type="button" id="captureBtn" class="btn-capture" style="display: none">Capture</button><br />
+        <canvas id="capturedPhoto" style="display: none; margin-top: 10px; border: 1px solid #ccc"></canvas>
+      </div>
+
+    </section>
+
+    <div id="loadingIndicator" style="display: none; text-align: center; margin-top: 20px">
+      <p>Analyzing image, please wait...</p>
+    </div>
+
+    <section id="resultSection" class="result-section" style="display: none">
+      <h2>Detection Result</h2>
+      <p><strong>Disease Detected:</strong> <span id="detectedDisease"></span></p>
+      <p><strong>Symptoms:</strong> <span id="symptoms"></span></p>
+      <h3>Organic Treatments</h3>
+      <ul id="organicTreatments"></ul>
+      <h3>Chemical Treatments</h3>
+      <ul id="chemicalTreatments"></ul>
+      <h3>Management Advice</h3>
+      <p id="treatmentAdvice"></p>
+      <div class="community"><button><a href="/features/community">Not satsified with Solution??</a></button></div>
+    </section>
+
+    <section id="errorSection" class="error-section" style="display: none; color: red;"></section>
+
+    <script>
+      const form = document.getElementById("uploadForm");
+      const loadingIndicator = document.getElementById("loadingIndicator");
+      const resultSection = document.getElementById("resultSection");
+      const errorSection = document.getElementById("errorSection");
+      const detectedDisease = document.getElementById("detectedDisease");
+      const symptoms = document.getElementById("symptoms");
+      const organicTreatments = document.getElementById("organicTreatments");
+      const chemicalTreatments = document.getElementById("chemicalTreatments");
+      const treatmentAdvice = document.getElementById("treatmentAdvice");
+
+      const fileInput = document.getElementById("leafImage");
+      const imagePreview = document.createElement("img");
+      imagePreview.className = "preview-img";
+      document.getElementById("imagePreviewContainer").appendChild(imagePreview);
+      imagePreview.style.display = "none";
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = "block";
+            document.getElementById("imagePreviewContainer").style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        } else {
+          imagePreview.style.display = "none";
+          document.getElementById("imagePreviewContainer").style.display = "none";
+        }
+      });
+
+      const startCameraBtn = document.getElementById("startCameraBtn");
+      const captureBtn = document.getElementById("captureBtn");
+      const video = document.getElementById("cameraStream");
+      const canvas = document.getElementById("capturedPhoto");
+      let stream;
+
+      startCameraBtn.onclick = async () => {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          video.srcObject = stream;
+          video.style.display = "block";
+          startCameraBtn.style.display = "none";
+          captureBtn.style.display = "inline-block";
+        } catch (err) {
+          alert("Camera access denied: " + err.message);
+        }
+      };
+
+      captureBtn.onclick = async () => {
+        const ctx = canvas.getContext("2d");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0);
+        canvas.style.display = "block";
+
+        stream.getTracks().forEach((track) => track.stop());
+        video.style.display = "none";
+        captureBtn.style.display = "none";
+        startCameraBtn.style.display = "inline-block";
+
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+        const file = new File([blob], "leaf.png", { type: "image/png" });
+
+        const formData = new FormData();
+        formData.append("leafImage", file);
+        sendImageToBackend(formData);
+      };
+
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        sendImageToBackend(formData);
+      };
+
+      async function sendImageToBackend(formData) {
+        resultSection.style.display = "none";
+        errorSection.style.display = "none";
+        loadingIndicator.style.display = "block";
+
+        try {
+          // Use mounted route path from app.js
+          const response = await fetch("/features/ai-disease/detect", {
+            method: "POST",
+            body: formData,
+          });
+
+          // Try to parse JSON. If parsing fails, clone the response to read text
+          // for debugging without consuming the original stream twice.
+          let data;
+          try {
+            data = await response.clone().json();
+          } catch (e) {
+            const rawText = await response.clone().text();
+            console.error("Non-JSON response from server:", rawText);
+            throw new Error("Server did not return valid JSON.");
+          }
+
+          if (!response.ok) throw new Error(data.error || "Detection failed");
+
+          detectedDisease.textContent = data.disease || "Not identified";
+          symptoms.textContent = data.symptoms || "No symptoms described.";
+          treatmentAdvice.textContent = data.treatment?.advice || "No advice provided.";
+          populateList(organicTreatments, data.treatment?.organic);
+          populateList(chemicalTreatments, data.treatment?.chemical);
+          resultSection.style.display = "block";
+        } catch (err) {
+          errorSection.textContent = err.message;
+          errorSection.style.display = "block";
+        } finally {
+          loadingIndicator.style.display = "none";
+        }
+      }
+
+      function populateList(listEl, items) {
+        listEl.innerHTML = "";
+        if (items?.length) {
+          items.forEach((i) => {
+            const li = document.createElement("li");
+            li.textContent = i;
+            listEl.appendChild(li);
+          });
+        } else {
+          const li = document.createElement("li");
+          li.textContent = "No data available.";
+          listEl.appendChild(li);
+        }
+      }
+    </script>
+  </div>
+</body>

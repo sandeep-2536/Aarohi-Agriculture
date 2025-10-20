@@ -1,0 +1,19 @@
+<h2><%= crop.name %> (<%= crop.type %>)</h2>
+<p><b>Region:</b> <%= crop.region %></p>
+<p><b>Quantity:</b> <%= crop.quantity %> kg</p>
+<p><b>Price:</b> ₹<%= crop.pricePerKg %>/kg</p>
+<p><b>Farmer:</b> <%= crop.farmerName %></p>
+<p><b>Contact:</b> <%= crop.contact %></p>
+
+<% if (crop.image) { %>
+  <img src="<%= crop.image %>" alt="Crop Image" style="max-width:300px;">
+<% } %>
+
+
+<button onclick="callFarmer('<%=crop.contact %>')">Call Farmer</button>
+
+<script>
+function callFarmer(phoneNumber) {
+  window.location.href = `tel:${phoneNumber}`;
+}
+</script>

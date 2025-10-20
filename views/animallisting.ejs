@@ -1,0 +1,40 @@
+<% layout('layouts/boilerplate') %>
+
+<main class="container listing-page">
+    <span>
+  <h1>Available Livestock</h1>
+  
+  </span>
+  <div class="filter-bar">
+            <form action="/features/animaltrading/" method="GET">
+                <select name="type">
+                    <option value="" <%= locals.filter && !filter.type ? 'selected' : '' %>>All Types</option>
+                    <option value="cattle" <%= locals.filter && filter.type === 'cattle' ? 'selected' : '' %>>Cattle</option>
+                    <option value="sheep" <%= locals.filter && filter.type === 'sheep' ? 'selected' : '' %>>Sheep</option>
+                </select>
+                <input type="text" name="breed" placeholder="Search by Breed..." 
+                       value="<%= locals.filter && filter.breed ? filter.breed : '' %>">
+                <button type="submit" class="btn btn-filter">Filter</button>
+            </form>
+            <h3><button class="btn-back"><a href="/features/animaltrading/add">LIST YOUR ANIMAL</a></button></h3>
+        </div>
+        
+  <div class="animal-card-container">
+    <% if (animals.length === 0) { %>
+      <p class="no-results">No animals listed yet.</p>
+    <% } else { %>
+      <% animals.forEach(function(animal) { %>
+        <div class="animal-card" onclick="window.location.href='/features/animaltrading/<%= animal._id %>'">
+          <img src="<%= animal.images[0] %>" alt="<%= animal.breed %>" class="animal-card-img">
+          <div class="animal-card-content">
+            <h3><%= animal.breed %></h3>
+            <p><strong>Type:</strong> <%= animal.type %></p>
+            <p><strong>Price:</strong> ₹<%= animal.price.toFixed(2) %></p>
+            <p><strong>Location:</strong> <%= animal.location %></p>
+            <a href="/features/animaltrading/<%= animal._id %>" class="btn-view">View Details</a>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</main>

@@ -1,0 +1,31 @@
+<h2><%= post.title %></h2>
+<p><%= post.content %></p>
+<small>By <%= post.author %> on <%= post.date.toDateString() %></small>
+
+<% if (post.image) { %>
+  <div>
+    <img src="<%= post.image %>" alt="Post Image" style="max-width:300px; border-radius:10px;">
+  </div>
+<% } %>
+
+<hr>
+<h3>Comments</h3>
+<form action="/features/community/posts/<%= post._id %>/comments" method="POST">
+  <input type="text" name="author" placeholder="Your name" required>
+  <input type="text" name="text" placeholder="Add a comment..." required>
+  <button type="submit">Comment</button>
+</form>
+
+<ul>
+  <% comments.forEach(c => { %>
+    <li>
+      <b><%= c.author %>:</b> <%= c.text %>
+      <form action="/features/community/comments/<%= c._id %>/like" method="POST" style="display:inline;">
+        <button>👍 <%= c.likes %></button>
+      </form>
+      <form action="/features/community/comments/<%= c._id %>/dislike" method="POST" style="display:inline;">
+        <button>👎 <%= c.dislikes %></button>
+      </form>
+    </li>
+  <% }) %>
+</ul>

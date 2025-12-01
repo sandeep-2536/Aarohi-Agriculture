@@ -1,0 +1,28 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Add Stock</h2>
+  <form action="/stock/dealer/new" method="POST" enctype="multipart/form-data" class="form">
+    <label>Title</label><input name="title" required>
+    <label>Category</label>
+    <select name="category" required>
+      <option>Seed</option><option>Fertilizer</option><option>Pesticide</option><option>Tools</option>
+    </select>
+
+    <label>Brand</label><input name="brand">
+    <label>Variety</label><input name="variety">
+    <label>Quantity</label><input type="number" name="quantity" required>
+    <label>Unit</label><input name="quantityUnit" value="Kg">
+    <label>Price (₹)</label><input type="number" name="price" required>
+    <label>Shop Name</label><input name="shopName">
+    <label>Image</label><input type="file" name="image" accept="image/*">
+    <h4>Location</h4>
+    <input name="village" placeholder="Village">
+    <input name="taluk" placeholder="Taluk">
+    <input name="district" placeholder="District">
+
+    <button type="submit" class="btn">Add Stock</button>
+  </form>
+</section>
+
+<%- include('../layouts/footer') %>

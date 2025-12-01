@@ -1,0 +1,32 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Dealer Dashboard — <%= dealer.shopName || dealer.name %></h2>
+  <p>Phone: <%= dealer.phone %></p>
+  <a href="/stock/dealer/new" class="btn">+ Add Stock</a>
+  <h3>Your Stock</h3>
+
+  <% if (stocks.length === 0) { %>
+    <p>No stock added yet.</p>
+  <% } %>
+
+  <div class="grid">
+    <% stocks.forEach(s => { %>
+      <div class="card">
+        <% if (s.image) { %>
+          <img src="/uploads/<%= s.image %>" style="width:100%;height:160px;object-fit:cover"/>
+        <% } %>
+        <h4><%= s.title %></h4>
+        <p><strong>Category:</strong> <%= s.category %></p>
+        <p><strong>Qty:</strong> <%= s.quantity %> <%= s.quantityUnit %></p>
+        <p><strong>Price:</strong> ₹<%= s.price %></p>
+        <a href="/stock/dealer/<%= s._id %>/edit" class="btn">Edit</a>
+        <form action="/stock/dealer/<%= s._id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Delete?')">
+          <button type="submit" class="btn danger">Delete</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('../layouts/footer') %>

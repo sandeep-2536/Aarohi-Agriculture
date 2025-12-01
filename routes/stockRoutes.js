@@ -7,11 +7,7 @@ const dealerAuth = require('../middlewares/isDealerAuth');
 const upload = require('../helpers/upload');
 const isAuth = require('../middlewares/isAuth');
 
-// Farmer views & search
-router.get('/', isAuth, stockController.listStocks);
-router.get('/:id', isAuth, stockController.stockDetails);
-
-// Dealer routes (manage stock)
+// Dealer routes (manage stock) - placed BEFORE '/:id' to avoid route collisions
 router.get('/dealer/new', dealerAuth, stockController.showAddForm);
 router.post('/dealer/new', dealerAuth, upload.single('image'), stockController.addStock);
 
@@ -22,5 +18,9 @@ router.post('/dealer/:id/delete', dealerAuth, stockController.deleteStock);
 
 // Dealer dashboard
 router.get('/dealer', dealerAuth, dealerController.dashboard);
+
+// Farmer views & search (place after dealer-specific routes)
+router.get('/', isAuth, stockController.listStocks);
+router.get('/:id', isAuth, stockController.stockDetails);
 
 module.exports = router;

@@ -1,0 +1,42 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Where is the Stock?</h2>
+
+  <form method="GET" action="/stock" style="margin-bottom:12px;">
+    <input name="q" placeholder="Search e.g., Urea, Cotton seed" value="<%= query.q || '' %>">
+    <select name="category">
+      <option value="">All</option>
+      <option value="Seed" <%= query.category==='Seed'?'selected':''%>>Seed</option>
+      <option value="Fertilizer" <%= query.category==='Fertilizer'?'selected':''%>>Fertilizer</option>
+      <option value="Pesticide" <%= query.category==='Pesticide'?'selected':''%>>Pesticide</option>
+      <option value="Tools" <%= query.category==='Tools'?'selected':''%>>Tools</option>
+    </select>
+    <input name="district" placeholder="District" value="<%= query.district || '' %>">
+    <button class="btn" type="submit">Search</button>
+  </form>
+
+  <div class="grid">
+    <% if (stocks.length === 0) { %>
+      <p>No results found.</p>
+    <% } %>
+
+    <% stocks.forEach(s => { %>
+      <div class="card">
+        <% if (s.image) { %>
+          <img src="/uploads/<%= s.image %>" style="width:100%;height:160px;object-fit:cover"/>
+        <% } %>
+        <h4><%= s.title %></h4>
+        <p><strong>Category:</strong> <%= s.category %></p>
+        <p><strong>Dealer:</strong> <%= s.dealer ? s.dealer.shopName || s.dealer.name : '' %></p>
+        <p><strong>Location:</strong> <%= s.location.village %>, <%= s.location.district %></p>
+        <p><strong>Price:</strong> ₹<%= s.price %> / <%= s.quantityUnit %></p>
+
+        <a href="/stock/<%= s._id %>" class="btn">View</a>
+        <a href="tel:<%= s.phone %>" class="btn">📞 Call Shop</a>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('../layouts/footer') %>

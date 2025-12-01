@@ -45,6 +45,8 @@ const animalRoutes = require('./routes/animalRoutes');
 const cropRoutes = require('./routes/cropRoutes');
 const vetAuthRoutes = require("./routes/vetAuthRoutes");
 const teleVetRoutes = require("./routes/teleVetRoutes");
+const dealerAuthRoutes = require('./routes/dealerAuthRoutes');
+const stockRoutes = require('./routes/stockRoutes');
 
 // Home route FIRST (to avoid conflict)
 app.get('/', (req, res) => {
@@ -67,6 +69,9 @@ app.use("/animals", animalRoutes);
 app.use("/crops", cropRoutes);
 app.use("/vet-auth", vetAuthRoutes);
 app.use("/tele-vet", teleVetRoutes);
+app.use('/dealer-auth', dealerAuthRoutes);
+app.use('/stock', stockRoutes);
+
 
 // Map users to sockets (top-level so it persists across connections)
 const userSocketMap = {}; // { userId: socketId }

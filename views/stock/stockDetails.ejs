@@ -1,0 +1,35 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2><%= stock.title %></h2>
+
+  <% if (stock.image) { %>
+    <img src="/uploads/<%= stock.image %>" style="width:100%;max-height:360px;object-fit:cover"/>
+  <% } %>
+
+  <p><strong>Category:</strong> <%= stock.category %></p>
+  <p><strong>Brand:</strong> <%= stock.brand %></p>
+  <p><strong>Variety:</strong> <%= stock.variety %></p>
+  <p><strong>Quantity:</strong> <%= stock.quantity %> <%= stock.quantityUnit %></p>
+  <p><strong>Price:</strong> ₹<%= stock.price %></p>
+  <p><strong>Availability:</strong> <%= stock.availability %></p>
+
+  <h3>Shop</h3>
+  <p><strong>Shop Name:</strong> <%= stock.shopName %></p>
+  <p><strong>Dealer:</strong> <%= stock.dealer ? stock.dealer.name : '' %></p>
+  <p><strong>Phone:</strong> <%= stock.phone %></p>
+  <p><strong>Location:</strong> <%= stock.location.village %>, <%= stock.location.district %></p>
+
+  <a href="tel:<%= stock.phone %>" class="btn btn-call">📞 Call Shop</a>
+
+  <% if (dealer && stock.dealer && dealer._id.toString() === stock.dealer._id.toString()) { %>
+    <a href="/stock/dealer/<%= stock._id %>/edit" class="btn">Edit</a>
+    <form action="/stock/dealer/<%= stock._id %>/delete" method="POST" style="display:inline;" onsubmit="return confirm('Delete stock?')">
+      <button type="submit" class="btn danger">Delete</button>
+    </form>
+  <% } %>
+
+  <a href="/stock" class="btn btn-secondary">Back</a>
+</section>
+
+<%- include('../layouts/footer') %>

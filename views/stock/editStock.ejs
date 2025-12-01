@@ -1,0 +1,36 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Edit Stock</h2>
+  <form action="/stock/dealer/<%= stock._id %>/edit" method="POST" enctype="multipart/form-data" class="form">
+    <label>Title</label><input name="title" value="<%= stock.title %>" required>
+    <label>Category</label>
+    <select name="category" required>
+      <option <%= stock.category==='Seed'?'selected':''%>>Seed</option>
+      <option <%= stock.category==='Fertilizer'?'selected':''%>>Fertilizer</option>
+      <option <%= stock.category==='Pesticide'?'selected':''%>>Pesticide</option>
+      <option <%= stock.category==='Tools'?'selected':''%>>Tools</option>
+    </select>
+
+    <label>Brand</label><input name="brand" value="<%= stock.brand %>">
+    <label>Variety</label><input name="variety" value="<%= stock.variety %>">
+    <label>Quantity</label><input type="number" name="quantity" value="<%= stock.quantity %>" required>
+    <label>Unit</label><input name="quantityUnit" value="<%= stock.quantityUnit %>">
+    <label>Price</label><input type="number" name="price" value="<%= stock.price %>" required>
+
+    <label>Image (replace)</label>
+    <input type="file" name="image" accept="image/*">
+    <% if (stock.image) { %>
+      <p>Current: <img src="/uploads/<%= stock.image %>" style="width:120px;height:80px;object-fit:cover"/></p>
+    <% } %>
+
+    <h4>Location</h4>
+    <input name="village" value="<%= stock.location.village %>">
+    <input name="taluk" value="<%= stock.location.taluk %>">
+    <input name="district" value="<%= stock.location.district %>">
+
+    <button type="submit" class="btn">Update</button>
+  </form>
+</section>
+
+<%- include('../layouts/footer') %>

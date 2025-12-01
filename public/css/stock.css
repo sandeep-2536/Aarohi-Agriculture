@@ -1,0 +1,55 @@
+/* public/css/stock.css */
+.container {
+    max-width: 1000px;
+    margin: 18px auto;
+    padding: 0 12px;
+}
+
+.form input,
+.form select,
+.form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.btn {
+    background: #2b7a0b;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.btn-call {
+    background: #0b70b7;
+}
+
+.btn.secondary,
+.btn.btn-secondary {
+    background: #777;
+}
+
+.btn.danger,
+.danger {
+    background: #d9534f;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}

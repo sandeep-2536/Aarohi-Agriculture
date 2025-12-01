@@ -1,0 +1,18 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Dealer Registration</h2>
+  <form action="/dealer-auth/register" method="POST" class="form">
+    <label>Name</label><input name="name" required>
+    <label>Shop Name</label><input name="shopName">
+    <label>Phone</label><input name="phone" required>
+    <label>Password</label><input name="password" type="password" required>
+    <h4>Location</h4>
+    <input name="village" placeholder="Village">
+    <input name="taluk" placeholder="Taluk">
+    <input name="district" placeholder="District">
+    <button type="submit" class="btn">Register</button>
+  </form>
+</section>
+
+<%- include('../layouts/footer') %>

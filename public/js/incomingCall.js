@@ -3,12 +3,20 @@
 window.socket = window.socket || io();
 const socket = window.socket;
 
+// Read current user info from hidden DOM element rendered in footer.ejs
+const cfgEl = (typeof document !== 'undefined') ? document.getElementById('incomingConfig') : null;
+const CURRENT_USER_ID = cfgEl ? cfgEl.dataset.userId : null;
+
 socket.on("connect", () => {
-    if (window.CURRENT_USER && !socket._registeredOnce) {
-        socket.emit("register", window.CURRENT_USER._id);
-        socket._registeredOnce = true;
-        console.log("[socket] registered", window.CURRENT_USER._id);
+  try {
+    if (CURRENT_USER_ID && !socket._registeredOnce) {
+      socket.emit('register', CURRENT_USER_ID);
+      socket._registeredOnce = true;
+      console.log('[socket] registered', CURRENT_USER_ID);
     }
+  } catch (e) {
+    console.warn('[socket] registration error', e);
+  }
 });
 // your pages set this on render for logged-in users
 
@@ -19,18 +27,7 @@ const acceptBtn = modal ? modal.querySelector('#acceptCallBtn') : null;
 const rejectBtn = modal ? modal.querySelector('#rejectCallBtn') : null;
 const timerEl = modal ? modal.querySelector('#callTimer') : null;
 
-// Register on connect if we have a logged in user
-socket.on("connect", () => {
-  try {
-    if (CURRENT_USER && !socket._registeredOnce) {
-      socket.emit("register", CURRENT_USER._id);
-      socket._registeredOnce = true;
-      console.log('[incomingCall] registered socket for user', CURRENT_USER && CURRENT_USER._id);
-    }
-  } catch (e) {
-    console.warn('[incomingCall] registration failed', e);
-  }
-});
+// (registration handled above via DOM-config)
 
 // Listen for incomingCall and handle it. If modal is not present, fall back to console/alert.
 let callMeta = null;

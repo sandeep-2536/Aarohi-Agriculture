@@ -31,16 +31,11 @@
 
 <script src="/socket.io/socket.io.js"></script>
 
-<script>
-    <% if (typeof user !== "undefined" && user) { %>
-        window.CURRENT_USER = {
-            _id: "<%= user._id %>",
-            name: "<%= user.name %>"
-        };
-    <% } else { %>
-        window.CURRENT_USER = null;
-    <% } %>
-</script>
+<!-- Render current user into DOM for scripts to read (avoid creating globals) -->
+<div id="incomingConfig" style="display:none"
+   data-user-id="<%= (typeof user !== 'undefined' && user) ? user._id : '' %>"
+   data-user-name="<%= (typeof user !== 'undefined' && user) ? user.name : '' %>">
+</div>
 
 
 <script src="/js/incomingCall.js"></script>

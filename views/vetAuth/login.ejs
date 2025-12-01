@@ -1,0 +1,15 @@
+<%- include('../layouts/header') %>
+
+<h2>Veterinarian Login</h2>
+
+<form action="/vet-auth/login" method="POST" class="form">
+  <label>Phone</label>
+  <input type="text" name="phone" required>
+
+  <label>Password</label>
+  <input type="password" name="password" required>
+
+  <button type="submit">Login</button>
+</form>
+
+<%- include('../layouts/footer') %>

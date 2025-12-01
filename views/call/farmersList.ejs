@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Call Farmers</title>
+
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/call.css">
+</head>
+
+<body>
+
+<%- include("../layouts/header") %>
+
+<div class="call-list-container">
+
+    <h1>📞 Connect With Farmers</h1>
+
+    <p>Select a farmer to start a video call.</p>
+
+    <div class="farmers-list">
+        <% farmers.forEach(f => { %>
+
+            <% if (f._id.toString() !== user._id.toString()) { %> <!-- hide current user -->
+                <div class="farmer-card">
+                    <img src="<%= f.profileImage || '/images/default-user.png' %>" class="avatar-call">
+
+                    <div class="info">
+                        <h3><%= f.name %></h3>
+                        <small><%= f.mobileNumber %></small>
+                    </div>
+
+                    <button class="btn-call" data-to="<%= f._id %>" data-room="<%= user._id %>-<%= f._id %>">📞 Video Call</button>
+                </div>
+            <% } %>
+
+        <% }); %>
+    </div>
+</div>
+
+<%- include("../layouts/footer") %>
+
+<script>
+    // Wait until socket is available (incomingCall.js creates window.socket)
+    function whenSocketReady(cb) {
+        if (window.socket) return cb(window.socket);
+        const iv = setInterval(() => {
+            if (window.socket) {
+                clearInterval(iv);
+                cb(window.socket);
+            }
+        }, 200);
+        // timeout after 10s
+        setTimeout(() => clearInterval(iv), 10000);
+    }
+
+    whenSocketReady((socket) => {
+        // register this user if provided by footer
+        if (window.CURRENT_USER && !socket._registeredOnce) {
+            socket.emit('register', window.CURRENT_USER._id);
+            socket._registeredOnce = true;
+            console.log('[farmersList] socket registered for', window.CURRENT_USER && window.CURRENT_USER._id);
+        }
+
+        document.querySelectorAll('.btn-call').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const toUserId = btn.dataset.to;
+                const roomId = btn.dataset.room;
+
+                console.log('[farmersList] emitting callUser', { toUserId, roomId, fromUserId: window.CURRENT_USER && window.CURRENT_USER._id });
+
+                socket.emit('callUser', {
+                    toUserId,
+                    fromUserId: window.CURRENT_USER && window.CURRENT_USER._id,
+                    fromName: window.CURRENT_USER && window.CURRENT_USER.name,
+                    roomId
+                });
+
+                // Immediate no-answer response (callee offline)
+                const onNoAnswer = ({ toUserId: missing }) => {
+                    if (missing === toUserId) {
+                        alert('User is not online.');
+                    }
+                };
+                socket.once('noAnswer', onNoAnswer);
+
+                // Listen for responses for this call
+                const onAccepted = ({ fromUserId, roomId: r }) => {
+                    if (r === roomId) {
+                        window.location.href = '/call/room/' + roomId;
+                    }
+                };
+
+                const onRejected = () => {
+                    alert('❌ Call rejected.');
+                };
+
+                socket.once('callAccepted', onAccepted);
+                socket.once('callRejected', onRejected);
+
+                // timeout
+                setTimeout(() => {
+                    socket.off('callAccepted', onAccepted);
+                    socket.off('callRejected', onRejected);
+                    alert('No answer.');
+                }, 30000);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

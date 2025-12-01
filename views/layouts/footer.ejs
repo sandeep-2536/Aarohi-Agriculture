@@ -1,0 +1,57 @@
+<footer class="main-footer">
+  <div id="incomingCallModal" class="incoming-modal" style="display: none">
+    <div class="incoming-box">
+      <div class="incoming-header">
+        <h3>Incoming Call</h3>
+      </div>
+      <div class="incoming-body">
+        <p id="incomingFrom">Unknown caller...</p>
+
+        <div class="incoming-actions">
+          <button id="acceptCallBtn" class="btn-accept">Accept</button>
+          <button id="rejectCallBtn" class="btn-reject">Reject</button>
+        </div>
+
+        <div id="callTimer" class="call-timer"></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="footer-btn" onclick="startVoice()">
+    <img src="/images/mic-big.png" alt="Mic" />
+    <span>Speak</span>
+  </button>
+
+  <button class="footer-btn" onclick="location.href='/farmer/dashboard'">
+    <img src="/images/menu-big.png" alt="Menu" />
+    <span>Menu</span>
+  </button>
+
+</footer>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    <% if (typeof user !== "undefined" && user) { %>
+        window.CURRENT_USER = {
+            _id: "<%= user._id %>",
+            name: "<%= user.name %>"
+        };
+    <% } else { %>
+        window.CURRENT_USER = null;
+    <% } %>
+</script>
+
+
+<script src="/js/incomingCall.js"></script>
+
+<script>
+ 
+
+
+
+
+  function startVoice() {
+    alert("Voice assistant coming soon!");
+  }
+</script>

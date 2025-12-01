@@ -1,0 +1,60 @@
+<%- include('../layouts/header') %>
+<link rel="stylesheet" href="/css/crops.css">
+
+<section class="container">
+  <h2>Sell Your Crop</h2>
+
+  <form action="/crops" method="POST" enctype="multipart/form-data" class="crop-form">
+    <label>Crop Name</label>
+    <select name="cropName" required>
+      <option value="Wheat">Wheat</option>
+      <option value="Rice">Rice</option>
+      <option value="Ragi">Ragi</option>
+      <option value="Maize">Maize</option>
+      <option value="Onion">Onion</option>
+      <option value="Potato">Potato</option>
+      <option value="Tomato">Tomato</option>
+      <option value="Pulses">Pulses</option>
+      <option value="Cotton">Cotton</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>Variety (optional)</label>
+    <input type="text" name="variety" placeholder="e.g., Basmati">
+
+    <label>Quantity</label>
+    <input type="number" name="quantity" min="0" required>
+
+    <label>Quantity Unit</label>
+    <select name="quantityUnit" required>
+      <option value="Kg">Kg</option>
+      <option value="Quintal">Quintal</option>
+      <option value="Ton">Ton</option>
+      <option value="Bags">Bags</option>
+    </select>
+
+    <label>Price Type</label>
+    <select name="priceType" required>
+      <option value="per_unit">Per Unit (e.g., ₹ per Kg)</option>
+      <option value="total">Total Price (entire lot)</option>
+    </select>
+
+    <label>Expected Price (number)</label>
+    <input type="number" name="expectedPrice" required>
+
+    <label>Description (optional)</label>
+    <textarea name="description"></textarea>
+
+    <label>Images (up to 6)</label>
+    <input type="file" name="images" accept="image/*" multiple>
+
+    <h4>Location</h4>
+    <input type="text" name="village" placeholder="Village" required>
+    <input type="text" name="taluk" placeholder="Taluk" required>
+    <input type="text" name="district" placeholder="District" required>
+
+    <button type="submit" class="btn">Post Listing</button>
+  </form>
+</section>
+
+<%- include('../layouts/footer') %>

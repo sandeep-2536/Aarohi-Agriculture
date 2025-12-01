@@ -1,0 +1,31 @@
+<%- include('../layouts/header') %>
+<link rel="stylesheet" href="/css/animals.css">
+
+<section class="container">
+  <h2>Animals for Sale</h2>
+
+  <div class="grid animals-grid">
+    <% if (animals.length === 0) { %>
+      <p>No listings yet.</p>
+    <% } %>
+
+    <% animals.forEach(a => { %>
+      <div class="animal-card">
+        <% if (a.images && a.images.length > 0) { %>
+          <img src="/uploads/<%= a.images[0] %>" alt="animal" class="thumb" />
+        <% } else { %>
+          <img src="/images/noimage.png" alt="no image" class="thumb" />
+        <% } %>
+
+        <div class="card-body">
+          <h3><%= a.type %> — ₹<%= a.price %></h3>
+          <p><strong>Breed:</strong> <%= a.breed %></p>
+          <p><strong>Location:</strong> <%= a.location.village %>, <%= a.location.district %></p>
+          <a href="/animals/<%= a._id %>" class="btn">View</a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('../layouts/footer') %>

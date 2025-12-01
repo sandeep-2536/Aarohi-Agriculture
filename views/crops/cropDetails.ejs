@@ -1,0 +1,44 @@
+<%- include('../layouts/header') %>
+<link rel="stylesheet" href="/css/crops.css">
+
+<section class="container">
+  <h2><%= crop.cropName %> — 
+    <% if (crop.priceType === 'per_unit') { %>
+      ₹<%= crop.expectedPrice %> / <%= crop.quantityUnit %>
+    <% } else { %>
+      ₹<%= crop.expectedPrice %> (total)
+    <% } %>
+  </h2>
+
+  <div class="gallery">
+    <% if (crop.images && crop.images.length > 0) { %>
+      <% crop.images.forEach(img => { %>
+        <img src="/uploads/<%= img %>" class="gallery-img" />
+      <% }) %>
+    <% } else { %>
+      <img src="/images/noimage.png" class="gallery-img" />
+    <% } %>
+  </div>
+
+  <p><strong>Variety:</strong> <%= crop.variety || '-' %></p>
+  <p><strong>Quantity:</strong> <%= crop.quantity %> <%= crop.quantityUnit %></p>
+  <p><strong>Description:</strong> <%= crop.description || '-' %></p>
+
+  <h3>Seller</h3>
+  <p><strong>Name:</strong> <%= crop.owner ? crop.owner.name : 'Unknown' %></p>
+  <p><strong>Phone:</strong> <%= crop.ownerPhone %></p>
+
+  <!-- Direct phone call -->
+  <a href="tel:<%= crop.ownerPhone %>" class="btn btn-call">📞 Call Farmer</a>
+
+  <!-- Show delete only to owner -->
+  <% if (user && crop.owner && crop.owner._id.toString() === user._id.toString()) { %>
+    <form action="/crops/<%= crop._id %>/delete" method="POST" onsubmit="return confirm('Delete this listing?');" style="display:inline-block;margin-left:12px;">
+      <button type="submit" class="btn danger">🗑 Delete</button>
+    </form>
+  <% } %>
+
+  <a href="/crops" class="btn btn-secondary" style="margin-left:12px;">Back to Listings</a>
+</section>
+
+<%- include('../layouts/footer') %>

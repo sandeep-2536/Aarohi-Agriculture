@@ -1,0 +1,19 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Tele-Veterinary Doctors</h2>
+
+  <div class="vet-list">
+    <% vets.forEach(v => { %>
+      <div class="vet-card">
+        <h3><%= v.name %></h3>
+        <p><strong>Specialization:</strong> <%= v.specialization || 'General' %></p>
+        <p><strong>Phone (for backup):</strong> <%= v.phone %></p>
+
+        <a href="/tele-vet/farmer/call/<%= v._id %>" class="btn">🎥 Video Call</a>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('../layouts/footer') %>

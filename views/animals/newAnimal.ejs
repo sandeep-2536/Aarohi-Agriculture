@@ -1,0 +1,42 @@
+<%- include('../layouts/header') %>
+<link rel="stylesheet" href="/css/animals.css">
+
+<section class="container">
+  <h2>Add Animal Listing</h2>
+
+  <form action="/animals" method="POST" enctype="multipart/form-data" class="animal-form">
+    <label>Animal Type</label>
+    <select name="type" required>
+      <option value="Cow">Cow</option>
+      <option value="Goat">Goat</option>
+      <option value="Buffalo">Buffalo</option>
+      <option value="Sheep">Sheep</option>
+      <option value="Bull">Bull</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label>Breed</label>
+    <input type="text" name="breed" required />
+
+    <label>Age (years)</label>
+    <input type="number" name="age" min="0" required />
+
+    <label>Expected Price (₹)</label>
+    <input type="number" name="price" required />
+
+    <label>Description</label>
+    <textarea name="description"></textarea>
+
+    <label>Images (up to 5)</label>
+    <input type="file" name="images" accept="image/*" multiple />
+
+    <h4>Location</h4>
+    <input type="text" name="village" placeholder="Village" required />
+    <input type="text" name="taluk" placeholder="Taluk" required />
+    <input type="text" name="district" placeholder="District" required />
+
+    <button type="submit" class="btn">Add Listing</button>
+  </form>
+</section>
+
+<%- include('../layouts/footer') %>

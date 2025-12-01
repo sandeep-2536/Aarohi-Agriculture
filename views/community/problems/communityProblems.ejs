@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Community Problems</title>
+
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/communityProblems.css">
+</head>
+<body>
+
+<%- include("../../layouts/header") %>
+
+<div class="problems-container">
+
+    <div class="heading-row">
+        <h1>🧑‍🌾 Farmers' Problem Discussions</h1>
+
+        <a href="/community/problems/new" class="btn-new-problem">
+            ➕ Report a Problem
+        </a>
+    </div>
+
+    <% if (problems.length === 0) { %>
+        <p class="no-problems">No problems reported yet. Be the first to share!</p>
+    <% } %>
+
+    <div class="problems-list">
+        <% problems.forEach(p => { %>
+            <div class="problem-card" onclick="location.href='/community/problems/<%= p._id %>'">
+
+                <div class="problem-header">
+                    <img src="<%= p.user.profileImage || '/images/default-user.png' %>" class="avatar-small" />
+                    <div>
+                        <h3><%= p.user.name %></h3>
+                        <small><%= new Date(p.createdAt).toLocaleString() %></small>
+                    </div>
+                </div>
+
+                <p class="problem-text"><%= p.text.substring(0,150) %>...</p>
+
+                <% if (p.image) { %>
+                <div class="problem-image">
+                    <img src="<%= p.image %>">
+                </div>
+                <% } %>
+
+                <div class="problem-footer">
+                    <span>💬 View Discussion</span>
+                </div>
+
+            </div>
+        <% }); %>
+    </div>
+
+</div>
+
+<%- include("../../layouts/footer") %>
+
+</body>
+</html>

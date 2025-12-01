@@ -1,0 +1,9 @@
+<%- include('../layouts/header') %>
+<h2><%= title %></h2>
+<p>Use the AI assistant to ask about crop diagnosis, recommendations, and more.</p>
+<form id="ai-form" method="post" action="/ai/analyze">
+  <textarea name="prompt" rows="4" cols="50" placeholder="Describe the issue or ask a question..."></textarea>
+  <br>
+  <button type="submit">Analyze</button>
+</form>
+<%- include('../layouts/footer') %>

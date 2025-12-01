@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmer Problem Details</title>
+
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/communityProblems.css">
+</head>
+
+<body>
+
+<%- include("../../layouts/header") %>
+
+<div class="problem-details-container">
+
+    <div class="problem-box">
+
+        <div class="problem-header">
+            <img src="<%= problem.user.profileImage || '/images/default-user.png' %>" class="avatar-small" />
+            <div>
+                <h2><%= problem.user.name %></h2>
+                <small><%= new Date(problem.createdAt).toLocaleString() %></small>
+            </div>
+        </div>
+
+        <p class="problem-text"><%= problem.text %></p>
+
+        <% if (problem.image) { %>
+        <div class="problem-image-large">
+            <img src="<%= problem.image %>">
+        </div>
+        <% } %>
+
+    </div>
+
+    <h2 class="comment-title">💬 Discussion / Comments</h2>
+
+    <div class="comments-section">
+        <% if (comments.length === 0) { %>
+            <p class="no-comments">No comments yet. Be the first to respond!</p>
+        <% } %>
+
+        <% comments.forEach(c => { %>
+            <div class="comment-card">
+                <div class="comment-head">
+                    <img src="<%= c.user.profileImage || '/images/default-user.png' %>" class="avatar-small" />
+                    <div>
+                        <strong><%= c.user.name %></strong>
+                        <small><%= new Date(c.createdAt).toLocaleString() %></small>
+                    </div>
+                </div>
+
+                <p class="comment-text"><%= c.text %></p>
+            </div>
+        <% }) %>
+    </div>
+
+    <form action="/community/problems/<%= problem._id %>/comment" method="POST" class="comment-form">
+        <textarea 
+            name="text" 
+            placeholder="Write your helpful comment..."
+            required
+        ></textarea>
+        <button class="btn-submit">Post Comment</button>
+    </form>
+
+</div>
+
+<%- include("../../layouts/footer") %>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmer Problem Details</title>
+
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/communityProblems.css">
+</head>
+
+<body>
+
+<%- include("../../layouts/header") %>
+
+<div class="problem-details-container">
+
+    <div class="problem-box">
+
+        <div class="problem-header">
+            <img src="<%= problem.user.profileImage || '/images/default-user.png' %>" class="avatar-small" />
+            <div>
+                <h2><%= problem.user.name %></h2>
+                <small><%= new Date(problem.createdAt).toLocaleString() %></small>
+            </div>
+        </div>
+
+        <p class="problem-text"><%= problem.text %></p>
+
+        <% if (problem.image) { %>
+        <div class="problem-image-large">
+            <img src="<%= problem.image %>">
+        </div>
+        <% } %>
+
+    </div>
+
+    <h2 class="comment-title">💬 Discussion / Comments</h2>
+
+    <div class="comments-section">
+        <% if (comments.length === 0) { %>
+            <p class="no-comments">No comments yet. Be the first to respond!</p>
+        <% } %>
+
+        <% comments.forEach(c => { %>
+            <div class="comment-card">
+                <div class="comment-head">
+                    <img src="<%= c.user.profileImage || '/images/default-user.png' %>" class="avatar-small" />
+                    <div>
+                        <strong><%= c.user.name %></strong>
+                        <small><%= new Date(c.createdAt).toLocaleString() %></small>
+                    </div>
+                </div>
+
+                <p class="comment-text"><%= c.text %></p>
+            </div>
+        <% }) %>
+    </div>
+
+    <form action="/community/problems/<%= problem._id %>/comment" method="POST" class="comment-form">
+        <textarea 
+            name="text" 
+            placeholder="Write your helpful comment..."
+            required
+        ></textarea>
+        <button class="btn-submit">Post Comment</button>
+    </form>
+
+</div>
+
+<%- include("../../layouts/footer") %>
+
+</body>
+</html>

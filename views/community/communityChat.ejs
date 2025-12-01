@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Farmers Group Chat</title>
+
+    <!-- shared header/footer styles -->
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- chat specific styles -->
+    <link rel="stylesheet" href="/css/communityChat.css">
+
+    <!-- socket.io client (served by server) -->
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+<%- include("../layouts/header") %>
+
+<div class="chat-wrapper">
+
+    <aside class="chat-sidebar">
+        <div class="sidebar-title">
+            <img src="/images/group-icon.png" alt="Group" class="sidebar-icon">
+            <div>
+                <h2>Farmers Group</h2>
+                <p class="small">All farmers — ask, share, learn</p>
+            </div>
+        </div>
+
+        <div class="my-profile">
+            <img src="<%= user.profileImage ? user.profileImage : '/images/default-user.png' %>" alt="You" class="avatar-lg">
+            <div class="profile-info">
+                <div class="name"><%= user.name %></div>
+                <div class="meta"><%= user.village ? user.village + ', ' + user.state : user.mobileNumber %></div>
+            </div>
+        </div>
+
+        <div class="sidebar-actions">
+            <button id="refreshBtn" class="btn-block">Refresh</button>
+        </div>
+    </aside>
+
+    <main class="chat-main">
+        <div class="chat-header">
+            <h1>Group Discussion</h1>
+            <p class="sub">Ask about seeds, pests, fertilizers — share pictures</p>
+        </div>
+
+        <div id="messages" class="messages">
+            <!-- server-rendered messages -->
+            <% messages.forEach(msg => { %>
+                <div class="message <%= (msg.user._id.toString() === user._id.toString()) ? 'mine' : 'other' %>" data-id="<%= msg._id %>">
+                    <div class="msg-left">
+                        <img src="<%= msg.user.profileImage ? msg.user.profileImage : '/images/default-user.png' %>" class="avatar">
+                    </div>
+
+                    <div class="msg-body">
+                        <div class="msg-meta">
+                            <span class="msg-author"><%= msg.user.name %></span>
+                            <span class="msg-time"><%= new Date(msg.createdAt).toLocaleString() %></span>
+                        </div>
+
+                        <div class="msg-text">
+                            <%= msg.text ? msg.text : '' %>
+                        </div>
+
+                        <% if (msg.image) { %>
+                            <div class="msg-image">
+                                <img src="<%= msg.image %>" alt="upload">
+                            </div>
+                        <% } %>
+
+                        <div class="msg-actions">
+                            <% if (msg.user._id.toString() === user._id.toString()) { %>
+                                <button class="action-btn edit-btn">Edit</button>
+                                <button class="action-btn delete-btn">Delete</button>
+                            <% } %>
+                            <button class="action-btn reply-btn">Reply</button>
+                        </div>
+
+                        <!-- replies placeholder (threaded replies) -->
+                        <div class="replies" data-parent="<%= msg._id %>">
+                            <!-- dynamic loaded replies (if you add replies storage later) -->
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <form id="sendForm" class="send-form" enctype="multipart/form-data">
+            <div class="input-row">
+                <textarea id="messageInput" placeholder="Type your message (voice & icon friendly)"></textarea>
+                <label class="image-upload">
+                    <input id="imageInput" type="file" accept="image/*" />
+                    <img src="/images/camera-icon.png" alt="upload">
+                </label>
+            </div>
+
+            <div class="control-row">
+                <button type="button" id="voiceBtn" class="btn-voice">🎤 Speak</button>
+                <button type="submit" class="btn-send">Send</button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<%- include("../layouts/footer") %>
+
+<!-- chat client logic -->
+<script>
+    // pass some server data to client
+    window.CURRENT_USER = {
+        _id: "<%= user._id %>",
+        name: "<%= user.name %>",
+        profileImage: "<%= user.profileImage ? user.profileImage : '/images/default-user.png' %>"
+    };
+
+    window.CHAT_ROOM = {
+        id: "<%= room._id %>"
+    };
+
+    // initial messages will be in the DOM already
+</script>
+
+<script src="/js/chat.js"></script>
+</body>
+</html>

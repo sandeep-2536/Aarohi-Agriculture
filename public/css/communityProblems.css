@@ -1,0 +1,168 @@
+/* Farmer-friendly big UI for problems module */
+
+/* General container */
+.problems-container,
+.new-problem-container,
+.problem-details-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Headings */
+.heading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heading-row h1,
+.new-problem-container h1 {
+    font-size: 32px;
+    color: #2b7a0b;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #444;
+    margin-top: -10px;
+}
+
+/* Button */
+.btn-new-problem,
+.btn-submit {
+    display: inline-block;
+    background: #2b7a0b;
+    color: white;
+    padding: 12px 20px;
+    font-size: 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-new-problem:hover,
+.btn-submit:hover {
+    background: #256509;
+}
+
+/* Problems list */
+.problems-list {
+    margin-top: 20px;
+}
+
+.problem-card {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    border: 2px solid #e4f0d9;
+    transition: 0.2s;
+}
+
+.problem-card:hover {
+    transform: scale(1.01);
+    border-color: #d2e6c2;
+}
+
+/* Problem header */
+.problem-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-small {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 3px solid #2b7a0b;
+}
+
+/* Problem text */
+.problem-text {
+    font-size: 22px;
+    margin: 12px 0;
+    color: #333;
+}
+
+/* Problem image */
+.problem-image img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Details page */
+.problem-box {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    border: 2px solid #e6eed8;
+}
+
+.problem-image-large img {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+/* Comments */
+.comment-title {
+    margin-top: 25px;
+    font-size: 28px;
+}
+
+.no-comments {
+    color: #777;
+    font-size: 18px;
+}
+
+.comment-card {
+    background: #f4f8ef;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.comment-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.comment-text {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+/* Image upload */
+.image-upload-btn {
+    background: #ffd000;
+    padding: 12px 20px;
+    display: inline-block;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.image-upload-btn input {
+    display: none;
+}
+
+/* Comment form */
+.comment-form,
+.problem-form {
+    margin-top: 20px;
+}
+
+textarea {
+    width: 100%;
+    padding: 18px;
+    font-size: 20px;
+    border-radius: 12px;
+    border: 2px solid #dbe6cf;
+    margin-bottom: 15px;
+    resize: vertical;
+}

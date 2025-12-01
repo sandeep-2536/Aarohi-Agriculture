@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farmer Login</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+
+<%- include("../layouts/header") %>
+
+<div class="auth-container">
+    <h2>Welcome Farmer</h2>
+    <p>Enter your mobile number</p>
+
+    <form action="/auth/send-otp" method="POST">
+        <input type="text" name="mobileNumber" placeholder="Enter Mobile Number" required>
+        <button type="submit">Get OTP</button>
+    </form>
+</div>
+
+<%- include("../layouts/footer") %>
+
+</body>
+</html>

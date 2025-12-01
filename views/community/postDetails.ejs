@@ -1,0 +1,33 @@
+<%- include('../layouts/header') %>
+
+<section class="post-details">
+  <h2>Post</h2>
+
+  <div class="post-card">
+    <div class="post-user"><%= post.user ? post.user.name : 'Anonymous' %></div>
+    <div class="post-text"><%= post.text %></div>
+    <% if (post.image) { %>
+      <img src="<%= post.image %>" class="post-image" />
+    <% } %>
+  </div>
+
+  <section class="comments">
+    <h3>Comments</h3>
+    <% if (!comments || comments.length === 0) { %>
+      <p>No comments yet.</p>
+    <% } else { %>
+      <% comments.forEach(c => { %>
+        <div class="comment">
+          <b><%= c.user ? c.user.name : 'Anon' %></b>: <%= c.text %>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <form action="/community/post/<%= post._id %>/comment" method="POST">
+      <input name="text" placeholder="Write a comment">
+      <button type="submit">Comment</button>
+    </form>
+  </section>
+</section>
+
+<%- include('../layouts/footer') %>

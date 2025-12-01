@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Profile</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+
+<%- include("../layouts/header") %>
+
+<div class="auth-container">
+    <h2>Farmer Profile</h2>
+
+    <form action="/auth/create-profile" method="POST">
+        <input type="hidden" name="mobileNumber" value="<%= mobileNumber %>">
+
+        <input type="text" name="name" placeholder="Your Name" required>
+
+        <button type="submit">Create Profile</button>
+    </form>
+</div>
+
+<%- include("../layouts/footer") %>
+
+</body>
+</html>

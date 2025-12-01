@@ -1,0 +1,21 @@
+<%- include('../layouts/header') %>
+
+<h2>Veterinarian Registration</h2>
+
+<form action="/vet-auth/register" method="POST" class="form">
+  <label>Name</label>
+  <input type="text" name="name" required>
+
+  <label>Phone (Indian)</label>
+  <input type="text" name="phone" required>
+
+  <label>Specialization</label>
+  <input type="text" name="specialization" placeholder="Cows, Goats, etc.">
+
+  <label>Password</label>
+  <input type="password" name="password" required>
+
+  <button type="submit">Register</button>
+</form>
+
+<%- include('../layouts/footer') %>

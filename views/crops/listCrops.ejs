@@ -1,0 +1,39 @@
+<%- include('../layouts/header') %>
+<link rel="stylesheet" href="/css/crops.css">
+
+<section class="container">
+  <h2>Crop Listings</h2>
+
+  <div class="grid crops-grid">
+    <% if (crops.length === 0) { %>
+      <p>No listings yet.</p>
+    <% } %>
+
+    <% crops.forEach(c => { %>
+      <div class="crop-card">
+        <% if (c.images && c.images.length > 0) { %>
+          <img src="/uploads/<%= c.images[0] %>" alt="crop" class="thumb" />
+        <% } else { %>
+          <img src="/images/noimage.png" alt="no-image" class="thumb" />
+        <% } %>
+
+        <div class="card-body">
+          <h3><%= c.cropName %> — 
+            <% if (c.priceType === 'per_unit') { %>
+              ₹<%= c.expectedPrice %> / <%= c.quantityUnit %>
+            <% } else { %>
+              ₹<%= c.expectedPrice %> (total)
+            <% } %>
+          </h3>
+
+          <p><strong>Quantity:</strong> <%= c.quantity %> <%= c.quantityUnit %></p>
+          <p><strong>Location:</strong> <%= c.location.village %>, <%= c.location.district %></p>
+
+          <a href="/crops/<%= c._id %>" class="btn">View</a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<%- include('../layouts/footer') %>

@@ -1,0 +1,23 @@
+<%- include('../layouts/header') %>
+
+<section class="community-page">
+  <h2>Community Feed</h2>
+
+  <% if (!posts || posts.length === 0) { %>
+    <p>No posts yet. Be the first to post!</p>
+  <% } else { %>
+    <% posts.forEach(post => { %>
+      <div class="post-card">
+        <div class="post-user"><%= post.user ? post.user.name : 'Anonymous' %></div>
+        <div class="post-text"><%= post.text %></div>
+        <% if (post.image) { %>
+          <img src="<%= post.image %>" class="post-image" />
+        <% } %>
+        <a href="/community/post/<%= post._id %>">View</a>
+      </div>
+    <% }) %>
+  <% } %>
+
+</section>
+
+<%- include('../layouts/footer') %>

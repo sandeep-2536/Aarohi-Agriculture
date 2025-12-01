@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter OTP</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+
+<%- include("../layouts/header") %>
+
+<div class="auth-container">
+    <h2>OTP Sent</h2>
+    <p>We sent an OTP to <%= mobileNumber %></p>
+    <p><b>Use test OTP: 1234</b></p>
+
+    <form action="/auth/verify-otp" method="POST">
+        <input type="text" name="otp" placeholder="Enter OTP" required>
+        <button type="submit">Verify OTP</button>
+    </form>
+</div>
+
+<%- include("../layouts/footer") %>
+
+</body>
+</html>

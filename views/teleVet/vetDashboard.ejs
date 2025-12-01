@@ -1,0 +1,24 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Tele-Vet Dashboard</h2>
+  <p>Welcome, Dr. <%= vet.name %></p>
+  <p>Phone: <%= vet.phone %> | Specialization: <%= vet.specialization %></p>
+
+  <div id="incomingCallBox" style="display:none; border:1px solid #ccc; padding:16px; margin-top:20px;">
+    <p id="incomingText"></p>
+    <button id="acceptBtn">Accept</button>
+    <button id="rejectBtn">Reject</button>
+  </div>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  window.VET_DASH_CONFIG = {
+    vetId: '<%= vet._id %>',
+    vetName: '<%= vet.name %>'
+  };
+</script>
+<script src="/js/teleVetVetDashboard.js"></script>
+
+<%- include('../layouts/footer') %>

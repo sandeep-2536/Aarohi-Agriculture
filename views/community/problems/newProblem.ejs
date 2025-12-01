@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report a Problem</title>
+
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/communityProblems.css">
+</head>
+
+<body>
+
+<%- include("../../layouts/header") %>
+
+<div class="new-problem-container">
+
+    <h1>📢 Report Your Farming Problem</h1>
+    <p class="subtitle">Explain your issue clearly. Add a picture if possible for better help.</p>
+
+    <form action="/community/problems/new" method="POST" enctype="multipart/form-data" class="problem-form">
+
+        <textarea 
+            name="text" 
+            placeholder="Describe your farming problem here..."
+            required
+        ></textarea>
+
+        <label class="image-upload-btn">
+            <input type="file" name="image" accept="image/*">
+            📷 Upload Image (Optional)
+        </label>
+
+        <button class="btn-submit">Submit Problem</button>
+    </form>
+
+</div>
+
+<%- include("../../layouts/footer") %>
+
+</body>
+</html>

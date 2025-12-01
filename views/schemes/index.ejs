@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Government Schemes</title>
+    <link rel="stylesheet" href="/css/scheme.css">
+    
+</head>
+
+<body>
+
+<%- include("../layouts/header") %>
+
+<section class="scheme-top">
+    <h1>Government Schemes</h1>
+    <p>Simple and easy information for farmers</p>
+</section>
+
+<section class="scheme-list">
+
+    <% schemes.forEach(scheme => { %>
+
+        <div class="scheme-card">
+            <img src="<%= scheme.icon %>" class="scheme-icon">
+
+            <div class="scheme-info">
+                <h2><%= scheme.name %></h2>
+                <p><%= scheme.desc %></p>
+                <span class="tag"><%= scheme.state %></span>
+                <span class="tag tag-type"><%= scheme.type %></span>
+            </div>
+        </div>
+
+    <% }) %>
+
+</section>
+
+<%- include("../layouts/footer") %>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<%- include('../layouts/header') %>
+
+<section class="container">
+  <h2>Tele-Vet Call</h2>
+  <p>Dr. <%= vet.name %> talking with <%= farmer ? farmer.name : 'Farmer' %></p>
+
+  <div class="videos">
+    <video id="localVideo" autoplay muted playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+  </div>
+
+  <div class="call-controls">
+    <button id="endCallBtn">End Call</button>
+    <button id="muteBtn">Mute</button>
+    <button id="cameraBtn">Camera Off</button>
+  </div>
+
+  <p id="callStatus">Connecting...</p>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<!-- Render config into the DOM (no inline script values) -->
+<div id="teleVetConfig" style="display:none"
+     data-role="vet"
+     data-vet-id="<%= vet._id %>"
+     data-vet-name="<%= vet.name %>"
+     data-room-id="<%= roomId %>"
+     data-farmer-id="<%= farmer ? farmer._id : '' %>"
+     data-farmer-name="<%= farmer ? farmer.name : 'Farmer' %>">
+</div>
+<script src="/js/teleVetDoctorCall.js"></script>
+
+<%- include('../layouts/footer') %>

@@ -1,0 +1,90 @@
+.dashboard-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.dash-title {
+    font-size: 32px;
+    color: #2b7a0b;
+    margin-bottom: 20px;
+}
+
+.stats-box {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-card {
+    background: #f4f8ef;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid #d5e8c7;
+    width: 200px;
+}
+
+.stat-card h2 {
+    font-size: 40px;
+    color: #2b7a0b;
+    margin: 0;
+}
+
+.stat-card p {
+    font-size: 18px;
+    color: #555;
+}
+
+.section-title {
+    margin-top: 30px;
+    font-size: 26px;
+    color: #333;
+}
+
+.no-data {
+    font-size: 18px;
+    color: #777;
+}
+
+.problems-list {
+    margin-top: 20px;
+}
+
+.problem-card {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    border: 2px solid #e6eed8;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.problem-card:hover {
+    transform: scale(1.02);
+}
+
+.problem-thumb {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-top: 10px;
+}
+
+.date {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.btn-view {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #ffd000;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}

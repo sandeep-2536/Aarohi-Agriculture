@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body>
+
+<%- include("../layouts/header") %>
+
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome Farmer</h1>
+        <p>Tap or Speak to use the App</p>
+        <button class="voice-btn" onclick="startVoice()">
+            🎤 Speak Now
+        </button>
+    </div>
+</section>
+
+<section class="features">
+    <h2 class="section-title">Main Features</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card" onclick="location.href='/schemes'">
+            <img src="/images/scheme-icon.png">
+            <h3>Schemes</h3>
+            <p>Find subsidies easily</p>
+        </div>
+
+        <div class="feature-card" onclick="location.href='/ai/assistant'">
+            <img src="/images/mic-icon.png">
+            <h3>Ask AI</h3>
+            <p>Get farming help</p>
+        </div>
+
+        <div class="feature-card" onclick="location.href='community'">
+            <img src="/images/community-icon.png">
+            <h3>Community</h3>
+            <p>Talk to farmers</p>
+        </div>
+
+        <div class="feature-card" onclick="location.href='/animals'">
+            <img src="/images/cow-icon.png">
+            <h3>Animal Trading</h3>
+            <p>See the the goat and cows here..</p>
+        </div>
+
+        <div class="feature-card" onclick="location.href='/crops'">
+            <img src="/images/market-icon.png">
+            <h3>Sell Crops</h3>
+            <p>Find buyers</p>
+        </div>
+
+        <div class="feature-card" onclick="location.href='/weather'">
+            <img src="/images/weather-icon.png">
+            <h3>Weather</h3>
+            <p>Rain & pest alerts</p>
+        </div>
+
+           <div class="feature-card" onclick="location.href='/tele-vet'">
+            <img src="/images/weather-icon.png">
+            <h3>Doctor on call</h3>
+            <p>Rain & pest alerts</p>
+        </div>
+
+    </div>
+</section>
+
+<%- include("../layouts/footer") %>
+
+</body>
+</html>

@@ -1,65 +1,60 @@
 // public/js/voiceNav.js
+
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 
-recognition.lang = "kn-IN";  // Kannada first
+// Auto-detect Indian languages
+recognition.lang = "en-IN";
 recognition.interimResults = false;
 recognition.maxAlternatives = 1;
 
-document.getElementById("voiceBtn").addEventListener("click", () => {
+const voiceBtn = document.getElementById("voiceBtn");
+
+// Path map for quick navigation
+const NAV_PATHS = {
+  open_home: "/",
+  open_community: "/community",
+  open_chat: "/community/chat",
+  open_problems: "/community/problems",
+  open_sell_animals: "/animals",
+  open_sell_crops: "/crops",
+  open_stock: "/stock",
+  open_tele_vet: "/tele-vet",
+  open_vet_login: "/vet-auth/login",
+  open_dealer_login: "/dealer-auth/login",
+};
+
+// Start listening
+voiceBtn.addEventListener("click", () => {
+  console.log("Voice navigation started…");
   recognition.start();
 });
 
+// On speech detection
 recognition.onresult = async (event) => {
-  const speechText = event.results[0][0].transcript;
+  const speechText = event.results[0][0].transcript.trim();
   console.log("User said:", speechText);
 
-  const res = await fetch("/voice/navigate", {
-    method: "POST",
-    body: JSON.stringify({ query: speechText }),
-    headers: { "Content-Type": "application/json" }
-  });
+  try {
+    const res = await fetch("/voice/navigate", {
+      method: "POST",
+      body: JSON.stringify({ query: speechText }),
+      headers: { "Content-Type": "application/json" }
+    });
 
-  const data = await res.json();
+    const data = await res.json();
+    const intent = data.intent || "open_home";
 
-  switch (data.intent) {
-    case "open_community":
-      window.location.href = "/community";
-      break;
+    console.log("AI Intent:", intent);
 
-    case "open_chat":
-      window.location.href = "/community/chat";
-      break;
+    // Default to home if path not found
+    const path = NAV_PATHS[intent] || "/";
 
-    case "open_problems":
-      window.location.href = "/community/problems";
-      break;
+    // Redirect
+    window.location.href = path;
 
-    case "open_sell_animals":
-      window.location.href = "/animals";
-      break;
-
-    case "open_sell_crops":
-      window.location.href = "/crops";
-      break;
-
-    case "open_stock":
-      window.location.href = "/stock";
-      break;
-
-    case "open_tele_vet":
-      window.location.href = "/tele-vet";
-      break;
-
-    case "open_vet_login":
-      window.location.href = "/vet-auth/login";
-      break;
-
-    case "open_dealer_login":
-      window.location.href = "/dealer-auth/login";
-      break;
-
-    default:
-      window.location.href = "/";
+  } catch (error) {
+    console.error("Voice navigation failed:", error);
+    window.location.href = "/";
   }
 };

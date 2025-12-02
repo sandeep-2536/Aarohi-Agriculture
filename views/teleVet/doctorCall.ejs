@@ -1,25 +1,37 @@
 <%- include('../layouts/header') %>
 
-<section class="container">
-  <h2>Tele-Vet Call</h2>
-  <p>Dr. <%= vet.name %> talking with <%= farmer ? farmer.name : 'Farmer' %></p>
+<div class="max-w-5xl mx-auto px-4 py-6">
 
-  <div class="videos">
-    <video id="localVideo" autoplay muted playsinline></video>
-    <video id="remoteVideo" autoplay playsinline></video>
+  <h2 class="text-2xl font-bold text-purple-700 mb-2">
+    🎥 Live Consultation with <%= farmer ? farmer.name : 'Farmer' %>
+  </h2>
+
+  <p class="text-gray-600 mb-6">You are connected as Dr. <%= vet.name %></p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <video id="localVideo" autoplay muted playsinline class="w-full rounded-xl border shadow"></video>
+    <video id="remoteVideo" autoplay playsinline class="w-full rounded-xl border shadow"></video>
   </div>
 
-  <div class="call-controls">
-    <button id="endCallBtn">End Call</button>
-    <button id="muteBtn">Mute</button>
-    <button id="cameraBtn">Camera Off</button>
+  <div class="flex gap-4">
+    <button id="endCallBtn" class="bg-red-600 text-white px-5 py-3 rounded-xl hover:bg-red-700">
+      ❌ End Call
+    </button>
+
+    <button id="muteBtn" class="bg-gray-700 text-white px-5 py-3 rounded-xl hover:bg-gray-800">
+      🔇 Mute
+    </button>
+
+    <button id="cameraBtn" class="bg-gray-700 text-white px-5 py-3 rounded-xl hover:bg-gray-800">
+      🎥 Camera Off
+    </button>
   </div>
 
-  <p id="callStatus">Connecting...</p>
-</section>
+  <p id="callStatus" class="mt-4 text-gray-500">Connecting...</p>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
-<!-- Render config into the DOM (no inline script values) -->
+
 <div id="teleVetConfig" style="display:none"
      data-role="vet"
      data-vet-id="<%= vet._id %>"
@@ -28,6 +40,7 @@
      data-farmer-id="<%= farmer ? farmer._id : '' %>"
      data-farmer-name="<%= farmer ? farmer.name : 'Farmer' %>">
 </div>
+
 <script src="/js/teleVetDoctorCall.js"></script>
 
 <%- include('../layouts/footer') %>

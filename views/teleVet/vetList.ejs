@@ -1,19 +1,38 @@
 <%- include('../layouts/header') %>
 
-<section class="container">
-  <h2>Tele-Veterinary Doctors</h2>
+<div class="max-w-5xl mx-auto px-4 py-8">
 
-  <div class="vet-list">
+  <h2 class="text-3xl font-bold mb-6 text-green-700 flex items-center gap-2">
+    🐮 Tele-Veterinary Doctors
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
     <% vets.forEach(v => { %>
-      <div class="vet-card">
-        <h3><%= v.name %></h3>
-        <p><strong>Specialization:</strong> <%= v.specialization || 'General' %></p>
-        <p><strong>Phone (for backup):</strong> <%= v.phone %></p>
+      <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200">
+        <h3 class="text-xl font-bold text-gray-800"><%= v.name %></h3>
 
-        <a href="/tele-vet/farmer/call/<%= v._id %>" class="btn">🎥 Video Call</a>
+        <p class="text-gray-600 mt-1">
+          ⭐ <b>Specialization:</b> <%= v.specialization || 'General' %>
+        </p>
+
+        <p class="text-gray-600">
+          📞 <b>Phone:</b> <%= v.phone %>
+        </p>
+
+        <a href="/tele-vet/farmer/call/<%= v._id %>"
+           class="mt-4 inline-block bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition">
+          🎥 Start Video Call
+        </a>
       </div>
     <% }) %>
+
   </div>
-</section>
+
+  <a href="/" class="mt-8 inline-block text-blue-600 hover:underline text-lg">
+    ← Back to Home
+  </a>
+
+</div>
 
 <%- include('../layouts/footer') %>

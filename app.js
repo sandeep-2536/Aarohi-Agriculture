@@ -68,9 +68,9 @@ app.use("/call", callRoutes);
 app.use("/animals", animalRoutes);
 app.use("/crops", cropRoutes);
 app.use("/vet-auth", vetAuthRoutes);
-app.use("/tele-vet", teleVetRoutes);
-app.use('/dealer-auth', dealerAuthRoutes);
-app.use('/stock', stockRoutes);
+app.use("/teleVet", teleVetRoutes);
+app.use("/dealer-auth", dealerAuthRoutes);
+app.use("/stock", stockRoutes);
 
 
 // Map users to sockets (top-level so it persists across connections)

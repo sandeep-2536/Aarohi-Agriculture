@@ -20,7 +20,7 @@ router.post('/dealer/:id/delete', dealerAuth, stockController.deleteStock);
 router.get('/dealer', dealerAuth, dealerController.dashboard);
 
 // Farmer views & search (place after dealer-specific routes)
-router.get('/', isAuth, stockController.listStocks);
-router.get('/:id', isAuth, stockController.stockDetails);
+router.get('/', stockController.listStocks);
+router.get('/:id', stockController.stockDetails);
 
 module.exports = router;

@@ -1,40 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Government Schemes</title>
-    <link rel="stylesheet" href="/css/scheme.css">
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Schemes - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
 </head>
+<body class="bg-gradient-to-br from-green-50 via-white to-yellow-50 min-h-screen">
 
-<body>
+    <%- include("../layouts/header") %>
 
-<%- include("../layouts/header") %>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-green-600 to-green-700 py-16 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+                🏛️ Government Schemes
+            </h1>
+            <p class="text-xl text-green-100 max-w-2xl mx-auto">
+                Simple and easy information for farmers. Find subsidies, loans, and benefits.
+            </p>
+        </div>
+    </section>
 
-<section class="scheme-top">
-    <h1>Government Schemes</h1>
-    <p>Simple and easy information for farmers</p>
-</section>
-
-<section class="scheme-list">
-
-    <% schemes.forEach(scheme => { %>
-
-        <div class="scheme-card">
-            <img src="<%= scheme.icon %>" class="scheme-icon">
-
-            <div class="scheme-info">
-                <h2><%= scheme.name %></h2>
-                <p><%= scheme.desc %></p>
-                <span class="tag"><%= scheme.state %></span>
-                <span class="tag tag-type"><%= scheme.type %></span>
+    <!-- Schemes Grid -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        
+        <!-- Search Bar -->
+        <div class="mb-12 max-w-2xl mx-auto">
+            <div class="relative">
+                <input 
+                    type="text" 
+                    id="schemeSearch"
+                    placeholder="Search schemes by name, state, or type..."
+                    class="input-field w-full pr-12"
+                >
+                <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                </svg>
             </div>
         </div>
 
-    <% }) %>
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap gap-3 justify-center mb-12">
+            <button onclick="filterSchemes('all')" class="filter-btn active" data-filter="all">
+                All Schemes
+            </button>
+            <button onclick="filterSchemes('All India')" class="filter-btn" data-filter="All India">
+                All India
+            </button>
+            <button onclick="filterSchemes('Karnataka')" class="filter-btn" data-filter="Karnataka">
+                Karnataka
+            </button>
+            <button onclick="filterSchemes('Income Support')" class="filter-btn" data-filter="Income Support">
+                Income Support
+            </button>
+            <button onclick="filterSchemes('Insurance')" class="filter-btn" data-filter="Insurance">
+                Insurance
+            </button>
+        </div>
 
-</section>
+        <!-- Schemes List -->
+        <div id="schemesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <% schemes.forEach(scheme => { %>
+            <div class="scheme-card" data-state="<%= scheme.state %>" data-type="<%= scheme.type %>">
+                <div class="flex items-start gap-4 mb-4">
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 p-4 rounded-2xl shadow-lg flex-shrink-0">
+                        <img src="<%= scheme.icon %>" class="w-10 h-10 object-contain filter brightness-0 invert" alt="icon">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2"><%= scheme.name %></h3>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">
+                                <%= scheme.state %>
+                            </span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">
+                                <%= scheme.type %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-gray-600 mb-4 text-base leading-relaxed">
+                    <%= scheme.desc %>
+                </p>
+                
+                <div class="flex gap-3">
+                    <button onclick="showSchemeDetails('<%= scheme.name %>', '<%= scheme.desc %>', '<%= scheme.state %>')" 
+                            class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-3 px-6 rounded-xl font-semibold hover:shadow-lg transition transform hover:scale-105">
+                        Learn More
+                    </button>
+                    <button onclick="applyScheme('<%= scheme.name %>')" 
+                            class="bg-yellow-500 hover:bg-yellow-600 text-white py-3 px-6 rounded-xl font-semibold transition">
+                        Apply
+                    </button>
+                </div>
+            </div>
+            <% }) %>
 
-<%- include("../layouts/footer") %>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="text-center py-16 hidden">
+            <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <p class="text-2xl font-bold text-gray-400">No schemes found</p>
+            <p class="text-gray-500 mt-2">Try different filters or search terms</p>
+        </div>
+    </section>
+
+    <!-- Scheme Details Modal -->
+    <div id="schemeModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 animate-fadeIn">
+            <div class="flex justify-between items-start mb-6">
+                <h2 id="modalTitle" class="text-3xl font-bold text-gray-800"></h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="modalState" class="mb-4"></div>
+            <p id="modalDesc" class="text-gray-600 text-lg leading-relaxed mb-8"></p>
+            
+            <div class="bg-green-50 rounded-2xl p-6 mb-6">
+                <h3 class="font-bold text-lg text-green-800 mb-3">📋 Eligibility</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Active farmers with valid land records</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Aadhaar linked bank account</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Income below specified threshold</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="applySchemeFromModal()" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-4 px-8 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105">
+                    Apply Now
+                </button>
+                <button onclick="shareScheme()" class="bg-blue-500 hover:bg-blue-600 text-white py-4 px-6 rounded-xl font-bold transition">
+                    Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <%- include("../layouts/footer") %>
+
+    <script>
+    let currentSchemeName = '';
+
+    function filterSchemes(filter) {
+        const cards = document.querySelectorAll('.scheme-card');
+        const noResults = document.getElementById('noResults');
+        let visibleCount = 0;
+
+        // Update active button
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.filter === filter) {
+                btn.classList.add('active');
+            }
+        });
+
+        cards.forEach(card => {
+            const state = card.dataset.state;
+            const type = card.dataset.type;
+            
+            if (filter === 'all' || state === filter || type === filter) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    // Search functionality
+    document.getElementById('schemeSearch').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.scheme-card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+
+    function showSchemeDetails(name, desc, state) {
+        currentSchemeName = name;
+        document.getElementById('modalTitle').textContent = name;
+        document.getElementById('modalDesc').textContent = desc;
+        document.getElementById('modalState').innerHTML = 
+            '<span class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">' + state + '</span>';
+        document.getElementById('schemeModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('schemeModal').classList.add('hidden');
+    }
+
+    function applyScheme(name) {
+        alert('Redirecting to ' + name + ' application portal...\n\nNote: Official portal link will be integrated.');
+    }
+
+    function applySchemeFromModal() {
+        applyScheme(currentSchemeName);
+    }
+
+    function shareScheme() {
+        if (navigator.share) {
+            navigator.share({
+                title: currentSchemeName,
+                text: 'Check out this government scheme for farmers!',
+                url: window.location.href
+            });
+        } else {
+            alert('Share feature not supported on this device');
+        }
+    }
+
+    // Close modal on escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // Close modal on outside click
+    document.getElementById('schemeModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+    </script>
+
+    <style>
+    .scheme-card {
+        background: linear-gradient(135deg, #ffffff, #f0fdf4);
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+        border: 2px solid transparent;
+    }
+
+    .scheme-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        border-color: #86efac;
+    }
+
+    .filter-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.2s;
+        background: white;
+        color: #374151;
+        border: 2px solid #e5e7eb;
+    }
+
+    .filter-btn:hover {
+        background: #f0fdf4;
+        border-color: #86efac;
+    }
+
+    .filter-btn.active {
+        background: linear-gradient(to right, #16a34a, #15803d);
+        color: white;
+        border-color: #16a34a;
+    }
+    </style>
 
 </body>
 </html>

@@ -81,7 +81,7 @@
                     <li><a href="/animals" class="text-gray-400 hover:text-white transition">Livestock Trading</a></li>
                     <li><a href="/crops" class="text-gray-400 hover:text-white transition">Sell Crops</a></li>
                     <li><a href="/stock" class="text-gray-400 hover:text-white transition">Find Stock</a></li>
-                    <li><a href="/tele-vet" class="text-gray-400 hover:text-white transition">Vet Support</a></li>
+                    <li><a href="/teleVet" class="text-gray-400 hover:text-white transition">Vet Support</a></li>
                 </ul>
             </div>
 
@@ -203,7 +203,7 @@ function startGlobalVoice() {
             } else if (transcript.includes('crop')) {
                 window.location.href = '/crops';
             } else if (transcript.includes('doctor') || transcript.includes('vet')) {
-                window.location.href = '/tele-vet';
+                window.location.href = '/teleVet';
             } else if (transcript.includes('stock')) {
                 window.location.href = '/stock';
             } else if (transcript.includes('home')) {

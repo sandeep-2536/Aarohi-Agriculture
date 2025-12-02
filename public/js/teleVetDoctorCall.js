@@ -171,7 +171,7 @@
       localStream = null;
     }
     setTimeout(() => {
-      window.location.href = "/tele-vet/doctor/dashboard";
+      window.location.href = "/teleVet/doctor/dashboard";
     }, 1000);
   }
 

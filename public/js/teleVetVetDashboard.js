@@ -30,7 +30,7 @@
     });
 
     // go to doctor call page
-    window.location.href = `/tele-vet/doctor/call?roomId=${encodeURIComponent(currentRoomId)}&farmerId=${encodeURIComponent(currentCallerId)}`;
+    window.location.href = `/teleVet/doctor/call?roomId=${encodeURIComponent(currentRoomId)}&farmerId=${encodeURIComponent(currentCallerId)}`;
   });
 
   rejectBtn.addEventListener("click", () => {

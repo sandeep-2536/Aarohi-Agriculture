@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
       specialization: vet.specialization
     };
 
-    res.redirect("/tele-vet/doctor/dashboard");
+    res.redirect("/teleVet");
   } catch (err) {
     console.error("Vet login error:", err);
     res.status(500).send("Error logging in vet");

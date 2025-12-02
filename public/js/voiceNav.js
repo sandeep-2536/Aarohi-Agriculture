@@ -19,7 +19,7 @@ const NAV_PATHS = {
   open_sell_animals: "/animals",
   open_sell_crops: "/crops",
   open_stock: "/stock",
-  open_tele_vet: "/tele-vet",
+  open_tele_vet: "/teleVet",
   open_vet_login: "/vet-auth/login",
   open_dealer_login: "/dealer-auth/login",
 };

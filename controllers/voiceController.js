@@ -32,7 +32,7 @@ AAROHI WEBSITE STRUCTURE (for reasoning):
 - Animal Market → /animals
 - Crop Selling → /crops
 - Stock / Input Availability → /stock
-- Tele-Veterinary (Video Call with doctor) → /tele-vet
+- Tele-Veterinary (Video Call with doctor) → /teleVet
 - Vet Login → /vet-auth/login
 - Dealer Login → /dealer-auth/login
 

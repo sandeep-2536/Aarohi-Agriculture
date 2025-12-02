@@ -200,7 +200,7 @@
       localStream = null;
     }
     setTimeout(() => {
-      window.location.href = "/tele-vet";
+      window.location.href = "/teleVet";
     }, 1000);
   }
 

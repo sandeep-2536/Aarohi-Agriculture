@@ -1,7 +1,9 @@
 <%- include('../layouts/header') %>
 
 <div class="max-w-5xl mx-auto px-4 py-8">
-
+  <a href="/vet-auth/login">Login here</a>
+  <a href="/vet-auth/register">Register here</a>
+  <a href="/teleVet/doctor/dashboard">Doctor dashboard</a>
   <h2 class="text-3xl font-bold mb-6 text-green-700 flex items-center gap-2">
     🐮 Tele-Veterinary Doctors
   </h2>
@@ -20,7 +22,7 @@
           📞 <b>Phone:</b> <%= v.phone %>
         </p>
 
-        <a href="/tele-vet/farmer/call/<%= v._id %>"
+        <a href="/teleVet/farmer/call/<%= v._id %>"
            class="mt-4 inline-block bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition">
           🎥 Start Video Call
         </a>

@@ -72,6 +72,15 @@ app.use("/teleVet", teleVetRoutes);
 app.use("/dealer-auth", dealerAuthRoutes);
 app.use("/stock", stockRoutes);
 
+// Debug endpoint to inspect active user -> socket mappings (temporary)
+app.get('/debug/sockets', (req, res) => {
+    try {
+        res.json(userSocketMap);
+    } catch (e) {
+        res.status(500).json({ error: 'Failed to read socket map' });
+    }
+});
+
 
 // Map users to sockets (top-level so it persists across connections)
 const userSocketMap = {}; // { userId: socketId }
@@ -98,6 +107,7 @@ io.on("connection", (socket) => {
             io.to(targetSocketId).emit('incomingCall', { fromUserId, fromName, roomId });
         } else {
             // Inform caller there's no connected socket for the callee
+            console.log('[socket] callUser - target not found. userSocketMap keys:', Object.keys(userSocketMap));
             socket.emit('noAnswer', { toUserId });
         }
     });

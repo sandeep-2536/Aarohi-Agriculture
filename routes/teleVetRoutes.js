@@ -6,7 +6,7 @@ const isAuth = require("../middlewares/isAuth");
 const isVetAuth = require("../middlewares/isVetAuth");
 
 // Farmer side
-router.get("/", isAuth, teleVetController.listVets);
+router.get("/", teleVetController.listVets);
 router.get("/farmer/call/:vetId", isAuth, teleVetController.farmerCallPage);
 
 // Vet side

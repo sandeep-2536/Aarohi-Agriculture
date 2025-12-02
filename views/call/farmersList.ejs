@@ -92,11 +92,17 @@
                 // Listen for responses for this call
                 const onAccepted = ({ fromUserId, roomId: r }) => {
                     if (r === roomId) {
-                        window.location.href = '/call/room/' + roomId;
+                        console.log('[farmersList] callAccepted received, redirecting to room', roomId);
+                        socket.off('callRejected', onRejected);
+                        socket.off('noAnswer', onNoAnswer);
+                        setTimeout(() => {
+                            window.location.href = '/call/room/' + roomId;
+                        }, 500);
                     }
                 };
 
                 const onRejected = () => {
+                    console.log('[farmersList] call rejected');
                     alert('❌ Call rejected.');
                 };
 

@@ -80,10 +80,13 @@ if (modal && acceptBtn) {
   acceptBtn.addEventListener('click', () => {
     if (!callMeta) return;
     hideModal();
+    console.log('[incomingCall] accept clicked, emitting acceptCall', callMeta);
     socket.emit('acceptCall', { callerUserId: callMeta.fromUserId, roomId: callMeta.roomId });
+    console.log('[incomingCall] redirecting to room', callMeta.roomId);
+    // Ensure emit completes before redirect
     setTimeout(() => {
       window.location.href = `/call/room/${callMeta.roomId}`;
-    }, 300);
+    }, 500);
   });
 }
 

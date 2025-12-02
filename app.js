@@ -121,19 +121,31 @@ io.on("connection", (socket) => {
 
 
     socket.on("joinRoom", (roomId) => {
-        socket.join(roomId);
-        socket.to(roomId).emit("ready");
+        try {
+            socket.join(roomId);
+            const room = io.sockets.adapter.rooms.get(roomId);
+            const members = room ? Array.from(room) : [];
+            console.log('[socket] joinRoom', { roomId, socketId: socket.id, members });
+            socket.to(roomId).emit("ready");
+            console.log('[socket] ready emitted to room', roomId);
+        } catch (e) {
+            console.warn('[socket] joinRoom error', e);
+        }
     });
 
     socket.on("offer", ({ roomId, offer }) => {
+        console.log('[socket] forwarding offer to room', roomId);
         socket.to(roomId).emit("offer", offer);
     });
 
     socket.on("answer", ({ roomId, answer }) => {
+        console.log('[socket] forwarding answer to room', roomId);
         socket.to(roomId).emit("answer", answer);
     });
 
     socket.on("iceCandidate", ({ roomId, candidate }) => {
+        // candidate is an RTCIceCandidateInit-like object
+        console.log('[socket] forwarding iceCandidate to room', roomId);
         socket.to(roomId).emit("iceCandidate", { candidate });
     });
 

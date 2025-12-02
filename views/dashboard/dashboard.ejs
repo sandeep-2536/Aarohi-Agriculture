@@ -2,49 +2,153 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Dashboard</title>
+    <title>AAROHI | Dashboard</title>
 
-    <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/dashboard.css">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body { background: #f8fafc; }
+    </style>
 </head>
 
-<body>
+<body class="min-h-screen">
 
 <%- include("../layouts/header") %>
 
-<div class="dashboard-container">
+<!-- MAIN CONTAINER -->
+<div class="max-w-6xl mx-auto px-4 py-8">
 
-    <h1 class="dash-title">👨‍🌾 Welcome, <%= user.name %></h1>
+    <!-- WELCOME -->
+    <h1 class="text-3xl font-bold mb-4 flex items-center gap-2">
+        👨‍🌾 Welcome, <span class="text-green-700"><%= user.name %></span>
+    </h1>
 
-    <div class="stats-box">
-        <div class="stat-card">
-            <h2><%= myProblems.length %></h2>
-            <p>Your Reported Problems</p>
+    <!-- PROFILE SECTION -->
+    <div class="bg-white rounded-xl shadow p-5 flex items-center gap-4 mb-8">
+        <img src="<%= user.profileImage %>" class="w-20 h-20 rounded-full border border-gray-300">
+        
+        <div>
+            <h2 class="text-xl font-semibold">Farmer Profile</h2>
+            <p class="text-gray-600">
+                📱 <b>Mobile:</b> <%= user.mobileNumber %>  
+            </p>
+            <p class="text-gray-600">
+                📍 <b>Location:</b> <%= user.village || "Not set" %>, <%= user.state || "Not set" %>
+            </p>
+            <p class="text-gray-600">
+                🌱 <b>Type:</b> <%= user.farmerType %>
+            </p>
         </div>
     </div>
 
-    <h2 class="section-title">📝 Your Problems</h2>
+    <!-- STATS GRID -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
 
-    <% if (myProblems.length === 0) { %>
-        <p class="no-data">You have not reported any problems yet.</p>
-    <% } %>
+        <div class="bg-green-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-green-700"><%= myCommunityPosts.length %></h2>
+            <p class="font-medium">Community Posts</p>
+        </div>
 
-    <div class="problems-list">
-        <% myProblems.forEach(p => { %>
-            <div class="problem-card" onclick="location.href='/community/problems/<%= p._id %>'">
-                
-                <h3><%= p.text.substring(0, 100) %>...</h3>
+        <div class="bg-blue-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-blue-700"><%= myComments.length %></h2>
+            <p class="font-medium">Comments</p>
+        </div>
 
-                <% if (p.image) { %>
-                    <img src="<%= p.image %>" class="problem-thumb">
-                <% } %>
+        <div class="bg-orange-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-orange-700"><%= myProblems.length %></h2>
+            <p class="font-medium">Problems Reported</p>
+        </div>
 
-                <small class="date">
-                    Posted on: <%= new Date(p.createdAt).toLocaleString() %>
-                </small>
+        <div class="bg-red-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-red-700"><%= myAnimals.length %></h2>
+            <p class="font-medium">Animals Listed</p>
+        </div>
 
-                <button class="btn-view">View Discussion</button>
+        <div class="bg-yellow-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-yellow-700"><%= myCrops.length %></h2>
+            <p class="font-medium">Crops Listed</p>
+        </div>
+
+        <div class="bg-purple-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-purple-700"><%= myVetCalls.length %></h2>
+            <p class="font-medium">Tele-Vet Calls</p>
+        </div>
+
+        <div class="bg-pink-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-pink-700"><%= myAISearches.length %></h2>
+            <p class="font-medium">AI Assistant Queries</p>
+        </div>
+
+        <div class="bg-gray-100 rounded-xl p-5 shadow text-center">
+            <h2 class="text-3xl font-bold text-gray-700"><%= myStockViews.length %></h2>
+            <p class="font-medium">Stock Checks</p>
+        </div>
+    </div>
+
+    <!-- QUICK NAVIGATION -->
+    <h2 class="text-xl font-bold mb-3">🚀 Quick Navigation</h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+
+        <a href="/community" class="p-4 bg-white shadow rounded-xl text-center hover:bg-green-50">
+            🌿 <br>Community
+        </a>
+
+        <a href="/community/chat" class="p-4 bg-white shadow rounded-xl text-center hover:bg-blue-50">
+            💬 <br>Group Chat
+        </a>
+
+        <a href="/community/problems" class="p-4 bg-white shadow rounded-xl text-center hover:bg-orange-50">
+            🆘 <br>Problems
+        </a>
+
+        <a href="/animals" class="p-4 bg-white shadow rounded-xl text-center hover:bg-red-50">
+            🐄 <br>Sell Animals
+        </a>
+
+        <a href="/crops" class="p-4 bg-white shadow rounded-xl text-center hover:bg-yellow-50">
+            🌾 <br>Sell Crops
+        </a>
+
+        <a href="/stock" class="p-4 bg-white shadow rounded-xl text-center hover:bg-gray-50">
+            📦 <br>Where is Stock?
+        </a>
+
+        <a href="/tele-vet" class="p-4 bg-white shadow rounded-xl text-center hover:bg-purple-50">
+            🐮 <br>Tele-Vet
+        </a>
+
+        <a href="/ai/assistant" class="p-4 bg-white shadow rounded-xl text-center hover:bg-pink-50">
+            🤖 <br>AI Assistant
+        </a>
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+    <h2 class="text-xl font-bold mb-3">📌 Recent Activity</h2>
+
+    <div class="space-y-4">
+        <% recentActivity.forEach(a => { %>
+
+        <a href="<%= a.url %>" class="bg-white p-4 rounded-xl shadow flex gap-4 items-start hover:shadow-lg hover:bg-gray-50 transition duration-300 block">
+
+            <div class="text-2xl">
+                <% if (a.type === 'problem') { %> 🆘 
+                <% } else if (a.type === 'animal') { %> 🐄 
+                <% } else if (a.type === 'crop') { %> 🌾 
+                <% } else if (a.type === 'post') { %> 🌿 
+                <% } else if (a.type === 'comment') { %> 💬 
+                <% } else if (a.type === 'vet') { %> 🐮 
+                <% } else { %> 📌 <% } %>
             </div>
+
+            <div>
+                <p class="font-medium"><%= a.text %></p>
+                <p class="text-sm text-gray-500"><%= new Date(a.date).toLocaleString() %></p>
+            </div>
+
+        </a>
+
         <% }) %>
     </div>
 

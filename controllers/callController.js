@@ -9,7 +9,7 @@ exports.getFarmersList = async (req, res) => {
 
 exports.getCallRoom = (req, res) => {
     if (!req.session.user) return res.redirect("/auth/login");
-
+    console.log("video call feature is upto here\n");9
     res.render("call/videoCallRoom", {
         roomId: req.params.roomId,
         user: req.session.user

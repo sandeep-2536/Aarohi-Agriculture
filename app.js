@@ -163,6 +163,91 @@ io.on("connection", (socket) => {
         }
     });
 
+    // Chat message handlers
+    const Message = require('./models/Message');
+    const User = require('./models/User');
+
+    socket.on('joinRoom', async ({ roomId }) => {
+        try {
+            socket.join(roomId);
+            console.log('[socket] joined chat room', roomId);
+        } catch (e) {
+            console.warn('[socket] joinRoom error', e);
+        }
+    });
+
+    socket.on('sendMessage', async (payload) => {
+        try {
+            console.log('[socket] sendMessage received', { roomId: payload.roomId, text: payload.text });
+            
+            // Create and save message to DB
+            const savedMsg = await Message.create({
+                roomId: payload.roomId,
+                user: payload.user._id,
+                text: payload.text,
+                image: payload.image || null,
+                createdAt: new Date()
+            });
+
+            // Populate user data
+            const populatedMsg = await Message.findById(savedMsg._id).populate('user');
+
+            // Broadcast to all users in the room
+            io.to(payload.roomId).emit('receiveMessage', {
+                _id: populatedMsg._id,
+                roomId: populatedMsg.roomId,
+                user: {
+                    _id: populatedMsg.user._id,
+                    name: populatedMsg.user.name,
+                    profileImage: populatedMsg.user.profileImage
+                },
+                text: populatedMsg.text,
+                image: populatedMsg.image,
+                createdAt: populatedMsg.createdAt
+            });
+
+            console.log('[socket] message saved and broadcasted');
+        } catch (e) {
+            console.error('[socket] sendMessage error', e);
+            socket.emit('error', { message: 'Failed to send message' });
+        }
+    });
+
+    socket.on('deleteMessage', async (msgId) => {
+        try {
+            await Message.findByIdAndDelete(msgId);
+            io.emit('messageDeleted', msgId);
+            console.log('[socket] message deleted', msgId);
+        } catch (e) {
+            console.error('[socket] deleteMessage error', e);
+        }
+    });
+
+    socket.on('updateMessage', async (payload) => {
+        try {
+            const updated = await Message.findByIdAndUpdate(msgId._id, {
+                text: payload.text,
+                edited: true
+            }, { new: true }).populate('user');
+
+            io.emit('messageUpdated', {
+                _id: updated._id,
+                user: {
+                    _id: updated.user._id,
+                    name: updated.user.name,
+                    profileImage: updated.user.profileImage
+                },
+                text: updated.text,
+                edited: updated.edited,
+                createdAt: updated.createdAt
+            });
+
+            console.log('[socket] message updated', payload._id);
+        } catch (e) {
+            console.error('[socket] updateMessage error', e);
+        }
+    });
+
 });
 
 

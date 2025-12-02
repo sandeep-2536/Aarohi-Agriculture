@@ -10,21 +10,8 @@
             Report Problem
         </a>
         
-  <% if (!posts || posts.length === 0) { %>
-    <p>No posts yet. Be the first to post!</p>
-  <% } else { %>
-    <% posts.forEach(post => { %>
-      <div class="post-card">
-        <div class="post-user"><%= post.user ? post.user.name : 'Anonymous' %></div>
-        <div class="post-text"><%= post.text %></div>
-        <% if (post.image) { %>
-          <img src="<%= post.image %>" class="post-image" />
-        <% } %>
-        <a href="/community/post/<%= post._id %>">View</a>
-      </div>
-    <% }) %>
-  <% } %>
-
+<a href="/community/problems">go to community problems</a>
+<a href="/community/chat">go to community chat</a>
 </section>
 
 <%- include('../layouts/footer') %>

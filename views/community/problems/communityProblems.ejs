@@ -46,60 +46,16 @@
             </a>
         </div>
     <% } else { %>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <% problems.forEach(p => { %>
-                <div onclick="location.href='/community/problems/<%= p._id %>'" class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group hover:scale-[1.02]">
-                    
-                    <!-- Header -->
-                    <div class="p-6 border-b border-gray-100">
-                        <div class="flex items-center gap-3 mb-3">
-                            <img src="<%= p.user.profileImage || '/images/default-user.png' %>" class="w-12 h-12 rounded-full object-cover border-2 border-green-500" alt="<%= p.user.name %>">
-                            <div class="flex-1">
-                                <h3 class="font-bold text-gray-800"><%= p.user.name %></h3>
-                                <p class="text-sm text-gray-500">
-                                    <svg class="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <%= new Date(p.createdAt).toLocaleString('en-IN', { 
-                                        day: 'numeric', 
-                                        month: 'short', 
-                                        hour: '2-digit', 
-                                        minute: '2-digit' 
-                                    }) %>
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <!-- Problem Text -->
-                        <p class="text-gray-700 leading-relaxed">
-                            <%= p.text.substring(0, 150) %><%= p.text.length > 150 ? '...' : '' %>
-                        </p>
-                    </div>
-
-                    <!-- Image -->
-                    <% if (p.image) { %>
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="<%= p.image %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" alt="Problem image">
-                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all"></div>
-                    </div>
-                    <% } %>
-
-                    <!-- Footer -->
-                    <div class="px-6 py-4 bg-gray-50 flex items-center justify-between">
-                        <span class="text-green-600 font-semibold flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                            </svg>
-                            View Discussion
-                        </span>
-                        <svg class="w-6 h-6 text-gray-400 group-hover:text-green-600 transition-colors" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-
-                </div>
-            <% }); %>
-        </div>
+        <% problems.forEach(p => { %>
+            <div class="post-card">
+                <div class="post-user"><%= p.user ? p.user.name : 'Anonymous' %></div>
+                <div class="post-text"><%= p.text %></div>
+                <% if (p.image) { %>
+                    <img src="<%= p.image %>" class="post-image" />
+                <% } %>
+                <a href="/community/problems/<%= p._id %>">View</a>
+            </div>
+        <% }) %>
     <% } %>
 
 </div>

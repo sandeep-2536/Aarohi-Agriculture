@@ -18,67 +18,84 @@ RETURN EXACTLY ONE INTENT that tells which page should open.
 
 IMPORTANT RULES:
 - Respond ONLY with JSON: {"intent":"..."}
-- Do NOT explain.
-- Do NOT output extra characters.
-- Do NOT hallucinate new intents.
-- Choose the closest intent EVEN IF user sentence is unclear.
-- If unsure, return: {"intent":"open_home"}
+- No explanation.
+- No extra text.
+- No markdown.
+- Choose the CLOSEST INTENT.
+- If user speech references a specific item (post/crop/problem/stock/animal),
+  return the correct *detail* intent even without id.
+- If unclear, return: {"intent":"open_home"}
 
-AAROHI WEBSITE STRUCTURE (for reasoning):
-- Home → GET /
-- Community Feed → /community
-- Community Chat → /community/chat
-- Community Problems → /community/problems
-- Animal Market → /animals
-- Crop Selling → /crops
-- Stock / Input Availability → /stock
-- Tele-Veterinary (Video Call with doctor) → /teleVet
-- Vet Login → /vet-auth/login
-- Dealer Login → /dealer-auth/login
+===== FULL WEBSITE ROUTE MAP =====
+(Home)
+- open_home → /
 
-VALID INTENTS:
-- open_home
-- open_community
-- open_chat
-- open_problems
-- open_sell_animals
-- open_sell_crops
-- open_stock
-- open_tele_vet
-- open_vet_login
-- open_dealer_login
+(Community)
+- open_community → /community
+- open_community_feed → /community
+- open_create_post → /community/new
+- open_post_details → /community/:id
+- open_my_posts → /dashboard
+- open_chat → /community/chat
+- open_groups_list → /community/chat
+- open_start_group_chat → /community/chat/create
 
-MULTILINGUAL UNDERSTANDING:
-(Kannada examples)
-- “community ge hogi”, “community open”, “samudaya nodi” → open_community
-- “hasu maargona”, “pasu sale”, “aavu thorisu” → open_sell_animals
-- “stock elli sigatte”, “stock beku”, “input nodi” → open_stock
-- “doctor call madbeku”, “veterinary beku”, “prani vaidya” → open_tele_vet
+(Problems)
+- open_problems → /community/problems
+- open_report_problem → /community/problems/new
+- open_problem_details → /community/problems/:id
+- open_my_problems → /dashboard
 
-(Hindi examples)
-- “समुदाय दिखाओ”, “कम्युनिटी चलो”, “feed खोलो” → open_community
-- “गाय बेचना”, “पशु बेचना है”, “जानवर बिक्री” → open_sell_animals
-- “फसल बेचना”, "धान बेचना", "crop sell" → open_sell_crops
-- “स्टॉक कहाँ है”, “स्टॉक दिखाओ”, “बीज कहाँ मिलेगा” → open_stock
-- “डॉक्टर चाहिए”, “वेट कॉल करना है”, “पशु डॉक्टर” → open_tele_vet
+(Animals)
+- open_animals_list → /animals
+- open_add_animal → /animals/new
+- open_animal_details → /animals/:id
 
-(English examples)
-- “open community”, “go to feed”, “show posts” → open_community
-- “sell animals”, “animal market”, “cow for sale” → open_sell_animals
-- “sell crops”, “crop market”, “post crop” → open_sell_crops
-- “check stock”, “stock availability”, “open marketplace” → open_stock
-- “call doctor”, “open tele vet”, “video doctor” → open_tele_vet
+(Crops)
+- open_crops_list → /crops
+- open_add_crop → /crops/new
+- open_crop_details → /crops/:id
 
-NOISE HANDLING (these still count):
-- “ah… community… open madona”
-- “umm stock… gotilla where…”
-- “doctor… beku… video…”
+(Stock)
+- open_stock → /stock
+- open_stock_list → /stock
+- open_add_stock → /stock/dealer/new
+- open_stock_details → /stock/:id
+- open_dealer_dashboard → /stock/dealer
 
-STRICT OUTPUT FORMAT:
-{"intent":"one_of_the_intents"}
+(Tele-Vet)
+- open_tele_vet → /tele-vet
+- open_vet_list → /tele-vet
+- open_start_vet_call → /tele-vet/farmer/call/:id
+- open_vet_dashboard → /tele-vet/doctor/dashboard
+- open_vet_login → /vet-auth/login
+
+(Dealers)
+- open_dealer_login → /dealer-auth/login
+
+(Auth & User)
+- open_login → /auth/login
+- open_register → /auth/register
+- open_profile → /auth/profile
+- open_farmer_dashboard → /dashboard
+
+(Schemes)
+- open_schemes → /schemes
+- open_scheme_details → /schemes/:id
+
+(AI Assistant)
+- open_ai_assistant → /ai/assistant
+
+(Call System)
+- open_farmer_call_list → /call/farmers
+- open_call_room → /call/room/:id
+
+===== STRICT OUTPUT FORMAT =====
+{"intent":"one_of_the_above"}
 
 User said:
 ${userQuery}
+
 `;
 
 

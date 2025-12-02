@@ -19,9 +19,41 @@ const NAV_PATHS = {
   open_sell_animals: "/animals",
   open_sell_crops: "/crops",
   open_stock: "/stock",
-  open_tele_vet: "/teleVet",
+  open_tele_vet: "/tele-vet",
   open_vet_login: "/vet-auth/login",
   open_dealer_login: "/dealer-auth/login",
+
+  open_login: "/auth/login",
+  open_register: "/auth/register",
+  open_profile: "/auth/profile",
+  open_farmer_dashboard: "/dashboard",
+
+  open_create_post: "/community/new",
+  open_community_feed: "/community",
+
+  open_groups_list: "/community/chat",
+  open_start_group_chat: "/community/chat/create",
+
+  open_report_problem: "/community/problems/new",
+
+  open_animals_list: "/animals",
+  open_add_animal: "/animals/new",
+
+  open_crops_list: "/crops",
+  open_add_crop: "/crops/new",
+
+  open_stock_list: "/stock",
+  open_add_stock: "/stock/dealer/new",
+  open_dealer_dashboard: "/stock/dealer",
+
+  open_vet_list: "/tele-vet",
+  open_vet_dashboard: "/tele-vet/doctor/dashboard",
+
+  open_schemes: "/schemes",
+
+  open_ai_assistant: "/ai/assistant",
+
+  open_farmer_call_list: "/call/farmers",
 };
 
 // Start listening

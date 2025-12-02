@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
       location: dealer.location
     };
 
-    res.redirect('/dealer/dashboard');
+    res.redirect('/stock');
   } catch (err) {
     console.error('dealer login error', err);
     res.status(500).send('Login error');

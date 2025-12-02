@@ -55,11 +55,16 @@
     }
 
     whenSocketReady((socket) => {
-        // register this user if provided by footer
-        if (window.CURRENT_USER && !socket._registeredOnce) {
-            socket.emit('register', window.CURRENT_USER._id);
+        // read current user id/name from hidden config element rendered in footer
+        const cfgEl = document.getElementById('incomingConfig');
+        const currentUserId = cfgEl ? cfgEl.dataset.userId : null;
+        const currentUserName = cfgEl ? cfgEl.dataset.userName : null;
+
+        // register this user if provided by footer (safe-guard)
+        if (currentUserId && !socket._registeredOnce) {
+            socket.emit('register', currentUserId);
             socket._registeredOnce = true;
-            console.log('[farmersList] socket registered for', window.CURRENT_USER && window.CURRENT_USER._id);
+            console.log('[farmersList] socket registered for', currentUserId);
         }
 
         document.querySelectorAll('.btn-call').forEach(btn => {
@@ -67,12 +72,12 @@
                 const toUserId = btn.dataset.to;
                 const roomId = btn.dataset.room;
 
-                console.log('[farmersList] emitting callUser', { toUserId, roomId, fromUserId: window.CURRENT_USER && window.CURRENT_USER._id });
+                console.log('[farmersList] emitting callUser', { toUserId, roomId, fromUserId: currentUserId });
 
                 socket.emit('callUser', {
                     toUserId,
-                    fromUserId: window.CURRENT_USER && window.CURRENT_USER._id,
-                    fromName: window.CURRENT_USER && window.CURRENT_USER.name,
+                    fromUserId: currentUserId,
+                    fromName: currentUserName,
                     roomId
                 });
 

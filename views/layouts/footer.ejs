@@ -120,6 +120,25 @@
     </div>
 </footer>
 
+    <!-- Incoming Call Modal (used by incomingCall.js) -->
+    <div id="incomingCallModal" class="incoming-modal" style="display: none">
+        <div class="incoming-box">
+            <div class="incoming-header">
+                <h3>Incoming Call</h3>
+            </div>
+            <div class="incoming-body">
+                <p id="incomingFrom">Unknown caller...</p>
+
+                <div class="incoming-actions">
+                    <button id="acceptCallBtn" class="btn-accept">Accept</button>
+                    <button id="rejectCallBtn" class="btn-reject">Reject</button>
+                </div>
+
+                <div id="callTimer" class="call-timer"></div>
+            </div>
+        </div>
+    </div>
+
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
@@ -134,6 +153,14 @@ CURRENT_USER = {
 <%_ } _%>
 
 window.CURRENT_USER = CURRENT_USER;
+
+// Also provide a hidden DOM config for scripts that read dataset (incomingCall, farmer list etc.)
+var incomingConfigDiv = document.createElement('div');
+incomingConfigDiv.id = 'incomingConfig';
+incomingConfigDiv.style.display = 'none';
+incomingConfigDiv.dataset.userId = CURRENT_USER && CURRENT_USER._id ? CURRENT_USER._id : '';
+incomingConfigDiv.dataset.userName = CURRENT_USER && CURRENT_USER.name ? CURRENT_USER.name : '';
+document.body.appendChild(incomingConfigDiv);
 
 // Render mobile profile link
 (function() {
@@ -195,3 +222,4 @@ function startGlobalVoice() {
     }
 }
 </script>
+<script src="/js/incomingCall.js"></script>

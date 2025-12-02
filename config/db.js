@@ -4,7 +4,7 @@ const connectDB = async () => {
     try {
         // 1. Fixed the slash before the database name
         // 2. Removed deprecated options
-        await mongoose.connect("mongodb+srv://arunh8623:root00@mycluster.p6okdew.mongodb.net/?appName=MyCluster");
+        await mongoose.connect("mongodb+srv://arunh8623:root00@mycluster.p6okdew.mongodb.net/AarohiAgriculture?retryWrites=true&w=majority&appName=MyCluster");
         
         console.log("✅ MongoDB Connected Successfully");
     } catch (error) {

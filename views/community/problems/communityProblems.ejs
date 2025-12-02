@@ -2,56 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Community Problems</title>
-
-    <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/communityProblems.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Problems - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
 </head>
-<body>
+<body class="bg-gray-50">
 
 <%- include("../../layouts/header") %>
 
-<div class="problems-container">
-
-    <div class="heading-row">
-        <h1>🧑‍🌾 Farmers' Problem Discussions</h1>
-
-        <a href="/community/problems/new" class="btn-new-problem">
-            ➕ Report a Problem
+<div class="max-w-6xl mx-auto px-4 py-8">
+    
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+                🧑‍🌾 Farmers' Problem Discussions
+            </h1>
+            <p class="text-gray-600">
+                Share your farming challenges and get help from the community
+            </p>
+        </div>
+        
+        <a href="/community/problems/new" class="bg-linear-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition inline-flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+            </svg>
+            Report Problem
         </a>
     </div>
 
+    <!-- Problems List -->
     <% if (problems.length === 0) { %>
-        <p class="no-problems">No problems reported yet. Be the first to share!</p>
-    <% } %>
-
-    <div class="problems-list">
-        <% problems.forEach(p => { %>
-            <div class="problem-card" onclick="location.href='/community/problems/<%= p._id %>'">
-
-                <div class="problem-header">
-                    <img src="<%= p.user.profileImage || '/images/default-user.png' %>" class="avatar-small" />
-                    <div>
-                        <h3><%= p.user.name %></h3>
-                        <small><%= new Date(p.createdAt).toLocaleString() %></small>
-                    </div>
-                </div>
-
-                <p class="problem-text"><%= p.text.substring(0,150) %>...</p>
-
-                <% if (p.image) { %>
-                <div class="problem-image">
-                    <img src="<%= p.image %>">
-                </div>
-                <% } %>
-
-                <div class="problem-footer">
-                    <span>💬 View Discussion</span>
-                </div>
-
+        <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
+            <div class="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <svg class="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
             </div>
-        <% }); %>
-    </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">No Problems Yet</h2>
+            <p class="text-gray-600 mb-6">Be the first to share a farming challenge!</p>
+            <a href="/community/problems/new" class="bg-green-600 text-white px-6 py-3 rounded-xl font-semibold inline-block hover:bg-green-700 transition">
+                Report Your First Problem
+            </a>
+        </div>
+    <% } else { %>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <% problems.forEach(p => { %>
+                <div onclick="location.href='/community/problems/<%= p._id %>'" class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group hover:scale-[1.02]">
+                    
+                    <!-- Header -->
+                    <div class="p-6 border-b border-gray-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <img src="<%= p.user.profileImage || '/images/default-user.png' %>" class="w-12 h-12 rounded-full object-cover border-2 border-green-500" alt="<%= p.user.name %>">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-gray-800"><%= p.user.name %></h3>
+                                <p class="text-sm text-gray-500">
+                                    <svg class="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <%= new Date(p.createdAt).toLocaleString('en-IN', { 
+                                        day: 'numeric', 
+                                        month: 'short', 
+                                        hour: '2-digit', 
+                                        minute: '2-digit' 
+                                    }) %>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Problem Text -->
+                        <p class="text-gray-700 leading-relaxed">
+                            <%= p.text.substring(0, 150) %><%= p.text.length > 150 ? '...' : '' %>
+                        </p>
+                    </div>
+
+                    <!-- Image -->
+                    <% if (p.image) { %>
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="<%= p.image %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" alt="Problem image">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all"></div>
+                    </div>
+                    <% } %>
+
+                    <!-- Footer -->
+                    <div class="px-6 py-4 bg-gray-50 flex items-center justify-between">
+                        <span class="text-green-600 font-semibold flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                            </svg>
+                            View Discussion
+                        </span>
+                        <svg class="w-6 h-6 text-gray-400 group-hover:text-green-600 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 
 </div>
 

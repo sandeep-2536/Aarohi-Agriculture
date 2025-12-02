@@ -2,40 +2,160 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Report a Problem</title>
-
-    <link rel="stylesheet" href="/css/layout.css">
-    <link rel="stylesheet" href="/css/communityProblems.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Problem - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
 </head>
-
-<body>
+<body class="bg-linear-to-br from-green-50 via-white to-blue-50">
 
 <%- include("../../layouts/header") %>
 
-<div class="new-problem-container">
+<div class="max-w-3xl mx-auto px-4 py-12">
+    
+    <!-- Back Button -->
+    <a href="/community/problems" class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 mb-6 transition">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+        </svg>
+        Back to Problems
+    </a>
 
-    <h1>📢 Report Your Farming Problem</h1>
-    <p class="subtitle">Explain your issue clearly. Add a picture if possible for better help.</p>
+    <!-- Form Card -->
+    <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 border-2 border-green-100">
+        
+        <!-- Icon -->
+        <div class="flex justify-center mb-6">
+            <div class="bg-linear-to-br from-orange-500 to-red-600 p-6 rounded-full shadow-lg">
+                <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+        </div>
 
-    <form action="/community/problems/new" method="POST" enctype="multipart/form-data" class="problem-form">
+        <!-- Title -->
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
+            📢 Report Your Farming Problem
+        </h1>
+        <p class="text-center text-gray-600 mb-8">
+            Explain your issue clearly. Add a picture if possible for better help.
+        </p>
 
-        <textarea 
-            name="text" 
-            placeholder="Describe your farming problem here..."
-            required
-        ></textarea>
+        <!-- Form -->
+        <form action="/community/problems/new" method="POST" enctype="multipart/form-data" class="space-y-6">
 
-        <label class="image-upload-btn">
-            <input type="file" name="image" accept="image/*">
-            📷 Upload Image (Optional)
-        </label>
+            <!-- Problem Description -->
+            <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-700">
+                    Describe Your Problem <span class="text-red-500">*</span>
+                </label>
+                <textarea 
+                    name="text" 
+                    rows="6"
+                    placeholder="Example: My tomato plants have yellow leaves and small spots. What should I do?"
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition resize-none"
+                    required
+                ></textarea>
+                <p class="text-xs text-gray-500">
+                    💡 Be specific: mention crop name, symptoms, location, weather conditions
+                </p>
+            </div>
 
-        <button class="btn-submit">Submit Problem</button>
-    </form>
+            <!-- Image Upload -->
+            <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-700">
+                    Upload Image (Optional but Recommended)
+                </label>
+                
+                <div class="relative">
+                    <input 
+                        type="file" 
+                        name="image" 
+                        accept="image/*"
+                        id="imageInput"
+                        class="hidden"
+                    />
+                    <label 
+                        for="imageInput"
+                        class="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-green-500 hover:bg-green-50 transition bg-gray-50"
+                    >
+                        <div class="text-center" id="uploadPlaceholder">
+                            <svg class="w-12 h-12 mx-auto mb-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-sm font-semibold text-gray-700 mb-1">📷 Click to upload image</p>
+                            <p class="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                        </div>
+                        <img id="imagePreview" class="hidden w-full h-full object-contain rounded-xl" />
+                    </label>
+                </div>
+            </div>
 
+            <!-- Info Box -->
+            <div class="bg-blue-50 rounded-xl p-4 border border-blue-200">
+                <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                    <div class="text-sm text-gray-700">
+                        <p class="font-semibold mb-1">Why add an image?</p>
+                        <p>Photos help other farmers and experts identify the problem quickly and give you better solutions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+                type="submit" 
+                class="w-full bg-linear-to-r from-green-600 to-green-700 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
+            >
+                Submit Problem 🚀
+            </button>
+
+        </form>
+
+        <!-- Tips -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+                <h3 class="font-semibold text-green-800 mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    Good Example
+                </h3>
+                <p class="text-sm text-gray-700">"My wheat crop has rust disease. Brown spots on leaves. Punjab region. Cool weather."</p>
+            </div>
+            
+            <div class="bg-red-50 rounded-xl p-4 border border-red-200">
+                <h3 class="font-semibold text-red-800 mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    Bad Example
+                </h3>
+                <p class="text-sm text-gray-700">"My crop is not good. Help me please."</p>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <%- include("../../layouts/footer") %>
+
+<script>
+// Image preview
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imagePreview').src = e.target.result;
+            document.getElementById('imagePreview').classList.remove('hidden');
+            document.getElementById('uploadPlaceholder').classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 
 </body>
 </html>

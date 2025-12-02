@@ -1,0 +1,20 @@
+{
+  "files.associations": {
+    "*.ejs": "ejs"
+  },
+  "emmet.includeLanguages": {
+    "ejs": "html"
+  },
+  "html.validate.scripts": false,
+  "javascript.validate.enable": false,
+  "js/ts.implicitProjectConfig.checkJs": false,
+  "[ejs]": {
+    "editor.formatOnSave": false
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}

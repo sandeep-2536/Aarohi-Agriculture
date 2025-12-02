@@ -1,52 +1,197 @@
-<footer class="main-footer">
-  <div id="incomingCallModal" class="incoming-modal" style="display: none">
-    <div class="incoming-box">
-      <div class="incoming-header">
-        <h3>Incoming Call</h3>
-      </div>
-      <div class="incoming-body">
-        <p id="incomingFrom">Unknown caller...</p>
+<!-- Mobile Bottom Navigation (Only on Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+    <div class="max-w-lg mx-auto">
+        <div class="flex items-center justify-around py-2">
+            
+            <!-- Home -->
+            <a href="/" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                </svg>
+                <span class="text-xs font-medium">Home</span>
+            </a>
 
-        <div class="incoming-actions">
-          <button id="acceptCallBtn" class="btn-accept">Accept</button>
-          <button id="rejectCallBtn" class="btn-reject">Reject</button>
+            <!-- Voice -->
+            <button onclick="startGlobalVoice()" class="flex flex-col items-center gap-1 px-4 py-2 -mt-8">
+                <div class="bg-linear-to-br from-red-500 to-red-600 p-4 rounded-full shadow-xl">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <span class="text-xs font-medium text-red-600 mt-1">Speak</span>
+            </button>
+
+            <!-- Community -->
+            <a href="/community" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                </svg>
+                <span class="text-xs font-medium">Community</span>
+            </a>
+
+            <!-- Profile/Login -->
+            <div id="mobileProfileLink"></div>
+        </div>
+    </div>
+</nav>
+
+<!-- Add spacing for mobile fixed footer -->
+<div class="h-20 md:hidden"></div>
+
+<!-- Desktop Footer (Hidden on Mobile) -->
+<footer class="hidden md:block bg-linear-to-br from-gray-800 to-gray-900 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            
+            <!-- About -->
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-white rounded-full p-2">
+                        <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                            <circle cx="8" cy="8" r="1.5"/>
+                            <circle cx="16" cy="8" r="1.5"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold">Aarohi Agriculture</h3>
+                        <p class="text-xs text-gray-400">Digital Farming Assistant</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400">
+                    Empowering farmers with technology, connecting communities, and building a sustainable future.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/" class="text-gray-400 hover:text-white transition">Home</a></li>
+                    <li><a href="/schemes" class="text-gray-400 hover:text-white transition">Government Schemes</a></li>
+                    <li><a href="/ai/assistant" class="text-gray-400 hover:text-white transition">AI Assistant</a></li>
+                    <li><a href="/community" class="text-gray-400 hover:text-white transition">Community</a></li>
+                </ul>
+            </div>
+
+            <!-- Marketplace -->
+            <div>
+                <h4 class="font-bold text-lg mb-4">Marketplace</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/animals" class="text-gray-400 hover:text-white transition">Livestock Trading</a></li>
+                    <li><a href="/crops" class="text-gray-400 hover:text-white transition">Sell Crops</a></li>
+                    <li><a href="/stock" class="text-gray-400 hover:text-white transition">Find Stock</a></li>
+                    <li><a href="/tele-vet" class="text-gray-400 hover:text-white transition">Vet Support</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h4 class="font-bold text-lg mb-4">Support</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                        <span>24/7 Support Available</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                        <span>help@aarohi.ag</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Karnataka, India</span>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div id="callTimer" class="call-timer"></div>
-      </div>
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+            <p>&copy; 2024 Aarohi Agriculture. All rights reserved.</p>
+            <p class="mt-2">Made with ❤️ for Indian Farmers</p>
+        </div>
     </div>
-  </div>
-
-  <button class="footer-btn" onclick="startVoice()">
-    <img src="/images/mic-big.png" alt="Mic" />
-    <span>Speak</span>
-  </button>
-
-  <button class="footer-btn" onclick="location.href='/farmer/dashboard'">
-    <img src="/images/menu-big.png" alt="Menu" />
-    <span>Menu</span>
-  </button>
-
 </footer>
 
 <script src="/socket.io/socket.io.js"></script>
 
-<!-- Render current user into DOM for scripts to read (avoid creating globals) -->
-<div id="incomingConfig" style="display:none"
-   data-user-id="<%= (typeof user !== 'undefined' && user) ? user._id : '' %>"
-   data-user-name="<%= (typeof user !== 'undefined' && user) ? user.name : '' %>">
-</div>
-
-
-<script src="/js/incomingCall.js"></script>
-
 <script>
- 
+// Set current user data
+var CURRENT_USER = null;
+<%_ if (user) { _%>
+CURRENT_USER = {
+    _id: "<%- user._id %>",
+    name: "<%- user.name %>",
+    profileImage: "<%- user.profileImage || '/images/default-user.png' %>"
+};
+<%_ } _%>
 
+window.CURRENT_USER = CURRENT_USER;
 
+// Render mobile profile link
+(function() {
+    var mobileProfileContainer = document.getElementById('mobileProfileLink');
+    if (!mobileProfileContainer) return;
+    
+    var profileHTML = '';
+    if (CURRENT_USER) {
+        profileHTML = '<a href="/dashboard" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">' +
+            '<img src="' + CURRENT_USER.profileImage + '" class="w-6 h-6 rounded-full object-cover border-2 border-green-600" alt="Profile">' +
+            '<span class="text-xs font-medium">Profile</span>' +
+            '</a>';
+    } else {
+        profileHTML = '<a href="/auth/login" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">' +
+            '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">' +
+            '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/>' +
+            '</svg>' +
+            '<span class="text-xs font-medium">Login</span>' +
+            '</a>';
+    }
+    mobileProfileContainer.innerHTML = profileHTML;
+})();
 
-
-  function startVoice() {
-    alert("Voice assistant coming soon!");
-  }
+function startGlobalVoice() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.lang = 'en-IN';
+        recognition.start();
+        
+        recognition.onresult = function(event) {
+            var transcript = event.results[0][0].transcript.toLowerCase();
+            
+            if (transcript.includes('scheme')) {
+                window.location.href = '/schemes';
+            } else if (transcript.includes('community')) {
+                window.location.href = '/community';
+            } else if (transcript.includes('animal')) {
+                window.location.href = '/animals';
+            } else if (transcript.includes('crop')) {
+                window.location.href = '/crops';
+            } else if (transcript.includes('doctor') || transcript.includes('vet')) {
+                window.location.href = '/tele-vet';
+            } else if (transcript.includes('stock')) {
+                window.location.href = '/stock';
+            } else if (transcript.includes('home')) {
+                window.location.href = '/';
+            } else {
+                localStorage.setItem('voiceQuery', transcript);
+                window.location.href = '/ai/assistant';
+            }
+        };
+        
+        recognition.onerror = function() {
+            alert('Voice recognition error. Please try again.');
+        };
+    } else {
+        alert('Voice not supported in your browser');
+    }
+}
 </script>

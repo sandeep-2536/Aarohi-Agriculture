@@ -1,33 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Discussion - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-gray-50">
+
 <%- include('../layouts/header') %>
 
-<section class="post-details">
-  <h2>Post</h2>
+<div class="max-w-4xl mx-auto px-4 py-8">
+    
+    <!-- Back Button -->
+    <a href="/community" class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 mb-6 transition">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+        </svg>
+        Back to Community Feed
+    </a>
 
-  <div class="post-card">
-    <div class="post-user"><%= post.user ? post.user.name : 'Anonymous' %></div>
-    <div class="post-text"><%= post.text %></div>
-    <% if (post.image) { %>
-      <img src="<%= post.image %>" class="post-image" />
-    <% } %>
-  </div>
-
-  <section class="comments">
-    <h3>Comments</h3>
-    <% if (!comments || comments.length === 0) { %>
-      <p>No comments yet.</p>
-    <% } else { %>
-      <% comments.forEach(c => { %>
-        <div class="comment">
-          <b><%= c.user ? c.user.name : 'Anon' %></b>: <%= c.text %>
+    <!-- Post Card -->
+    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8 border-2 border-green-100">
+        
+        <!-- Post Header -->
+        <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center gap-4">
+                <img src="<%= post.user && post.user.profileImage ? post.user.profileImage : '/images/default-user.png' %>" class="w-16 h-16 rounded-full object-cover border-4 border-green-500 shadow-lg" alt="<%= post.user ? post.user.name : 'Anonymous' %>">
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">
+                        <%= post.user ? post.user.name : 'Anonymous' %>
+                    </h2>
+                    <p class="text-gray-500 text-sm flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
+                        Community Member
+                    </p>
+                </div>
+            </div>
         </div>
-      <% }) %>
-    <% } %>
 
-    <form action="/community/post/<%= post._id %>/comment" method="POST">
-      <input name="text" placeholder="Write a comment">
-      <button type="submit">Comment</button>
-    </form>
-  </section>
-</section>
+        <!-- Post Content -->
+        <div class="p-8">
+            <!-- Post Text -->
+            <div class="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-6 mb-6 border-l-4 border-green-500">
+                <p class="text-gray-800 leading-relaxed text-lg"><%= post.text %></p>
+            </div>
+
+            <!-- Post Image -->
+            <% if (post.image) { %>
+            <div class="rounded-2xl overflow-hidden shadow-lg">
+                <img src="<%= post.image %>" alt="Post image" class="w-full h-auto max-h-96 object-cover">
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="bg-white rounded-3xl shadow-2xl p-8 border-2 border-blue-100">
+        
+        <!-- Comments Header -->
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-gray-100">
+            <div class="bg-blue-500 p-3 rounded-xl">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">💬 Comments</h2>
+                <p class="text-sm text-gray-600">
+                    <%= comments && comments.length %> <%= comments && comments.length === 1 ? 'comment' : 'comments' %>
+                </p>
+            </div>
+        </div>
+
+        <!-- Comments List -->
+        <div class="space-y-6 mb-8">
+            <% if (!comments || comments.length === 0) { %>
+                <div class="text-center py-12">
+                    <div class="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <svg class="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">No Comments Yet</h3>
+                    <p class="text-gray-600">Be the first to comment on this post!</p>
+                </div>
+            <% } else { %>
+                <% comments.forEach((c, index) => { %>
+                    <div class="flex gap-4 p-6 bg-gray-50 rounded-2xl hover:bg-gray-100 transition border-2 border-transparent hover:border-green-200">
+                        
+                        <!-- Avatar -->
+                        <img src="<%= c.user && c.user.profileImage ? c.user.profileImage : '/images/default-user.png' %>" class="w-12 h-12 rounded-full object-cover flex-shrink-0 border-2 border-green-500" alt="<%= c.user ? c.user.name : 'Anon' %>">
+                        
+                        <!-- Comment Content -->
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <h4 class="font-bold text-gray-800"><%= c.user ? c.user.name : 'Anon' %></h4>
+                                <% if (index === 0) { %>
+                                    <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                                        First
+                                    </span>
+                                <% } %>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed"><%= c.text %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+
+        <!-- Add Comment Form -->
+        <div class="border-t-2 border-gray-100 pt-8">
+            <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+                </svg>
+                Add Your Comment
+            </h3>
+            
+            <form action="/community/post/<%= post._id %>/comment" method="POST" class="space-y-4">
+                <div class="relative">
+                    <input 
+                        name="text" 
+                        placeholder="Write your comment here..."
+                        class="w-full px-4 py-3 pr-24 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition"
+                        required
+                    />
+                    <button 
+                        type="submit" 
+                        class="absolute right-2 top-1/2 -translate-y-1/2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+                    >
+                        Comment
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
 
 <%- include('../layouts/footer') %>
+
+</body>
+</html>

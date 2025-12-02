@@ -1,93 +1,241 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Aarohi Agriculture</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarohi Agriculture - Digital Farming Assistant</title>
+    <link rel="stylesheet" href="/css/output.css">
 </head>
+<body class="bg-linear-to-br from-green-50 via-white to-yellow-50 min-h-screen">
 
-<body>
+    <!-- Header -->
+    <%- include("../layouts/header") %>
 
-<%- include("../layouts/header") %>
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-linear-to-br from-green-600 via-green-500 to-yellow-500 py-20 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fadeIn">
+                Welcome Farmer 🌾
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-green-100 mb-12 max-w-2xl mx-auto">
+                <span data-i18n="home.voicePrompt">Tap or Speak to use the App</span>
+            </p>
+            
+            <!-- Voice Button -->
+            <button onclick="startVoiceCommand()" class="btn-voice mx-auto" type="button">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/>
+                </svg>
+                <span>Speak Now</span>
+            </button>
 
-<section class="hero-section">
-    <div class="hero-content">
-        <h1>Welcome Farmer</h1>
-        <p>Tap or Speak to use the App</p>
-        <button class="voice-btn" onclick="startVoice()">
-            🎤 Speak Now
-        </button>
-    </div>
-</section>
-
-<section class="features">
-    <h2 class="section-title">Main Features</h2>
-
-    <div class="feature-grid">
-
-        <div class="feature-card" onclick="location.href='/schemes'">
-            <img src="/images/scheme-icon.png">
-            <h3>Schemes</h3>
-            <p>Find subsidies easily</p>
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-3 gap-4 max-w-3xl mx-auto mt-16">
+                <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 text-white">
+                    <div class="text-4xl font-bold">1000+</div>
+                    <div class="text-sm opacity-90">Active Farmers</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 text-white">
+                    <div class="text-4xl font-bold">50+</div>
+                    <div class="text-sm opacity-90">Govt Schemes</div>
+                </div>
+                <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 text-white">
+                    <div class="text-4xl font-bold">24/7</div>
+                    <div class="text-sm opacity-90">AI Support</div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="feature-card" onclick="location.href='/ai/assistant'">
-            <img src="/images/mic-icon.png">
-            <h3>Ask AI</h3>
-            <p>Get farming help</p>
+    <!-- Features Section -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12">
+            Main Features
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Government Schemes -->
+            <div onclick="window.location.href='/schemes'" class="feature-card">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-green-500 to-green-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/>
+                            <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Government Schemes</h3>
+                    <p class="text-gray-600">Find subsidies easily</p>
+                </div>
+            </div>
+
+            <!-- AI Assistant -->
+            <div onclick="window.location.href='/ai/assistant'" class="feature-card">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-blue-500 to-blue-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3.997 3.997 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.976 5.976 0 01-2.516-.552l1.562-1.562a4.006 4.006 0 001.789.027zm-4.677-2.796a4.002 4.002 0 01-.041-2.08l-.08.08-1.53-1.533A5.98 5.98 0 004 10c0 .954.223 1.856.619 2.657l1.54-1.54zm1.088-6.45A5.974 5.974 0 0110 4c.954 0 1.856.223 2.657.619l-1.54 1.54a4.002 4.002 0 00-2.346.033L7.246 4.668zM12 10a2 2 0 11-4 0 2 2 0 014 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Ask AI Assistant</h3>
+                    <p class="text-gray-600">Get instant help</p>
+                </div>
+            </div>
+
+            <!-- Community -->
+            <div onclick="window.location.href='/community'" class="feature-card">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-purple-500 to-purple-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Farmer Community</h3>
+                    <p class="text-gray-600">Connect with farmers</p>
+                </div>
+            </div>
+
+            <!-- Livestock -->
+            <div onclick="window.location.href='/animals'" class="feature-card">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-orange-500 to-orange-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="8" cy="8" r="2"/>
+                            <circle cx="16" cy="8" r="2"/>
+                            <path d="M12 14c-2 0-4 1.5-4 4s2 4 4 4 4-2 4-4-2-4-4-4z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Livestock Trading</h3>
+                    <p class="text-gray-600">Buy and sell animals</p>
+                </div>
+            </div>
+
+            <!-- Sell Crops -->
+            <div onclick="window.location.href='/crops'" class="feature-card">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-yellow-500 to-yellow-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Sell Your Crops</h3>
+                    <p class="text-gray-600">Find buyers directly</p>
+                </div>
+            </div>
+
+            <!-- Vet Support -->
+            <div onclick="window.location.href='/tele-vet'" class="feature-card">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-red-500 to-red-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Vet Support</h3>
+                    <p class="text-gray-600">Video call doctors</p>
+                </div>
+            </div>
+
+            <!-- Find Stock -->
+            <div onclick="window.location.href='/stock'" class="feature-card">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-teal-500 to-teal-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Find Stock</h3>
+                    <p class="text-gray-600">Seeds, fertilizers</p>
+                </div>
+            </div>
+
+            <!-- Weather (Coming Soon) -->
+            <div class="feature-card opacity-60 cursor-not-allowed">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-linear-to-br from-cyan-500 to-cyan-600 p-6 rounded-2xl mb-4 shadow-lg">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Weather Updates</h3>
+                    <p class="text-gray-600">Coming Soon</p>
+                </div>
+            </div>
+
         </div>
+    </section>
 
-        <div class="feature-card" onclick="location.href='/community'">
-            <img src="/images/community-icon.png">
-            <h3>Community</h3>
-            <p>Talk to farmers</p>
+    <!-- CTA Section -->
+    <section class="py-20 px-4 bg-linear-to-r from-green-600 to-green-700 text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                Ready to Transform Your Farming?
+            </h2>
+            <p class="text-xl mb-10 text-green-100">
+                Join thousands of farmers using Aarohi Agriculture
+            </p>
+            <button id="ctaButton" class="btn-primary text-xl" type="button">
+                Get Started Free
+            </button>
         </div>
+    </section>
 
-        <div class="feature-card" onclick="location.href='/animals'">
-            <img src="/images/cow-icon.png">
-            <h3>Animal Trading</h3>
-            <p>See the the goat and cows here..</p>
-        </div>
+    <!-- Footer -->
+    <%- include("../layouts/footer") %>
 
-        <div class="feature-card" onclick="location.href='/crops'">
-            <img src="/images/market-icon.png">
-            <h3>Sell Crops</h3>
-            <p>Find buyers</p>
-        </div>
+    <!-- Voice Command Script -->
+    <script>
+    // Set CTA button behavior based on user login status
+    (function() {
+        var ctaBtn = document.getElementById('ctaButton');
+        if (!ctaBtn) return;
+        
+        <%_ if (user) { _%>
+        ctaBtn.textContent = 'Go to Dashboard';
+        ctaBtn.onclick = function() {
+            window.location.href = '/dashboard';
+        };
+        <%_ } else { _%>
+        ctaBtn.textContent = 'Get Started Free';
+        ctaBtn.onclick = function() {
+            window.location.href = '/auth/login';
+        };
+        <%_ } _%>
+    })();
 
-        <div class="feature-card" onclick="location.href='#'">
-            <img src="/images/weather-icon.png">
-            <h3>Weather</h3>
-            <p>Coming soon</p>
-        </div>
-
-           <div class="feature-card" onclick="location.href='/tele-vet'">
-            <img src="/images/weather-icon.png">
-            <h3>Doctor on call</h3>
-            <p>Rain & pest alerts</p>
-        </div>
-
-
-          <div class="feature-card" onclick="location.href='/stock'">
-            <img src="/images/weather-icon.png">
-            <h3>Where is the Stock?</h3>
-            <p>the stock </p>
-        </div>
-
-          <div class="feature-card" onclick="location.href='/vet-auth/login'">
-            <img src="/images/weather-icon.png">
-            <h3>Vet Login</h3>
-            <p>the stock </p>
-        </div>
-
-         <div class="feature-card" onclick="location.href='/dealer-auth/login'">
-            <img src="/images/weather-icon.png">
-            <h3>Dealer Login</h3>
-            <p>the stock </p>
-        </div>
-    </div>
-</section>
-
-<%- include("../layouts/footer") %>
+    function startVoiceCommand() {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            var recognition = new SpeechRecognition();
+            recognition.lang = 'en-IN';
+            recognition.start();
+            
+            recognition.onresult = function(event) {
+                var transcript = event.results[0][0].transcript.toLowerCase();
+                
+                if (transcript.includes('scheme')) {
+                    window.location.href = '/schemes';
+                } else if (transcript.includes('community')) {
+                    window.location.href = '/community';
+                } else if (transcript.includes('animal')) {
+                    window.location.href = '/animals';
+                } else if (transcript.includes('crop')) {
+                    window.location.href = '/crops';
+                } else if (transcript.includes('doctor') || transcript.includes('vet')) {
+                    window.location.href = '/tele-vet';
+                } else if (transcript.includes('stock')) {
+                    window.location.href = '/stock';
+                } else {
+                    localStorage.setItem('voiceQuery', transcript);
+                    window.location.href = '/ai/assistant';
+                }
+            };
+        } else {
+            alert('Voice not supported in your browser');
+        }
+    }
+    </script>
 
 </body>
 </html>

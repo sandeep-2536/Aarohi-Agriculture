@@ -1,10 +1,8 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require('dotenv').config();
 
-// Initialize Gemini
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 // The System Prompt (Persona and Rules)
+// NOTE: keep paths up-to-date (tele-vet -> teleVet elsewhere in app)
 const SYSTEM_INSTRUCTION = `
 You are “AAROHI AI Assistant” — a friendly agricultural guide for farmers.
 
@@ -20,7 +18,7 @@ Your responsibilities:
 ✓ Explain how to use the AAROHI platform
 ✓ Guide the farmer where to find features
 ✓ Help with voice navigation
-✓ Explain: community, chat, stock, crops, animals, tele-vet
+✓ Explain: community, chat, stock, crops, animals, teleVet
 ✓ Farming advice related to: pests, diseases, crops, soil, fertilizers, rainfall, seeds, animal health, best practices
 
 3. IMPORTANT RULES:
@@ -40,7 +38,7 @@ Your responsibilities:
 - Sell Animals (goat/cow) → /animals
 - Sell Crops → /crops
 - Stock Availability → /stock
-- Tele-Veterinary (Doctor Video Call) → /tele-vet
+- Tele-Veterinary (Doctor Video Call) → /teleVet
 - Vet Login → /vet-auth/login
 - Dealer Login → /dealer-auth/login
 
@@ -60,10 +58,8 @@ Your responsibilities:
 Your goal is to help the farmer with navigation, features, and agriculture knowledge. Always be simple, clear, and local.
 `;
 
-const model = genAI.getGenerativeModel({ 
-    model: "gemini-1.5-flash",
-    systemInstruction: SYSTEM_INSTRUCTION
-});
+// Note: We'll lazy-initialize the SDK/model per-request so we can detect configuration errors
+let cachedModel = null;
 
 // GET: Render the Assistant Page
 exports.assistant = (req, res) => {
@@ -79,16 +75,51 @@ exports.analyze = async (req, res) => {
             return res.status(400).json({ reply: "Please say something, I am listening! 👂" });
         }
 
-        // Start a chat session (this allows the AI to remember the conversation context)
-        const chat = model.startChat({
-            history: [
-                // You can optionally seed history here if needed
-            ],
-        });
+        // Ensure Gemini API key is configured
+        if (!process.env.GEMINI_API_KEY) {
+            console.error('[ai] GEMINI_API_KEY is not set');
+            return res.status(500).json({ reply: 'AI service not configured. Please set GEMINI_API_KEY in environment.' });
+        }
 
-        const result = await chat.sendMessage(userMessage);
+        // Lazy-init model (caching for repeated requests)
+        if (!cachedModel) {
+            try {
+                const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+                cachedModel = genAI.getGenerativeModel({
+                    model: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+                    systemInstruction: SYSTEM_INSTRUCTION
+                });
+            } catch (err) {
+                console.error('[ai] failed to initialize Gemini model', err);
+                return res.status(500).json({ reply: 'AI initialization failed. Check server logs.' });
+            }
+        }
+
+        // Start a chat session (this allows the AI to remember the conversation context)
+        const chat = cachedModel.startChat({ history: [] });
+
+        // send the user message and wait for response
+        let result;
+        try {
+            result = await chat.sendMessage(userMessage);
+        } catch (err) {
+            console.error('[ai] sendMessage error', err);
+            return res.status(502).json({ reply: 'AI service did not respond. Please try again later.' });
+        }
+
+        if (!result || !result.response) {
+            console.error('[ai] no response object from Gemini', { result });
+            return res.status(502).json({ reply: 'No response from AI service. Try again later.' });
+        }
+
         const response = result.response;
-        const text = response.text();
+        let text = '';
+        try {
+            text = response.text();
+        } catch (err) {
+            console.error('[ai] error reading response text', err, response);
+            return res.status(502).json({ reply: 'Failed to read AI response.' });
+        }
 
         res.json({ reply: text });
 

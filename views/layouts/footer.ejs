@@ -1,309 +1,203 @@
-<!-- Mobile Bottom Navigation (Only on Mobile) -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40"  data-lang="<%= lang %>">
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
     <div class="max-w-lg mx-auto">
         <div class="flex items-center justify-around py-2">
             
-            <!-- Home -->
             <a href="/" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                </svg>
-                <span class="text-xs font-medium">Home</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                <span class="text-xs font-medium" data-i18n="nav.home">Home</span>
             </a>
 
-            <!-- Voice -->
             <button onclick="startGlobalVoice()" class="flex flex-col items-center gap-1 px-4 py-2 -mt-8">
-                <div class="bg-linear-to-br from-red-500 to-red-600 p-4 rounded-full shadow-xl">
-                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/>
-                    </svg>
+                <div class="bg-gradient-to-br from-red-500 to-red-600 p-4 rounded-full shadow-xl">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/></svg>
                 </div>
-                <span class="text-xs font-medium text-red-600 mt-1">Speak</span>
+                <span class="text-xs font-medium text-red-600 mt-1" data-i18n="nav.voice">Speak</span>
             </button>
 
-            <!-- Community -->
             <a href="/community" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
-                </svg>
-                <span class="text-xs font-medium">Community</span>
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/></svg>
+                <span class="text-xs font-medium" data-i18n="nav.community">Community</span>
             </a>
 
-            <!-- Profile/Login -->
             <div id="mobileProfileLink"></div>
         </div>
     </div>
 </nav>
 
-<!-- Add spacing for mobile fixed footer -->
 <div class="h-20 md:hidden"></div>
 
-<!-- Desktop Footer (Hidden on Mobile) -->
-<footer class="hidden md:block bg-linear-to-br from-gray-800 to-gray-900 text-white mt-16">
+<footer class="hidden md:block bg-gradient-to-br from-gray-800 to-gray-900 text-white mt-16">
     <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             
-            <!-- About -->
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="bg-white rounded-full p-2">
-                        <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
-                            <circle cx="8" cy="8" r="1.5"/>
-                            <circle cx="16" cy="8" r="1.5"/>
-                        </svg>
+                        <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/><circle cx="8" cy="8" r="1.5"/><circle cx="16" cy="8" r="1.5"/></svg>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold">Aarohi Agriculture</h3>
-                        <p class="text-xs text-gray-400">Digital Farming Assistant</p>
+                        <h3 class="text-xl font-bold" data-i18n="footer.about_title">Aarohi Agriculture</h3>
+                        <p class="text-xs text-gray-400" data-i18n="footer.about_desc">Digital Farming Assistant</p>
                     </div>
                 </div>
-                <p class="text-sm text-gray-400">
+                <p class="text-sm text-gray-400" data-i18n="footer.about_text">
                     Empowering farmers with technology, connecting communities, and building a sustainable future.
                 </p>
             </div>
 
-            <!-- Quick Links -->
             <div>
-                <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                <h4 class="font-bold text-lg mb-4" data-i18n="footer.quick_links">Quick Links</h4>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="/" class="text-gray-400 hover:text-white transition">Home</a></li>
-                    <li><a href="/schemes" class="text-gray-400 hover:text-white transition">Government Schemes</a></li>
-                    <li><a href="/ai/assistant" class="text-gray-400 hover:text-white transition">AI Assistant</a></li>
-                    <li><a href="/community" class="text-gray-400 hover:text-white transition">Community</a></li>
+                    <li><a href="/" class="text-gray-400 hover:text-white transition" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/schemes" class="text-gray-400 hover:text-white transition" data-i18n="nav.schemes">Government Schemes</a></li>
+                    <li><a href="/ai/assistant" class="text-gray-400 hover:text-white transition" data-i18n="nav.ask_ai">AI Assistant</a></li>
+                    <li><a href="/community" class="text-gray-400 hover:text-white transition" data-i18n="nav.community">Community</a></li>
                 </ul>
             </div>
 
-            <!-- Marketplace -->
             <div>
-                <h4 class="font-bold text-lg mb-4">Marketplace</h4>
+                <h4 class="font-bold text-lg mb-4" data-i18n="footer.marketplace">Marketplace</h4>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="/animals" class="text-gray-400 hover:text-white transition">Livestock Trading</a></li>
-                    <li><a href="/crops" class="text-gray-400 hover:text-white transition">Sell Crops</a></li>
-                    <li><a href="/stock" class="text-gray-400 hover:text-white transition">Find Stock</a></li>
-                    <li><a href="/teleVet" class="text-gray-400 hover:text-white transition">Vet Support</a></li>
+                    <li><a href="/animals" class="text-gray-400 hover:text-white transition" data-i18n="footer.livestock">Livestock Trading</a></li>
+                    <li><a href="/crops" class="text-gray-400 hover:text-white transition" data-i18n="footer.crops">Sell Crops</a></li>
+                    <li><a href="/stock" class="text-gray-400 hover:text-white transition" data-i18n="footer.stock">Find Stock</a></li>
+                    <li><a href="/teleVet" class="text-gray-400 hover:text-white transition" data-i18n="footer.vet">Vet Support</a></li>
                 </ul>
             </div>
 
-            <!-- Contact -->
             <div>
-                <h4 class="font-bold text-lg mb-4">Support</h4>
+                <h4 class="font-bold text-lg mb-4" data-i18n="footer.support">Support</h4>
                 <ul class="space-y-2 text-sm text-gray-400">
                     <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-                        </svg>
-                        <span>24/7 Support Available</span>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                        <span data-i18n="footer.support_247">24/7 Support Available</span>
                     </li>
                     <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-                        </svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
                         <span>help@aarohi.ag</span>
                     </li>
                     <li class="flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Karnataka, India</span>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                        <span data-i18n="footer.location">Karnataka, India</span>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <!-- Bottom Bar -->
         <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
             <p>&copy; 2024 Aarohi Agriculture. All rights reserved.</p>
-            <p class="mt-2">Made with ❤️ for Indian Farmers</p>
+            <p class="mt-2" data-i18n="footer.made_with">Made with ❤️ for Indian Farmers</p>
         </div>
     </div>
 </footer>
 
-    <!-- Incoming Call Modal (used by incomingCall.js) -->
-    <div id="incomingCallModal" class="incoming-modal" style="display: none">
-        <div class="incoming-box">
-            <div class="incoming-header">
-                <h3>Incoming Call</h3>
+<div id="incomingCallModal" class="incoming-modal" style="display: none">
+    <div class="incoming-box">
+        <div class="incoming-header">
+            <h3 data-i18n="call.incoming_title">Incoming Call</h3>
+        </div>
+        <div class="incoming-body">
+            <p id="incomingFrom" data-i18n="call.unknown">Unknown caller...</p>
+            <div class="incoming-actions">
+                <button id="acceptCallBtn" class="btn-accept" data-i18n="call.accept">Accept</button>
+                <button id="rejectCallBtn" class="btn-reject" data-i18n="call.reject">Reject</button>
             </div>
-            <div class="incoming-body">
-                <p id="incomingFrom">Unknown caller...</p>
-
-                <div class="incoming-actions">
-                    <button id="acceptCallBtn" class="btn-accept">Accept</button>
-                    <button id="rejectCallBtn" class="btn-reject">Reject</button>
-                </div>
-
-                <div id="callTimer" class="call-timer"></div>
-            </div>
+            <div id="callTimer" class="call-timer"></div>
         </div>
     </div>
+</div>
 
-<script src="/socket.io/socket.io.js"></script>
-
-<script>
-// Set current user data
-var CURRENT_USER = null;
-<%_ if (user) { _%>
-CURRENT_USER = {
-    _id: "<%- user._id %>",
-    name: "<%- user.name %>",
-    profileImage: "<%- user.profileImage || '/images/default-user.png' %>"
-};
-<%_ } _%>
-
-window.CURRENT_USER = CURRENT_USER;
-
-// Also provide a hidden DOM config for scripts that read dataset (incomingCall, farmer list etc.)
-var incomingConfigDiv = document.createElement('div');
-incomingConfigDiv.id = 'incomingConfig';
-incomingConfigDiv.style.display = 'none';
-incomingConfigDiv.dataset.userId = CURRENT_USER && CURRENT_USER._id ? CURRENT_USER._id : '';
-incomingConfigDiv.dataset.userName = CURRENT_USER && CURRENT_USER.name ? CURRENT_USER.name : '';
-document.body.appendChild(incomingConfigDiv);
-
-// Render mobile profile link
-(function() {
-    var mobileProfileContainer = document.getElementById('mobileProfileLink');
-    if (!mobileProfileContainer) return;
-    
-    var profileHTML = '';
-    if (CURRENT_USER) {
-        profileHTML = '<a href="/dashboard" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">' +
-            '<img src="' + CURRENT_USER.profileImage + '" class="w-6 h-6 rounded-full object-cover border-2 border-green-600" alt="Profile">' +
-            '<span class="text-xs font-medium">Profile</span>' +
-            '</a>';
-    } else {
-        profileHTML = '<a href="/auth/login" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">' +
-            '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">' +
-            '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/>' +
-            '</svg>' +
-            '<span class="text-xs font-medium">Login</span>' +
-            '</a>';
-    }
-    mobileProfileContainer.innerHTML = profileHTML;
-})();
-
-function startGlobalVoice() {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        var recognition = new SpeechRecognition();
-        recognition.lang = 'en-IN';
-        recognition.start();
-        
-        recognition.onresult = function(event) {
-            var transcript = event.results[0][0].transcript.toLowerCase();
-            
-            if (transcript.includes('scheme')) {
-                window.location.href = '/schemes';
-            } else if (transcript.includes('community')) {
-                window.location.href = '/community';
-            } else if (transcript.includes('animal')) {
-                window.location.href = '/animals';
-            } else if (transcript.includes('crop')) {
-                window.location.href = '/crops';
-            } else if (transcript.includes('doctor') || transcript.includes('vet')) {
-                window.location.href = '/teleVet';
-            } else if (transcript.includes('stock')) {
-                window.location.href = '/stock';
-            } else if (transcript.includes('home')) {
-                window.location.href = '/';
-            } else {
-                localStorage.setItem('voiceQuery', transcript);
-                window.location.href = '/ai/assistant';
-            }
-        };
-        
-        recognition.onerror = function() {
-            alert('Voice recognition error. Please try again.');
-        };
-    } else {
-        alert('Voice not supported in your browser');
-    }
-}
-</script>
-<script src="/js/voiceOver.js"></script>
-
-<!-- Voice settings widget -->
-<div class="fixed bottom-4 right-4 bg-white p-3 rounded-xl shadow-xl w-44 text-sm">
-  <button 
-    onclick="toggleVoice()" 
-    class="w-full p-2 rounded bg-green-600 text-white mb-2"
-    data-voice-click="Voice toggled">
-    🔊 Voice: <span id="voiceState">On</span>
+<div class="fixed bottom-4 right-4 bg-white p-3 rounded-xl shadow-xl w-44 text-sm z-50">
+  <button onclick="toggleVoice()" class="w-full p-2 rounded bg-green-600 text-white mb-2">
+    🔊 <span data-i18n="voice.voice_label">Voice</span>: <span id="voiceState" data-i18n="voice.on">On</span>
   </button>
 
-  <label class="block">Language</label>
-  <select id="voiceLang" class="w-full p-1 mb-2 border rounded">
+  <label class="block mb-1" data-i18n="voice.language">Language</label>
+  <select id="voiceLang" class="w-full p-1 mb-2 border rounded" onchange="changeLanguage(this.value)">
     <option value="en">English</option>
     <option value="hi">हिन्दी</option>
     <option value="kn">ಕನ್ನಡ</option>
   </select>
 
-  <label>Speed</label>
+  <label data-i18n="voice.speed">Speed</label>
   <input type="range" min="0.7" max="1.4" step="0.1" id="voiceRate" class="w-full">
 </div>
 
+<script src="/socket.io/socket.io.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  // Initialize voice state
-  let enabled = localStorage.getItem("aarohi_voice_enabled");
-  if (enabled === null) enabled = "true";
+    // Set global user/lang config
+    window.CURRENT_USER = null;
+    window.SERVER_USER_LANG = "<%= typeof userLang !== 'undefined' ? userLang : 'en' %>"; // from Express
+    
+    <%_ if (user) { _%>
+    CURRENT_USER = {
+        _id: "<%- user._id %>",
+        name: "<%- user.name %>",
+        profileImage: "<%- user.profileImage || '/images/default-user.png' %>"
+    };
+    <%_ } _%>
 
-  window.voiceToggle(enabled === "true");
-  document.getElementById("voiceState").innerText = enabled === "true" ? "On" : "Off";
+    // Helper to render Mobile Profile Link with Translation
+    function renderMobileProfile() {
+        var container = document.getElementById('mobileProfileLink');
+        if (!container) return;
+        
+        // Define translations for dynamic JS content
+        const t = {
+            profile: window.I18N_DATA ? window.I18N_DATA.nav.profile : 'Profile',
+            login: window.I18N_DATA ? window.I18N_DATA.nav.login : 'Login'
+        };
 
-  // Initialize language selector
-  let lang = localStorage.getItem("aarohi_lang") || "<%= userLang %>";
-  document.getElementById("voiceLang").value = lang;
-  window.voiceSetLang(lang);
-
-    // Expose server-side default language for client i18n loader
-    window.SERVER_USER_LANG = "<%= userLang %>";
-
-  document.getElementById("voiceLang").addEventListener("change", (e) => {
-    window.voiceSetLang(e.target.value);
-    // speak confirmation
-    voiceSpeak(
-      e.target.value === 'en'
-        ? "Language set to English"
-        : e.target.value === 'hi'
-          ? "भाषा हिन्दी चुनी गई"
-          : "ಭಾಷೆ ಕನ್ನಡ ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ"
-    );
-  });
-
-  document.getElementById("voiceRate").addEventListener("input", (e) => {
-    window.AAROHIVoice.rate = parseFloat(e.target.value);
-  });
-});
-
-function toggleVoice() {
-  let newState = !window.AAROHIVoice.enabled;
-  window.voiceToggle(newState);
-  localStorage.setItem("aarohi_voice_enabled", newState);
-  document.getElementById("voiceState").innerText = newState ? "On" : "Off";
-  voiceSpeak(newState ? "Voice Enabled" : "Voice Disabled");
-}
+        if (CURRENT_USER) {
+            container.innerHTML = `<a href="/dashboard" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <img src="${CURRENT_USER.profileImage}" class="w-6 h-6 rounded-full object-cover border-2 border-green-600">
+                <span class="text-xs font-medium" data-i18n="nav.profile">${t.profile}</span>
+            </a>`;
+        } else {
+            container.innerHTML = `<a href="/auth/login" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/></svg>
+                <span class="text-xs font-medium" data-i18n="nav.login">${t.login}</span>
+            </a>`;
+        }
+    }
+    
+    // Initial Render
+    document.addEventListener("DOMContentLoaded", renderMobileProfile);
+    // Re-render when language changes
+    window.addEventListener('languageChanged', renderMobileProfile);
 </script>
 
+<script src="/js/i18n.js"></script>
+<script src="/js/voiceOver.js"></script>
 <script src="/js/incomingCall.js"></script>
 <script src="/js/pageVoice.js"></script>
-<script src="/js/i18n.js"></script>
 
-<!-- Resilient language switch helper: uses client i18n when available, falls back to server route -->
 <script>
-    window.changeLanguage = function(lang) {
-        try {
-            if (window.setLanguage && typeof window.setLanguage === 'function') {
-                window.setLanguage(lang);
-            } else {
-                // fallback: navigate to server route which sets cookie
-                window.location.href = '/lang/' + lang;
-            }
-        } catch (err) {
-            console.error('[i18n] changeLanguage error', err);
-            window.location.href = '/lang/' + lang;
-        }
-    };
+    // Initialize Voice Widget State
+    document.addEventListener("DOMContentLoaded", () => {
+        let enabled = localStorage.getItem("aarohi_voice_enabled");
+        if (enabled === null) enabled = "true";
+        window.voiceToggle(enabled === "true");
+        document.getElementById("voiceState").innerText = enabled === "true" ? "On" : "Off";
+
+        let lang = localStorage.getItem("aarohi_lang") || window.SERVER_USER_LANG;
+        document.getElementById("voiceLang").value = lang;
+        if(window.voiceSetLang) window.voiceSetLang(lang);
+    });
+
+    function toggleVoice() {
+        let newState = !window.AAROHIVoice.enabled;
+        window.voiceToggle(newState);
+        localStorage.setItem("aarohi_voice_enabled", newState);
+        document.getElementById("voiceState").innerText = newState ? "On" : "Off";
+        
+        // Speak feedback in current lang
+        const feedback = {
+            en: newState ? "Voice Enabled" : "Voice Disabled",
+            hi: newState ? "आवाज़ चालू है" : "आवाज़ बंद है",
+            kn: newState ? "ಧ್ವನಿ ಸಕ್ರಿಯವಾಗಿದೆ" : "ಧ್ವನಿ ನಿಷ್ಕ್ರಿಯವಾಗಿದೆ"
+        };
+        const currentLang = document.getElementById("voiceLang").value;
+        if(newState) voiceSpeak(feedback[currentLang] || feedback['en']);
+    }
 </script>

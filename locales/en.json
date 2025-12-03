@@ -94,5 +94,84 @@
     "village": "Village",
     "submit": "Add Listing",
     "cancel": "Cancel"
+  },
+  "dashboard": {
+    "page_title": "AAROHI | Dashboard",
+    "welcome": "Welcome",
+    "profile": {
+      "title": "Farmer Profile",
+      "mobile": "Mobile:",
+      "location": "Location:",
+      "type": "Type:"
+    },
+    "stats": {
+      "posts": "Community Posts",
+      "comments": "Comments",
+      "problems": "Problems Reported",
+      "animals": "Animals Listed",
+      "crops": "Crops Listed",
+      "vet_calls": "Tele-Vet Calls",
+      "ai_queries": "AI Assistant Queries",
+      "stock_checks": "Stock Checks"
+    },
+    "nav": {
+      "title": "🚀 Quick Navigation",
+      "group_chat": "Group Chat",
+      "problems": "Problems",
+      "stock_q": "Where is Stock?"
+    },
+    "recent_activity": "📌 Recent Activity"
+  },
+  "schemes": {
+    "page_title": "Government Schemes - Aarohi Agriculture",
+    "hero": {
+      "title": "🏛️ Government Schemes",
+      "subtitle": "Simple and easy information for farmers. Find subsidies, loans, and benefits."
+    },
+    "search_placeholder": "Search schemes by name, state, or type...",
+    "filters": {
+      "all": "All Schemes",
+      "india": "All India",
+      "karnataka": "Karnataka",
+      "income": "Income Support",
+      "insurance": "Insurance"
+    },
+    "card": {
+      "learn_more": "Learn More",
+      "apply": "Apply"
+    },
+    "no_results": {
+      "title": "No schemes found",
+      "desc": "Try different filters or search terms"
+    },
+    "modal": {
+      "eligibility_title": "📋 Eligibility",
+      "eligibility_1": "Active farmers with valid land records",
+      "eligibility_2": "Aadhaar linked bank account",
+      "eligibility_3": "Income below specified threshold",
+      "apply_btn": "Apply Now",
+      "share_btn": "Share"
+    }
+  },
+  "animals": {
+    "page_title": "Animals for Sale - Aarohi",
+    "hero": {
+      "title": "Animals for Sale",
+      "subtitle": "Buy and sell livestock in your area",
+      "btn_list": "List Your Animal"
+    },
+    "stats": {
+      "available": "Animals Available"
+    },
+    "no_results": {
+      "title": "No Animals Listed Yet",
+      "desc": "Be the first to list an animal for sale!",
+      "btn_add": "Add Your First Listing"
+    },
+    "card": {
+      "no_image": "No Image",
+      "breed": "Breed:",
+      "view_details": "View Details"
+    }
   }
 }

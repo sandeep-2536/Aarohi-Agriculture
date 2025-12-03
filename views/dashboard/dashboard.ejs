@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AAROHI | Dashboard</title>
+    <title data-i18n="dashboard.page_title">AAROHI | Dashboard</title>
 
-    <!-- Tailwind CDN -->
     <link rel="stylesheet" href="/css/output.css">
 
     <style>
@@ -16,116 +15,110 @@
 
 <%- include("../layouts/header") %>
 
-<!-- MAIN CONTAINER -->
 <div class="max-w-6xl mx-auto px-4 py-8">
 
-    <!-- WELCOME -->
     <h1 class="text-3xl font-bold mb-4 flex items-center gap-2">
-        👨‍🌾 Welcome, <span class="text-green-700"><%= user.name %></span>
+        👨‍🌾 <span data-i18n="dashboard.welcome">Welcome</span>, <span class="text-green-700"><%= user.name %></span>
     </h1>
 
-    <!-- PROFILE SECTION -->
     <div class="bg-white rounded-xl shadow p-5 flex items-center gap-4 mb-8">
         <img src="<%= user.profileImage %>" class="w-20 h-20 rounded-full border border-gray-300">
         
         <div>
-            <h2 class="text-xl font-semibold">Farmer Profile</h2>
+            <h2 class="text-xl font-semibold" data-i18n="dashboard.profile.title">Farmer Profile</h2>
             <p class="text-gray-600">
-                📱 <b>Mobile:</b> <%= user.mobileNumber %>  
+                📱 <b data-i18n="dashboard.profile.mobile">Mobile:</b> <%= user.mobileNumber %>  
             </p>
             <p class="text-gray-600">
-                📍 <b>Location:</b> <%= user.village || "Not set" %>, <%= user.state || "Not set" %>
+                📍 <b data-i18n="dashboard.profile.location">Location:</b> <%= user.village || "Not set" %>, <%= user.state || "Not set" %>
             </p>
             <p class="text-gray-600">
-                🌱 <b>Type:</b> <%= user.farmerType %>
+                🌱 <b data-i18n="dashboard.profile.type">Type:</b> <%= user.farmerType %>
             </p>
         </div>
     </div>
 
-    <!-- STATS GRID -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
 
         <div class="bg-green-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-green-700"><%= myCommunityPosts.length %></h2>
-            <p class="font-medium">Community Posts</p>
+            <p class="font-medium" data-i18n="dashboard.stats.posts">Community Posts</p>
         </div>
 
         <div class="bg-blue-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-blue-700"><%= myComments.length %></h2>
-            <p class="font-medium">Comments</p>
+            <p class="font-medium" data-i18n="dashboard.stats.comments">Comments</p>
         </div>
 
         <div class="bg-orange-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-orange-700"><%= myProblems.length %></h2>
-            <p class="font-medium">Problems Reported</p>
+            <p class="font-medium" data-i18n="dashboard.stats.problems">Problems Reported</p>
         </div>
 
         <div class="bg-red-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-red-700"><%= myAnimals.length %></h2>
-            <p class="font-medium">Animals Listed</p>
+            <p class="font-medium" data-i18n="dashboard.stats.animals">Animals Listed</p>
         </div>
 
         <div class="bg-yellow-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-yellow-700"><%= myCrops.length %></h2>
-            <p class="font-medium">Crops Listed</p>
+            <p class="font-medium" data-i18n="dashboard.stats.crops">Crops Listed</p>
         </div>
 
         <div class="bg-purple-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-purple-700"><%= myVetCalls.length %></h2>
-            <p class="font-medium">Tele-Vet Calls</p>
+            <p class="font-medium" data-i18n="dashboard.stats.vet_calls">Tele-Vet Calls</p>
         </div>
 
         <div class="bg-pink-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-pink-700"><%= myAISearches.length %></h2>
-            <p class="font-medium">AI Assistant Queries</p>
+            <p class="font-medium" data-i18n="dashboard.stats.ai_queries">AI Assistant Queries</p>
         </div>
 
         <div class="bg-gray-100 rounded-xl p-5 shadow text-center">
             <h2 class="text-3xl font-bold text-gray-700"><%= myStockViews.length %></h2>
-            <p class="font-medium">Stock Checks</p>
+            <p class="font-medium" data-i18n="dashboard.stats.stock_checks">Stock Checks</p>
         </div>
     </div>
 
-    <!-- QUICK NAVIGATION -->
-    <h2 class="text-xl font-bold mb-3">🚀 Quick Navigation</h2>
+    <h2 class="text-xl font-bold mb-3" data-i18n="dashboard.nav.title">🚀 Quick Navigation</h2>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
 
         <a href="/community" class="p-4 bg-white shadow rounded-xl text-center hover:bg-green-50">
-            🌿 <br>Community
+            🌿 <br><span data-i18n="nav.community">Community</span>
         </a>
 
         <a href="/community/chat" class="p-4 bg-white shadow rounded-xl text-center hover:bg-blue-50">
-            💬 <br>Group Chat
+            💬 <br><span data-i18n="dashboard.nav.group_chat">Group Chat</span>
         </a>
 
         <a href="/community/problems" class="p-4 bg-white shadow rounded-xl text-center hover:bg-orange-50">
-            🆘 <br>Problems
+            🆘 <br><span data-i18n="dashboard.nav.problems">Problems</span>
         </a>
 
         <a href="/animals" class="p-4 bg-white shadow rounded-xl text-center hover:bg-red-50">
-            🐄 <br>Sell Animals
+            🐄 <br><span data-i18n="footer.livestock">Sell Animals</span>
         </a>
 
         <a href="/crops" class="p-4 bg-white shadow rounded-xl text-center hover:bg-yellow-50">
-            🌾 <br>Sell Crops
+            🌾 <br><span data-i18n="footer.crops">Sell Crops</span>
         </a>
 
         <a href="/stock" class="p-4 bg-white shadow rounded-xl text-center hover:bg-gray-50">
-            📦 <br>Where is Stock?
+            📦 <br><span data-i18n="dashboard.nav.stock_q">Where is Stock?</span>
         </a>
 
         <a href="/teleVet" class="p-4 bg-white shadow rounded-xl text-center hover:bg-purple-50">
-            🐮 <br>Tele-Vet
+            🐮 <br><span data-i18n="footer.vet">Tele-Vet</span>
         </a>
 
         <a href="/ai/assistant" class="p-4 bg-white shadow rounded-xl text-center hover:bg-pink-50">
-            🤖 <br>AI Assistant
+            🤖 <br><span data-i18n="nav.ask_ai">AI Assistant</span>
         </a>
     </div>
 
-    <!-- RECENT ACTIVITY -->
-    <h2 class="text-xl font-bold mb-3">📌 Recent Activity</h2>
+    <h2 class="text-xl font-bold mb-3" data-i18n="dashboard.recent_activity">📌 Recent Activity</h2>
 
     <div class="space-y-4">
         <% recentActivity.forEach(a => { %>

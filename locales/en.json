@@ -1,9 +1,11 @@
 {
   "nav": {
+    "brand": "Aarohi Agriculture",
+    "tagline": "Your Digital Farming Assistant",
     "home": "Home",
-    "voice": "Speak",
+    "schemes": "Schemes",
+    "ask_ai": "Ask AI",
     "community": "Community",
-    "profile": "Profile",
     "login": "Login",
     "dashboard": "Dashboard"
   },

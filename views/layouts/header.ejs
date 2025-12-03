@@ -1,39 +1,40 @@
-<header class="bg-linear-to-r from-green-600 to-green-700 shadow-xl sticky top-0 z-50"  data-lang="<%= lang %>">
+<header class="bg-gradient-to-r from-green-600 to-green-700 shadow-xl sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4">
         <div class="flex items-center justify-between">
             
-            <!-- Logo -->
             <a href="/" class="flex items-center gap-3">
-    <img src="/aarohi_logo.png" class="w-16 h-16 object-contain" alt="Aarohi Logo" />
+                <img src="/aarohi_logo.png" class="w-16 h-16 object-contain" alt="Aarohi Logo" />
+                <div class="text-white">
+                    <h1 class="text-2xl font-bold" data-i18n="nav.brand">Aarohi Agriculture</h1>
+                    <p class="text-xs text-green-100" data-i18n="nav.tagline">Your Digital Farming Assistant</p>
+                </div>
+            </a>
 
-    <div class="text-white">
-        <h1 class="text-2xl font-bold">Aarohi Agriculture</h1>
-        <p class="text-xs text-green-100">Your Digital Farming Assistant</p>
-    </div>
-</a>
+            <div class="flex gap-2 ml-auto mr-6">
+                <button onclick="changeLanguage('en')" class="text-sm bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded transition">
+                    🇬🇧 English
+                </button>
+                <button onclick="changeLanguage('hi')" class="text-sm bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded transition">
+                    🇮🇳 हिंदी
+                </button>
+                <button onclick="changeLanguage('kn')" class="text-sm bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded transition">
+                    🇮🇳 ಕನ್ನಡ
+                </button>
+            </div>
 
-
-<div class="flex gap-2 ml-auto">
-    <a href="/lang/en" onclick="changeLanguage('en'); return false;">🇬🇧 English</a>
-    <a href="/lang/hi" onclick="changeLanguage('hi'); return false;">🇮🇳 हिंदी</a>
-    <a href="/lang/kn" onclick="changeLanguage('kn'); return false;">🇮🇳 ಕನ್ನಡ</a>
-</div>
-
-
-            <!-- Navigation -->
             <nav class="hidden md:flex items-center gap-6">
-                <a href="/" class="text-white hover:text-green-200 font-medium transition">Home</a>
-                <a href="/schemes" class="text-white hover:text-green-200 font-medium transition">Schemes</a>
-                <a href="/ai/assistant" class="text-white hover:text-green-200 font-medium transition">Ask AI</a>
-                <a href="/community" class="text-white hover:text-green-200 font-medium transition">Community</a>
+                <a href="/" class="text-white hover:text-green-200 font-medium transition" data-i18n="nav.home">Home</a>
+                <a href="/schemes" class="text-white hover:text-green-200 font-medium transition" data-i18n="nav.schemes">Schemes</a>
+                <a href="/ai/assistant" class="text-white hover:text-green-200 font-medium transition" data-i18n="nav.ask_ai">Ask AI</a>
+                <a href="/community" class="text-white hover:text-green-200 font-medium transition" data-i18n="nav.community">Community</a>
                 
                 <% if (user) { %>
                 <a href="/dashboard" class="flex items-center gap-2 bg-white/20 hover:bg-white/30 rounded-lg px-4 py-2">
-                    <img src="<%= user.profileImage || '/images/default-user.png' %>" class="w-8 h-8 rounded-full">
+                    <img src="<%= user.profileImage || '/images/default-user.png' %>" class="w-8 h-8 rounded-full border border-green-300">
                     <span class="text-white font-medium"><%= user.name %></span>
                 </a>
                 <% } else { %>
-                <a href="/auth/login" class="bg-white text-green-600 hover:bg-green-50 px-6 py-2 rounded-lg font-semibold transition">
+                <a href="/auth/login" class="bg-white text-green-600 hover:bg-green-50 px-6 py-2 rounded-lg font-semibold transition" data-i18n="nav.login">
                     Login
                 </a>
                 <% } %>
@@ -41,3 +42,32 @@
         </div>
     </div>
 </header>
+
+<script>
+    // 1. Function to Change Language
+    function changeLanguage(lang) {
+        // Save preference
+        localStorage.setItem('aarohi_lang', lang);
+        
+        // Update Voice Setting if widget exists
+        if(window.voiceSetLang) {
+            window.voiceSetLang(lang);
+        }
+
+        // Trigger translation load (Defined in your main layout or home.ejs)
+        if (typeof loadTranslations === 'function') {
+            loadTranslations(lang);
+        } else {
+            // Fallback if function isn't ready: reload page
+            window.location.reload(); 
+        }
+    }
+
+    // 2. Initialize Language on Page Load
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('aarohi_lang') || 'en';
+        if (typeof loadTranslations === 'function') {
+            loadTranslations(savedLang);
+        }
+    });
+</script>

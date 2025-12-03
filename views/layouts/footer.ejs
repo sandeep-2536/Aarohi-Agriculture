@@ -258,6 +258,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("voiceLang").value = lang;
   window.voiceSetLang(lang);
 
+    // Expose server-side default language for client i18n loader
+    window.SERVER_USER_LANG = "<%= userLang %>";
+
   document.getElementById("voiceLang").addEventListener("change", (e) => {
     window.voiceSetLang(e.target.value);
     // speak confirmation
@@ -286,3 +289,21 @@ function toggleVoice() {
 
 <script src="/js/incomingCall.js"></script>
 <script src="/js/pageVoice.js"></script>
+<script src="/js/i18n.js"></script>
+
+<!-- Resilient language switch helper: uses client i18n when available, falls back to server route -->
+<script>
+    window.changeLanguage = function(lang) {
+        try {
+            if (window.setLanguage && typeof window.setLanguage === 'function') {
+                window.setLanguage(lang);
+            } else {
+                // fallback: navigate to server route which sets cookie
+                window.location.href = '/lang/' + lang;
+            }
+        } catch (err) {
+            console.error('[i18n] changeLanguage error', err);
+            window.location.href = '/lang/' + lang;
+        }
+    };
+</script>

@@ -4,6 +4,7 @@ const app = express();
 require("dotenv").config();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const i18n = require("i18n");
 const port = process.env.PORT || 3000;
 const cookieParser = require("cookie-parser");
 
@@ -34,6 +35,24 @@ app.use((req, res, next) => {
     next();
 });
 
+i18n.configure({
+    locales: ["en", "hi", "kn"],
+    directory: __dirname + "/locales",
+    cookie: "aarohi_lang",
+    defaultLocale: "en",
+    autoReload: true,
+    updateFiles: false
+});
+
+app.use(i18n.init);
+
+// Make language available to EJS
+app.use((req, res, next) => {
+    res.locals.__ = res.__;
+    res.locals.lang = req.cookies?.aarohi_lang || "en";
+    next();
+});
+
 // Expose user language preference to all views
 app.use((req, res, next) => {
   res.locals.userLang = req.cookies?.aarohi_lang || "en";
@@ -56,17 +75,17 @@ const vetAuthRoutes = require("./routes/vetAuthRoutes");
 const teleVetRoutes = require("./routes/teleVetRoutes");
 const dealerAuthRoutes = require('./routes/dealerAuthRoutes');
 const stockRoutes = require('./routes/stockRoutes');
-
+const i18nRoutes = require('./routes/i18nRoutes');
 // Home route FIRST (to avoid conflict)
 app.get('/', (req, res) => {
     res.render('home/home');
 });
 
 // Clean route structure
-app.use("/lang", require("./routes/langRoutes"));
 
 app.use("/auth", authRoutes);
 app.use("/ai", aiRoutes);
+app.use('/i18n', i18nRoutes);
 app.use("/schemes", schemeRoutes);
 app.use('/farmer', farmerRoutes);
 app.use("/community", communityRoutes);

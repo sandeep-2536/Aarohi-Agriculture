@@ -2,14 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/:lang", (req, res) => {
-  const lang = req.params.lang;
+    const lang = req.params.lang;
 
-  if (!["en", "hi", "kn"].includes(lang)) return res.redirect("back");
+    if (["en", "hi", "kn"].includes(lang)) {
+        res.cookie("aarohi_lang", lang, { maxAge: 90000000 });
+    }
 
-  res.cookie("aarohi_lang", lang, { maxAge: 365 * 24 * 60 * 60 * 1000 });
-  req.session.lang = lang;
-
-  res.redirect("back");
+    res.redirect("back");
 });
 
 module.exports = router;

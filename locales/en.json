@@ -1,0 +1,87 @@
+{
+  "nav": {
+    "home": "Home",
+    "voice": "Speak",
+    "community": "Community",
+    "profile": "Profile",
+    "login": "Login",
+    "dashboard": "Dashboard"
+  },
+  "footer": {
+    "about_title": "Aarohi Agriculture",
+    "about_desc": "Digital Farming Assistant",
+    "about_text": "Empowering farmers with technology, connecting communities, and building a sustainable future.",
+    "quick_links": "Quick Links",
+    "marketplace": "Marketplace",
+    "support": "Support",
+    "livestock": "Livestock Trading",
+    "crops": "Sell Crops",
+    "stock": "Find Stock",
+    "vet": "Vet Support",
+    "made_with": "Made with ❤️ for Indian Farmers"
+  },
+  "home": {
+    "welcome": "Welcome Farmer",
+    "prompt": "Tap or Speak to use the App",
+    "speak_now": "Speak Now",
+    "stats_farmers": "Active Farmers",
+    "stats_schemes": "Govt Schemes",
+    "stats_ai": "AI Support",
+    "features_title": "Main Features",
+    "feat_schemes": "Government Schemes",
+    "feat_schemes_sub": "Find subsidies easily",
+    "feat_ai": "Ask AI Assistant",
+    "feat_ai_sub": "Get instant help",
+    "feat_community": "Farmer Community",
+    "feat_community_sub": "Connect with farmers",
+    "cta_title": "Ready to Transform Your Farming?",
+    "cta_btn_start": "Get Started Free",
+    "cta_btn_dash": "Go to Dashboard"
+  },
+  "ai": {
+    "title": "Aarohi AI Assistant",
+    "subtitle": "Your friendly guide for farming and the Aarohi platform!",
+    "greeting": "Namaste! 🙏 I am your AAROHI Assistant.",
+    "help_list": "I can help you with: Farming tips, Using the App, Calling a Doctor, Checking Stock.",
+    "placeholder": "Ask about crops, pests, or app features...",
+    "send": "Send",
+    "listening": "Listening..."
+  },
+  "community": {
+    "title": "Community Feed",
+    "subtitle": "Connect, share experiences, and grow together.",
+    "active_users": "Active Farmers",
+    "report_problem": "Report Problem",
+    "group_chat": "Join Group Chat",
+    "recent_posts": "Recent Posts",
+    "no_posts": "No Posts Yet",
+    "create_first": "Create First Post",
+    "view_discussion": "View Discussion",
+    "comment": "Comment"
+  },
+  "stock": {
+    "title": "Stock Marketplace",
+    "subtitle": "Find seeds, fertilizers & farming supplies near you",
+    "voice_search": "Voice Search",
+    "dealer_reg": "Dealer Register",
+    "dealer_login": "Dealer Login",
+    "search_placeholder": "Search: Urea, Cotton Seeds...",
+    "search_btn": "Search",
+    "available": "Available",
+    "call": "Call",
+    "view": "View"
+  },
+  "forms": {
+    "animal_title": "Add Animal Listing",
+    "type": "Animal Type",
+    "breed": "Breed",
+    "age": "Age (years)",
+    "price": "Expected Price",
+    "desc": "Description",
+    "upload": "Upload Images",
+    "location": "Location",
+    "village": "Village",
+    "submit": "Add Listing",
+    "cancel": "Cancel"
+  }
+}

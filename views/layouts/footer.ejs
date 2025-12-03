@@ -222,4 +222,67 @@ function startGlobalVoice() {
     }
 }
 </script>
+<script src="/js/voiceOver.js"></script>
+
+<!-- Voice settings widget -->
+<div class="fixed bottom-4 right-4 bg-white p-3 rounded-xl shadow-xl w-44 text-sm">
+  <button 
+    onclick="toggleVoice()" 
+    class="w-full p-2 rounded bg-green-600 text-white mb-2"
+    data-voice-click="Voice toggled">
+    🔊 Voice: <span id="voiceState">On</span>
+  </button>
+
+  <label class="block">Language</label>
+  <select id="voiceLang" class="w-full p-1 mb-2 border rounded">
+    <option value="en">English</option>
+    <option value="hi">हिन्दी</option>
+    <option value="kn">ಕನ್ನಡ</option>
+  </select>
+
+  <label>Speed</label>
+  <input type="range" min="0.7" max="1.4" step="0.1" id="voiceRate" class="w-full">
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize voice state
+  let enabled = localStorage.getItem("aarohi_voice_enabled");
+  if (enabled === null) enabled = "true";
+
+  window.voiceToggle(enabled === "true");
+  document.getElementById("voiceState").innerText = enabled === "true" ? "On" : "Off";
+
+  // Initialize language selector
+  let lang = localStorage.getItem("aarohi_lang") || "<%= userLang %>";
+  document.getElementById("voiceLang").value = lang;
+  window.voiceSetLang(lang);
+
+  document.getElementById("voiceLang").addEventListener("change", (e) => {
+    window.voiceSetLang(e.target.value);
+    // speak confirmation
+    voiceSpeak(
+      e.target.value === 'en'
+        ? "Language set to English"
+        : e.target.value === 'hi'
+          ? "भाषा हिन्दी चुनी गई"
+          : "ಭಾಷೆ ಕನ್ನಡ ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ"
+    );
+  });
+
+  document.getElementById("voiceRate").addEventListener("input", (e) => {
+    window.AAROHIVoice.rate = parseFloat(e.target.value);
+  });
+});
+
+function toggleVoice() {
+  let newState = !window.AAROHIVoice.enabled;
+  window.voiceToggle(newState);
+  localStorage.setItem("aarohi_voice_enabled", newState);
+  document.getElementById("voiceState").innerText = newState ? "On" : "Off";
+  voiceSpeak(newState ? "Voice Enabled" : "Voice Disabled");
+}
+</script>
+
 <script src="/js/incomingCall.js"></script>
+<script src="/js/pageVoice.js"></script>

@@ -18,6 +18,7 @@
   const muteBtn = document.getElementById("muteBtn");
   const cameraBtn = document.getElementById("cameraBtn");
   const statusEl = document.getElementById("callStatus");
+voiceSpeak("Connecting to doctor, please wait");
 
   let localStream = null;
   let pc = null;

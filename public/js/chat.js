@@ -267,6 +267,8 @@
     // When server broadcasts a saved message
     socket.on("receiveMessage", (msg) => {
         // server should send full message object including _id, user, createdAt
+          const lang = localStorage.getItem("aarohi_lang") || "en";
+  voiceSpeak(msg.text[lang] || msg.text.original || msg.text);
         appendMessage(msg);
     });
 

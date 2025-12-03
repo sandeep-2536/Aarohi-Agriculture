@@ -6,7 +6,7 @@
     <title>Community Feed - Aarohi Agriculture</title>
     <link rel="stylesheet" href="/css/output.css">
 </head>
-<body class="bg-gradient-to-br from-emerald-50 via-white to-teal-50 min-h-screen relative">
+<body class="bg-gradient-to-br from-emerald-50 via-white to-teal-50 min-h-screen relativedata-voice="Community feed opened. Scroll to read posts." data-lang="<%= userLang %>" >
 
 <!-- Animated Background Blobs -->
 <div class="fixed top-20 left-10 w-96 h-96 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob pointer-events-none"></div>
@@ -300,6 +300,15 @@
     border-width: 3px;
 }
 </style>
+<script>
+voiceSpeak(
+  {
+    en: "You are on the community feed.",
+    hi: "आप समुदाय फ़ीड पर हैं।",
+    kn: "ನೀವು ಸಮುದಾಯ ಫೀಡ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ."
+  }[localStorage.getItem("aarohi_lang") || "en"]
+);
+</script>
 
 </body>
 </html>

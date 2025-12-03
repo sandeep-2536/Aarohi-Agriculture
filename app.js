@@ -5,6 +5,8 @@ require("dotenv").config();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const port = process.env.PORT || 3000;
+const cookieParser = require("cookie-parser");
+
 
 const session = require("express-session");
 const connectDB = require("./config/db");
@@ -18,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(cookieParser());
 
 app.use(session({
     secret: "aarohi-secret",
@@ -29,6 +32,12 @@ app.use(session({
 app.use((req, res, next) => {
     res.locals.user = req.session && req.session.user ? req.session.user : null;
     next();
+});
+
+// Expose user language preference to all views
+app.use((req, res, next) => {
+  res.locals.userLang = req.cookies?.aarohi_lang || "en";
+  next();
 });
 
 // Routes
@@ -53,9 +62,9 @@ app.get('/', (req, res) => {
     res.render('home/home');
 });
 
-
-
 // Clean route structure
+app.use("/lang", require("./routes/langRoutes"));
+
 app.use("/auth", authRoutes);
 app.use("/ai", aiRoutes);
 app.use("/schemes", schemeRoutes);

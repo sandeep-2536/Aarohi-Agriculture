@@ -86,7 +86,7 @@ exports.analyze = async (req, res) => {
             try {
                 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
                 cachedModel = genAI.getGenerativeModel({
-                    model: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+                    model: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
                     systemInstruction: SYSTEM_INSTRUCTION
                 });
             } catch (err) {

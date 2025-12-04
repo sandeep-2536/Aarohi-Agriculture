@@ -50,6 +50,25 @@
         });
       }
     });
+
+    // data-i18n-voice: set data-voice attribute (used by pageVoice/page TTS)
+    document.querySelectorAll('[data-i18n-voice]').forEach(el => {
+      const key = el.getAttribute('data-i18n-voice');
+      const val = getByKey(locale, key);
+      if (val !== null && val !== undefined) {
+        el.setAttribute('data-voice', val);
+      }
+    });
+
+    // After applying translations, if body has data-voice and voiceSpeak is available, speak it
+    try {
+      const bodyVoice = document.body.getAttribute('data-voice');
+      if (bodyVoice && window.voiceSpeak) {
+        window.voiceSpeak(bodyVoice);
+      }
+    } catch (err) {
+      console.error('[i18n] speak error', err);
+    }
   }
 
   window.setLanguage = async function(lang) {

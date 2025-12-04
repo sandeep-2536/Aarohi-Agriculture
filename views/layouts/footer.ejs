@@ -121,6 +121,13 @@
 
   <label data-i18n="voice.speed">Speed</label>
   <input type="range" min="0.7" max="1.4" step="0.1" id="voiceRate" class="w-full">
+
+    <label class="block mt-2 mb-1" data-i18n="voice.select_voice">Select Voice</label>
+    <select id="voiceSelect" class="w-full p-1 mb-2 border rounded"></select>
+    <div class="flex gap-2">
+        <button id="saveVoiceBtn" class="flex-1 p-1 rounded bg-blue-600 text-white">Save</button>
+        <button id="testVoiceBtn" class="flex-1 p-1 rounded bg-gray-200">Test</button>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -183,6 +190,28 @@
         let lang = localStorage.getItem("aarohi_lang") || window.SERVER_USER_LANG;
         document.getElementById("voiceLang").value = lang;
         if(window.voiceSetLang) window.voiceSetLang(lang);
+
+                // Populate voice select once voices are available
+                if (window.getAvailableVoices) {
+                    window.getAvailableVoices().then(voices => {
+                        const sel = document.getElementById('voiceSelect');
+                        if (!sel) return;
+                        sel.innerHTML = '';
+                        voices.forEach(v => {
+                            const opt = document.createElement('option');
+                            opt.value = v.voiceURI || v.name;
+                            opt.innerText = `${v.name} (${v.lang})`;
+                            sel.appendChild(opt);
+                        });
+
+                        // select previously chosen voice
+                        const pref = window.getPreferredVoice && window.getPreferredVoice();
+                        if (pref) {
+                            const match = Array.from(sel.options).find(o => o.value === pref || o.text.includes(pref));
+                            if (match) sel.value = match.value;
+                        }
+                    }).catch(err => console.error('[voice] list error', err));
+                }
     });
 
     function toggleVoice() {
@@ -200,4 +229,32 @@
         const currentLang = document.getElementById("voiceLang").value;
         if(newState) voiceSpeak(feedback[currentLang] || feedback['en']);
     }
+
+        // Voice select handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            const saveBtn = document.getElementById('saveVoiceBtn');
+            const testBtn = document.getElementById('testVoiceBtn');
+            const sel = document.getElementById('voiceSelect');
+            if (!sel || !saveBtn || !testBtn) return;
+
+            saveBtn.addEventListener('click', () => {
+                const val = sel.value;
+                if (window.setPreferredVoice) window.setPreferredVoice(val);
+                alert('Preferred voice saved');
+            });
+
+            testBtn.addEventListener('click', () => {
+                const val = sel.value;
+                const label = sel.options[sel.selectedIndex].text;
+                // Try to use selected voice immediately for a test phrase in current language
+                window.setPreferredVoice && window.setPreferredVoice(val);
+                const lang = document.getElementById('voiceLang').value || 'en';
+                const sample = {
+                    en: 'Hello, this is a test voice.',
+                    hi: 'नमस्ते, यह परीक्षण आवाज़ है।',
+                    kn: 'ನಮಸ್ಕಾರ, ಇದು ಟೆಸ್ಟ್ ಧ್ವನಿ.'
+                }[lang] || 'Test voice';
+                voiceSpeak(sample);
+            });
+        });
 </script>

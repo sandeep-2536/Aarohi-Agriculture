@@ -12,11 +12,5 @@ function speakText(text, lang = "en-IN") {
 }
 
 // Auto-speak message (from server)
-document.addEventListener("DOMContentLoaded", () => {
-    const text = document.body.getAttribute("data-voice");
-    const lang = document.body.getAttribute("data-lang") || "en-IN";
-
-    if (text) {
-        speakText(text, lang);
-    }
-});
+// Note: speaking is handled by client-side i18n loader (i18n.js) which sets `data-voice`
+// and calls the shared `voiceSpeak` helper. Keep this file only for speakText usage.

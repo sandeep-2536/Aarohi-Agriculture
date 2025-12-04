@@ -47,7 +47,8 @@
     "featWeather": "Weather Updates",
     "featWeatherSub": "Coming Soon",
     "ctaTitle": "Ready to Transform Your Farming?",
-    "ctaSubtitle": "Join thousands of farmers using Aarohi Agriculture"
+    "ctaSubtitle": "Join thousands of farmers using Aarohi Agriculture",
+    "voiceIntro": "Welcome to Aarohi Agriculture. I am your digital farming assistant. Tap or speak to get started."
   },
   "ai": {
     "title": "Aarohi AI Assistant",

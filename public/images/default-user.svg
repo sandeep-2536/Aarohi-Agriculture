@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <style>
+      .bg { fill: #e5e7eb; }
+      .user { fill: #9ca3af; }
+    </style>
+  </defs>
+  <rect class="bg" width="200" height="200"/>
+  <circle class="user" cx="100" cy="70" r="35"/>
+  <path class="user" d="M 50 160 Q 50 130 100 130 Q 150 130 150 160 L 150 200 L 50 200 Z"/>
+</svg>

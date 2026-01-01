@@ -1,0 +1,212 @@
+{
+  "nav": {
+    "brand": "Aarohi Agriculture",
+    "tagline": "Your Digital Farming Assistant",
+    "home": "Home",
+    "schemes": "Schemes",
+    "ask_ai": "Ask AI",
+    "community": "Community",
+    "login": "Login",
+    "dashboard": "Dashboard"
+  },
+  "footer": {
+    "about_title": "Aarohi Agriculture",
+    "about_desc": "Digital Farming Assistant",
+    "about_text": "Empowering farmers with technology, connecting communities, and building a sustainable future.",
+    "quick_links": "Quick Links",
+    "marketplace": "Marketplace",
+    "support": "Support",
+    "livestock": "Livestock Trading",
+    "crops": "Sell Crops",
+    "stock": "Find Stock",
+    "vet": "Vet Support",
+    "made_with": "Made with ❤️ for Indian Farmers"
+  },
+  "home": {
+    "welcome": "Welcome Farmer ",
+    "prompt": "Tap or Speak to use the App",
+    "speakNow": "Speak Now",
+    "statsActiveFarmers": "Active Farmers",
+    "statsGovtSchemes": "Govt Schemes",
+    "statsAISupport": "AI Support",
+    "featuresTitle": "Main Features",
+    "featSchemes": "Government Schemes",
+    "featSchemesSub": "Find subsidies easily",
+    "featAI": "Ask AI Assistant",
+    "featAISub": "Get instant help",
+    "featCommunity": "Farmer Community",
+    "featCommunitySub": "Connect with farmers",
+    "featAnimals": "Livestock Trading",
+    "featAnimalsSub": "Buy and sell animals",
+    "featCrops": "Sell Your Crops",
+    "featCropsSub": "Find buyers directly",
+    "featVet": "Vet Support",
+    "featVetSub": "Video call doctors",
+    "featStock": "Find Stock",
+    "featStockSub": "Seeds, fertilizers",
+    "featWeather": "Weather Updates",
+    "featWeatherSub": "Get real-time alerts",
+    "ctaTitle": "Ready to Transform Your Farming?",
+    "ctaSubtitle": "Join thousands of farmers using Aarohi Agriculture",
+    "voiceIntro": "Welcome to Aarohi Agriculture. I am your digital farming assistant. Tap or speak to get started."
+  },
+  "ai": {
+    "title": "Aarohi AI Assistant",
+    "subtitle": "Your friendly guide for farming and the Aarohi platform!",
+    "greeting": "Namaste! 🙏 I am your AAROHI Assistant.",
+    "help_list": "I can help you with: Farming tips, Using the App, Calling a Doctor, Checking Stock.",
+    "placeholder": "Ask about crops, pests, or app features...",
+    "send": "Send",
+    "listening": "Listening..."
+  },
+  "community": {
+    "title": "Community Feed",
+    "subtitle": "Connect, share experiences, and grow together.",
+    "active_users": "Active Farmers",
+    "report_problem": "Report Problem",
+    "group_chat": "Join Group Chat",
+    "recent_posts": "Recent Posts",
+    "no_posts": "No Posts Yet",
+    "create_first": "Create First Post",
+    "view_discussion": "View Discussion",
+    "comment": "Comment"
+  },
+  "stock": {
+    "title": "Stock Marketplace",
+    "subtitle": "Find seeds, fertilizers & farming supplies near you",
+    "voice_search": "Voice Search",
+    "dealer_reg": "Dealer Register",
+    "dealer_login": "Dealer Login",
+    "search_placeholder": "Search: Urea, Cotton Seeds...",
+    "search_btn": "Search",
+    "available": "Available",
+    "call": "Call",
+    "view": "View",
+      "voiceIntro": "Welcome to Aarohi Agriculture. I am your digital farming assistant. Tap or speak to get started."
+  },
+  "forms": {
+    "animal_title": "Add Animal Listing",
+    "type": "Animal Type",
+    "breed": "Breed",
+    "age": "Age (years)",
+    "price": "Expected Price",
+    "desc": "Description",
+    "upload": "Upload Images",
+    "location": "Location",
+    "village": "Village",
+    "submit": "Add Listing",
+    "cancel": "Cancel"
+  },
+  "dashboard": {
+    "page_title": "AAROHI | Dashboard",
+    "welcome": "Welcome",
+    "profile": {
+      "title": "Farmer Profile",
+      "mobile": "Mobile:",
+      "location": "Location:",
+      "type": "Type:"
+    },
+    "stats": {
+      "posts": "Community Posts",
+      "comments": "Comments",
+      "problems": "Problems Reported",
+      "animals": "Animals Listed",
+      "crops": "Crops Listed",
+      "vet_calls": "Tele-Vet Calls",
+      "ai_queries": "AI Assistant Queries",
+      "stock_checks": "Stock Checks",
+      "issues": "Issues"
+    },
+    "weather": {
+      "title": "5-Day Temperature Trend",
+      "current_status": "Current Status",
+      "farm_impact": "Farm Impact",
+      "rain_expected": "Rain expected. Pause Spraying.",
+      "good_conditions": "Good conditions for field work.",
+      "forecast": "Forecast",
+      "loading": "Loading..."
+    },
+    "ai": {
+      "title": "AI Farm Insight",
+      "analyzing": "AI is analyzing weather data..."
+    },
+    "location_modal": {
+      "title": "Set Your Location",
+      "subtitle": "Help us provide weather-based farm advice",
+      "village_label": "Village/City",
+      "village_placeholder": "e.g., Bengaluru",
+      "village_hint": "💡 Use a well-known city name if your village is small",
+      "state_label": "State",
+      "state_placeholder": "e.g., Karnataka",
+      "save_btn": "Save Location & Get Weather"
+    },
+    "nav": {
+      "title": "🚀 Quick Navigation",
+      "group_chat": "Group Chat",
+      "problems": "Problems",
+      "stock_q": "Where is Stock?"
+    },
+    "recent_activity": "📌 Recent Activity",
+    "voice": {
+      "speak_weather": "🔊 Read Weather",
+      "speak_advice": "🔊 Read Advice",
+      "speak_all": "🔊 Read All",
+      "toggle_on": "🔊 Voice On",
+      "toggle_off": "🔇 Voice Off",
+      "language": "Language",
+      "region": "Region"
+    }
+  },
+  "schemes": {
+    "page_title": "Government Schemes - Aarohi Agriculture",
+    "hero": {
+      "title": "🏛️ Government Schemes",
+      "subtitle": "Simple and easy information for farmers. Find subsidies, loans, and benefits."
+    },
+    "search_placeholder": "Search schemes by name, state, or type...",
+    "filters": {
+      "all": "All Schemes",
+      "india": "All India",
+      "karnataka": "Karnataka",
+      "income": "Income Support",
+      "insurance": "Insurance"
+    },
+    "card": {
+      "learn_more": "Learn More",
+      "apply": "Apply"
+    },
+    "no_results": {
+      "title": "No schemes found",
+      "desc": "Try different filters or search terms"
+    },
+    "modal": {
+      "eligibility_title": "📋 Eligibility",
+      "eligibility_1": "Active farmers with valid land records",
+      "eligibility_2": "Aadhaar linked bank account",
+      "eligibility_3": "Income below specified threshold",
+      "apply_btn": "Apply Now",
+      "share_btn": "Share"
+    }
+  },
+  "animals": {
+    "page_title": "Animals for Sale - Aarohi",
+    "hero": {
+      "title": "Animals for Sale",
+      "subtitle": "Buy and sell livestock in your area",
+      "btn_list": "List Your Animal"
+    },
+    "stats": {
+      "available": "Animals Available"
+    },
+    "no_results": {
+      "title": "No Animals Listed Yet",
+      "desc": "Be the first to list an animal for sale!",
+      "btn_add": "Add Your First Listing"
+    },
+    "card": {
+      "no_image": "No Image",
+      "breed": "Breed:",
+      "view_details": "View Details"
+    }
+  }
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Discussion - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-white to-pink-50 min-h-screen">
+
+    <%- include("../../layouts/header") %>
+
+    <section class="py-12 px-4 max-w-5xl mx-auto">
+        
+        <!-- Back Button -->
+        <a href="/community/problems" 
+           class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-semibold mb-6 transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+            </svg>
+            Back to Problems
+        </a>
+
+        <!-- Problem Card -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 mb-8">
+            
+            <!-- User Info -->
+            <div class="flex items-center gap-4 mb-6">
+                <img src="<%= problem.user.profileImage || '/images/default-user.svg' %>" 
+                     class="w-16 h-16 rounded-full object-cover border-4 border-purple-200">
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-gray-800"><%= problem.user.name %></h2>
+                    <p class="text-gray-500 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                        Posted <%= new Date(problem.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+                    </p>
+                </div>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-bold">
+                    Problem
+                </span>
+            </div>
+
+            <!-- Problem Text -->
+            <div class="mb-6">
+                <p class="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+                    <%= problem.text %>
+                </p>
+            </div>
+
+            <!-- Problem Image -->
+            <% if (problem.image) { %>
+            <div class="mb-6 rounded-2xl overflow-hidden">
+                <img src="<%= problem.image %>" 
+                     class="w-full max-h-96 object-contain bg-gray-100" 
+                     alt="Problem image"
+                     onclick="openImageModal(this.src)">
+            </div>
+            <% } %>
+
+            <!-- Stats -->
+            <div class="flex items-center gap-6 pt-6 border-t border-gray-200">
+                <div class="flex items-center gap-2 text-gray-600">
+                    <svg class="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold"><%= comments.length %></span>
+                    <span>Responses</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
+            <h3 class="text-3xl font-bold text-gray-800 mb-8 flex items-center gap-3">
+                <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/>
+                </svg>
+                Discussion & Solutions
+            </h3>
+
+            <% if (comments.length === 0) { %>
+            <div class="text-center py-12 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl mb-8">
+                <svg class="w-20 h-20 mx-auto text-purple-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/>
+                </svg>
+                <p class="text-xl font-bold text-gray-400 mb-2">No responses yet</p>
+                <p class="text-gray-500">Be the first to help solve this problem!</p>
+            </div>
+            <% } else { %>
+            
+            <!-- Comments List -->
+            <div class="space-y-6 mb-8">
+                <% comments.forEach((comment, index) => { %>
+                <div class="comment-card">
+                    <div class="flex items-start gap-4">
+                        <img src="<%= comment.user.profileImage || '/images/default-user.svg' %>" 
+                             class="w-12 h-12 rounded-full object-cover border-2 border-green-200 flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <h4 class="font-bold text-gray-800"><%= comment.user.name %></h4>
+                                <span class="text-sm text-gray-500">
+                                    <%= new Date(comment.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) %>
+                                </span>
+                                <% if (index === 0) { %>
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-bold">
+                                    First Response
+                                </span>
+                                <% } %>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed whitespace-pre-line">
+                                <%= comment.text %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+            <% } %>
+
+            <!-- Add Comment Form -->
+            <div class="border-t border-gray-200 pt-8">
+                <h4 class="text-xl font-bold text-gray-800 mb-4">💬 Share Your Solution</h4>
+                <form action="/community/problems/<%= problem._id %>/comment" method="POST">
+                    <textarea 
+                        name="text" 
+                        rows="4"
+                        placeholder="Share your advice, experience, or solution to help this farmer..."
+                        class="input-field w-full mb-4 resize-none"
+                        required
+                    ></textarea>
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm text-gray-500">
+                            <svg class="inline w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                            Your response will help the farming community
+                        </p>
+                        <button type="submit" 
+                                class="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-8 rounded-xl font-bold hover:shadow-xl transition transform hover:scale-105 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                            </svg>
+                            Post Response
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 hidden p-4" onclick="closeImageModal()">
+        <button class="absolute top-4 right-4 text-white hover:text-gray-300 transition">
+            <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+        </button>
+        <img id="modalImage" src="" class="max-w-full max-h-full object-contain">
+    </div>
+
+    <%- include("../../layouts/footer") %>
+
+    <script>
+    function openImageModal(src) {
+        document.getElementById('modalImage').src = src;
+        document.getElementById('imageModal').classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+        document.getElementById('imageModal').classList.add('hidden');
+    }
+
+    // Close on escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeImageModal();
+    });
+    </script>
+
+    <style>
+    .comment-card {
+        background: linear-gradient(135deg, #ffffff, #f0fdf4);
+        border-radius: 1rem;
+        padding: 1.25rem;
+        border-left: 4px solid #86efac;
+        transition: all 0.2s;
+    }
+
+    .comment-card:hover {
+        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.1);
+        transform: translateX(4px);
+    }
+    </style>
+
+</body>
+</html>

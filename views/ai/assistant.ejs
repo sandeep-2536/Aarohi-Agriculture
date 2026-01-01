@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <style>
+    .suggestion-btn {
+        background: white;
+        border: 2px solid #e5e7eb;
+        border-radius: 1rem;
+        padding: 1rem 1.5rem;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.2s;
+        font-weight: 500;
+        color: #374151;
+        cursor: pointer;
+    }
+
+    .suggestion-btn:hover {
+        background: #f0f9ff;
+        border-color: #3b82f6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+
+    #chatMessages::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #chatMessages::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+    }
+
+    #chatMessages::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+
+    #chatMessages::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+    
+    /* Formatting for AI Response to handle new lines */
+    .ai-response-text {
+        white-space: pre-wrap; 
+    }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-green-50 min-h-screen">
+
+    <%- include("../layouts/header") %>
+
+    <section class="py-8 px-4 max-w-5xl mx-auto">
+        
+        <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-8 mb-6 text-white text-center shadow-xl">
+            <div class="flex justify-center mb-4">
+                <div class="bg-white/20 backdrop-blur-lg p-6 rounded-full">
+                    <svg class="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3.997 3.997 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.976 5.976 0 01-2.516-.552l1.562-1.562a4.006 4.006 0 001.789.027zm-4.677-2.796a4.002 4.002 0 01-.041-2.08l-.08.08-1.53-1.533A5.98 5.98 0 004 10c0 .954.223 1.856.619 2.657l1.54-1.54zm1.088-6.45A5.974 5.974 0 0110 4c.954 0 1.856.223 2.657.619l-1.54 1.54a4.002 4.002 0 00-2.346.033L7.246 4.668zM12 10a2 2 0 11-4 0 2 2 0 014 0z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+            </div>
+            <h1 class="text-4xl font-bold mb-2">🤖 Aarohi AI Assistant</h1>
+            <p class="text-xl text-blue-100">Your friendly guide for farming and the Aarohi platform!</p>
+        </div>
+
+        <div class="mb-6">
+            <p class="text-gray-600 font-semibold mb-3">💡 Try asking:</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button onclick="askQuestion('Stock elli sigatte? (Where is stock?)')" class="suggestion-btn">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" /><path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>
+                    Stock elli sigatte?
+                </button>
+                <button onclick="askQuestion('How to contact a doctor?')" class="suggestion-btn">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                    How to contact a doctor?
+                </button>
+                <button onclick="askQuestion('Best fertilizer for rice?')" class="suggestion-btn">
+                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd" /></svg>
+                    Best fertilizer for rice?
+                </button>
+                <button onclick="askQuestion('Naviagation help')" class="suggestion-btn">
+                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
+                    Where is the Community?
+                </button>
+            </div>
+        </div>
+
+        <div id="chatMessages" class="bg-white rounded-3xl shadow-xl p-6 mb-6 min-h-[400px] max-h-[500px] overflow-y-auto">
+            <div class="flex flex-col gap-4">
+                <div class="ai-message">
+                    <div class="flex gap-3">
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-full h-10 w-10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-gray-800 leading-relaxed">
+                                Namaste! 🙏 I am your AAROHI Assistant. <br><br>
+                                I can help you with: <br>
+                                🌾 Farming tips <br>
+                                🚜 Using the App <br>
+                                🏥 Calling a Doctor <br>
+                                📦 Checking Stock <br>
+                                <br>
+                                How can I help you today?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl p-4">
+            <div class="flex gap-3">
+                <input 
+                    type="text" 
+                    id="userInput" 
+                    placeholder="Ask about crops, pests, or app features..."
+                    class="flex-1 px-6 py-4 border-2 border-gray-200 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-200 transition outline-none text-lg"
+                    onkeypress="if(event.key==='Enter') sendMessage()"
+                >
+                <button onclick="sendMessage()" 
+                        class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-2xl font-bold hover:shadow-xl transition transform hover:scale-105 flex items-center gap-2">
+                    <span>Send</span>
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                    </svg>
+                </button>
+                <button onclick="startVoiceInput()" 
+                        class="bg-gradient-to-r from-red-500 to-red-600 text-white p-4 rounded-2xl hover:shadow-xl transition transform hover:scale-110">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <%- include("../layouts/footer") %>
+
+    <script>
+    // Check for voice query from localStorage (if redirected from another page)
+    window.addEventListener('DOMContentLoaded', function() {
+        const voiceQuery = localStorage.getItem('voiceQuery');
+        const userInput = document.getElementById('userInput');
+        if (voiceQuery && userInput) {
+            userInput.value = voiceQuery;
+            localStorage.removeItem('voiceQuery');
+            sendMessage();
+        }
+    });
+
+    function askQuestion(question) {
+        const input = document.getElementById('userInput');
+        if (!input) {
+            console.error('userInput element not found');
+            return;
+        }
+        input.value = question;
+        sendMessage();
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        if (!input) {
+            console.error('userInput element not found');
+            return;
+        }
+        const message = input.value.trim();
+        if (!message) return;
+
+        // 1. Add user message to UI
+        addMessage(message, 'user');
+        input.value = '';
+
+        // 2. Show typing indicator
+        showTyping();
+
+        try {
+            // 3. Send to Backend AI
+            const response = await fetch('/ai/analyze', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.reply || 'Network error');
+            }
+
+            const data = await response.json();
+
+            // 4. Remove typing and Show AI Response
+            removeTyping();
+            addMessage(data.reply, 'ai');
+
+        } catch (error) {
+            removeTyping();
+            addMessage("Sorry, I am having trouble connecting to the farm network. Please try again. 🚜", 'ai');
+            console.error('Error:', error);
+        }
+    }
+
+    function addMessage(text, type) {
+        const chatMessages = document.getElementById('chatMessages');
+        if (!chatMessages) {
+            console.error('chatMessages element not found');
+            return;
+        }
+        const messageDiv = document.createElement('div');
+        messageDiv.className = type === 'user' ? 'user-message' : 'ai-message';
+
+        if (type === 'user') {
+            messageDiv.innerHTML = `
+                <div class="flex gap-3 justify-end">
+                    <div class="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-2xl rounded-tr-none max-w-2xl shadow-md">
+                        <p class="leading-relaxed text-lg">${text}</p>
+                    </div>
+                    <div class="bg-green-600 p-3 rounded-full h-10 w-10 flex items-center justify-center flex-shrink-0 shadow-md">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Helper to make links clickable if AI sends a path
+            const formattedText = text.replace(
+                /(\/[a-zA-Z0-9\-\/]+)/g, 
+                '<a href="$1" class="text-blue-600 font-bold underline hover:text-blue-800">$1</a>'
+            );
+
+            messageDiv.innerHTML = `
+                <div class="flex gap-3">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-full h-10 w-10 flex items-center justify-center flex-shrink-0 shadow-md">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+                        </svg>
+                    </div>
+                    <div class="bg-gray-100 px-6 py-4 rounded-2xl rounded-tl-none max-w-2xl shadow-sm">
+                        <p class="text-gray-800 leading-relaxed ai-response-text text-lg">${formattedText}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTyping() {
+        const chatMessages = document.getElementById('chatMessages');
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="flex gap-3 animate-pulse">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-full h-10 w-10 flex items-center justify-center shadow-md">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                    </svg>
+                </div>
+                <div class="bg-gray-100 px-6 py-4 rounded-2xl rounded-tl-none flex items-center">
+                    <div class="flex gap-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTyping() {
+        const typing = document.getElementById('typingIndicator');
+        if (typing) typing.remove();
+    }
+
+    function startVoiceInput() {
+        // Check browser support
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            
+            // Auto-detect language or default to Indian English mixed
+            recognition.lang = 'en-IN'; 
+            recognition.start();
+            
+            // Visual feedback that it's listening
+            const inputField = document.getElementById('userInput');
+            if (!inputField) {
+                console.error('userInput element not found');
+                alert('Error: Input field not found');
+                return;
+            }
+            const originalPlaceholder = inputField.placeholder;
+            inputField.placeholder = "Listening... 🎙️";
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                inputField.value = transcript;
+                inputField.placeholder = originalPlaceholder;
+                sendMessage();
+            };
+
+            recognition.onerror = function(event) {
+                inputField.placeholder = originalPlaceholder;
+                alert('Voice input failed. Please try again.');
+            };
+            
+            recognition.onend = function() {
+                 inputField.placeholder = originalPlaceholder;
+            };
+
+        } else {
+            alert('Voice input not supported in your browser. Please type your message.');
+        }
+    }
+    </script>
+</body>
+</html>

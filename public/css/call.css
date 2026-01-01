@@ -1,0 +1,62 @@
+.call-list-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.farmers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.farmer-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #e3f2d5;
+}
+
+.avatar-call {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #2b7a0b;
+}
+
+.btn-call {
+    padding: 8px 16px;
+    background: #2b7a0b;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.video-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.video-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+video {
+    width: 45%;
+    height: 300px;
+    border-radius: 12px;
+    background: #000;
+}
+
+.btn-end {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background: red;
+    color: white;
+    border-radius: 10px;
+}

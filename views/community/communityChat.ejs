@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Group Chat - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-gradient-to-br from-green-50 via-white to-blue-50 min-h-screen" data-voice="Group chat opened. You can read and send messages." ">
+
+    <%- include("../layouts/header") %>
+
+    <div class="flex h-[calc(100vh-120px)] max-w-7xl mx-auto px-4 py-6 gap-4">
+        
+        <!-- Sidebar (Desktop Only) -->
+        <aside class="hidden md:block w-80 bg-white rounded-3xl shadow-xl p-6">
+            <div class="flex items-center gap-3 mb-6 pb-6 border-b border-gray-200">
+                <div class="bg-gradient-to-br from-green-500 to-blue-500 p-3 rounded-2xl">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">Farmers Group</h2>
+                    <p class="text-sm text-gray-500">Community Chat</p>
+                </div>
+            </div>
+
+            <!-- My Profile -->
+            <div class="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <img src="<%= user.profileImage || '/images/default-user.svg' %>" 
+                      class="w-12 h-12 rounded-full object-cover border-2 border-green-500">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800"><%= user.name %></h3>
+                        <p class="text-sm text-gray-600">
+                            <%= user.village ? user.village + ', ' + user.state : 'Online' %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Guidelines -->
+            <div class="space-y-4">
+                <h3 class="font-bold text-gray-700 text-sm uppercase tracking-wide">Chat Guidelines</h3>
+                <ul class="space-y-3 text-sm text-gray-600">
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Be respectful to fellow farmers</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Share farming knowledge freely</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>Use voice or text - both welcome</span>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Chat Main Area -->
+        <main class="flex-1 bg-white rounded-3xl shadow-xl flex flex-col overflow-hidden">
+            
+            <!-- Chat Header -->
+            <div class="bg-gradient-to-r from-green-600 to-blue-600 text-white p-6 flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold">Group Discussion</h1>
+                    <p class="text-green-100">Ask, share, and learn together</p>
+                </div>
+                <button id="refreshBtn" 
+                        class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl font-semibold transition">
+                    Refresh
+                </button>
+            </div>
+
+            <!-- Messages Container -->
+            <div id="messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-br from-gray-50 to-white">
+                <% messages.forEach(msg => { %>
+                <div class="<%= (msg.user._id.toString() === user._id.toString()) ? 'message-mine' : 'message-other' %>" 
+                     data-id="<%= msg._id %>">
+                    <div class="flex <%= (msg.user._id.toString() === user._id.toString()) ? 'flex-row-reverse' : 'flex-row' %> gap-3">
+                        <img src="<%= msg.user.profileImage || '/images/default-user.png' %>" 
+                             class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md flex-shrink-0">
+                        <div class="flex-1">
+                            <div class="<%= (msg.user._id.toString() === user._id.toString()) ? 'text-right' : 'text-left' %> mb-1">
+                                <span class="text-sm font-semibold text-gray-700"><%= msg.user.name %></span>
+                                <span class="text-xs text-gray-500 ml-2">
+                                    <%= new Date(msg.createdAt).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) %>
+                                </span>
+                            </div>
+                            <div class="<%= (msg.user._id.toString() === user._id.toString()) ? 
+                                'bg-gradient-to-r from-green-600 to-green-700 text-white rounded-2xl rounded-tr-none' : 
+                                'bg-gray-100 text-gray-800 rounded-2xl rounded-tl-none' %> px-4 py-3 inline-block max-w-md">
+                                <p class="leading-relaxed whitespace-pre-wrap"><%= msg.text %></p>
+                                <% if (msg.image) { %>
+                                <img src="<%= msg.image %>" class="mt-2 rounded-xl max-w-xs cursor-pointer" onclick="openImage(this.src)">
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+            <!-- Input Area -->
+            <form id="sendForm" class="p-6 bg-gradient-to-r from-gray-50 to-white border-t border-gray-200">
+                <div class="flex gap-3 mb-3">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Type your message... (You can also use voice 🎤)"
+                        class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-200 transition outline-none resize-none"
+                        rows="2"
+                    ></textarea>
+                    <label class="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white p-3 rounded-xl cursor-pointer transition transform hover:scale-110 flex items-center justify-center">
+                        <input id="imageInput" type="file" accept="image/*" class="hidden"/>
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </label>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" id="voiceBtn" 
+                            class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-bold transition transform hover:scale-105 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/>
+                        </svg>
+                        Speak
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-3 rounded-xl font-bold transition transform hover:scale-105 flex items-center justify-center gap-2">
+                        <span>Send</span>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 hidden" onclick="this.classList.add('hidden')">
+        <img id="modalImg" src="" class="max-w-full max-h-full object-contain">
+    </div>
+
+    <%- include("../layouts/footer") %>
+
+    <script>
+    window.CURRENT_USER = {
+        _id: "<%= user._id %>",
+        name: "<%= user.name %>",
+        profileImage: "<%= user.profileImage || '/images/default-user.svg' %>"
+    };
+    window.CHAT_ROOM = {
+        id: "<%= room._id %>"
+    };
+
+    function openImage(src) {
+        document.getElementById('modalImg').src = src;
+        document.getElementById('imageModal').classList.remove('hidden');
+    }
+    </script>
+
+    <script src="/js/chat.js"></script>
+
+    <style>
+    #messages::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #messages::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+
+    #messages::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    </style>
+
+
+voiceSpeak(
+  {
+    en: "You entered the Community chart and you can create groups chats share ideas fun and happiness.",
+    hi: "आपने सामुदायिक चार्ट में प्रवेश किया है और आप समूह बना सकते हैं, चैट कर सकते हैं, विचार साझा कर सकते हैं, आनंद और खुशी पा सकते हैं",
+    kn: "ನೀವು ಸಮುದಾಯ ಚಾರ್ಟ್ ಅನ್ನು ನಮೂದಿಸಿದ್ದೀರಿ ಮತ್ತು ನೀವು ಗುಂಪುಗಳನ್ನು ರಚಿಸಬಹುದು, ಚಾಟ್‌ಗಳನ್ನು ಮಾಡಬಹುದು, ವಿಚಾರಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಬಹುದು, ವಿನೋದ ಮತ್ತು ಸಂತೋಷವನ್ನು ಪಡೆಯಬಹುದು."
+  }[localStorage.getItem("aarohi_lang") || "en"]
+);
+</body>
+</html>

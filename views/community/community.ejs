@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Feed - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-white to-teal-50 min-h-screen relative" data-voice="Community feed opened. Scroll to read posts." data-lang="<%= userLang %>" >
+
+<!-- Animated Background Blobs -->
+<div class="fixed top-20 left-10 w-96 h-96 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob pointer-events-none"></div>
+<div class="fixed top-40 right-10 w-96 h-96 bg-teal-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000 pointer-events-none"></div>
+<div class="fixed -bottom-8 left-1/2 w-96 h-96 bg-cyan-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000 pointer-events-none"></div>
+
+<%- include('../layouts/header') %>
+
+<div class="relative z-10">
+    
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 py-20 px-4 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
+        
+        <div class="max-w-6xl mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="text-white flex-1 text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-lg px-4 py-2 rounded-full mb-4">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        <span class="text-sm font-semibold">Live Community</span>
+                    </div>
+                    <h1 class="text-5xl md:text-7xl font-extrabold mb-4 animate-fadeIn">
+                        🤝 Community Feed
+                    </h1>
+                    <p class="text-xl md:text-2xl text-emerald-100 mb-6 max-w-2xl">
+                        Connect, share experiences, and grow together with fellow farmers across India
+                    </p>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        <span class="bg-white/20 backdrop-blur-lg px-6 py-3 rounded-full text-sm font-bold flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                            </svg>
+                            1000+ Active Farmers
+                        </span>
+                        <span class="bg-white/20 backdrop-blur-lg px-6 py-3 rounded-full text-sm font-bold flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                            </svg>
+                            24/7 Support
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <a href="/community/problems/new" class="bg-white hover:bg-emerald-50 text-emerald-600 px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transition transform hover:scale-105 inline-flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        Report Problem
+                    </a>
+                    <a href="/community/chat" class="bg-white/20 backdrop-blur-lg hover:bg-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg border-2 border-white transition transform hover:scale-105 inline-flex items-center gap-3 justify-center">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                        </svg>
+                        Join Group Chat
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="py-12 px-4 max-w-7xl mx-auto -mt-16 relative z-20">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white rounded-3xl p-6 shadow-xl text-center hover:shadow-2xl transition transform hover:scale-105 border-2 border-emerald-100">
+                <div class="text-5xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">500+</div>
+                <p class="text-gray-600 font-semibold">Active Discussions</p>
+            </div>
+            <div class="bg-white rounded-3xl p-6 shadow-xl text-center hover:shadow-2xl transition transform hover:scale-105 border-2 border-blue-100">
+                <div class="text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2">200+</div>
+                <p class="text-gray-600 font-semibold">Problems Solved</p>
+            </div>
+            <div class="bg-white rounded-3xl p-6 shadow-xl text-center hover:shadow-2xl transition transform hover:scale-105 border-2 border-purple-100">
+                <div class="text-5xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">150+</div>
+                <p class="text-gray-600 font-semibold">Expert Advisors</p>
+            </div>
+            <div class="bg-white rounded-3xl p-6 shadow-xl text-center hover:shadow-2xl transition transform hover:scale-105 border-2 border-orange-100">
+                <div class="text-5xl font-extrabold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">24/7</div>
+                <p class="text-gray-600 font-semibold">Always Available</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Posts Feed -->
+    <section class="py-12 px-4 max-w-7xl mx-auto">
+        
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-4xl font-extrabold text-gray-800 mb-2">Recent Posts</h2>
+                <p class="text-gray-600">Latest updates from the farming community</p>
+            </div>
+            <button onclick="window.location.reload()" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 px-6 py-3 rounded-xl font-semibold transition flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                </svg>
+                Refresh
+            </button>
+        </div>
+
+        <% if (!posts || posts.length === 0) { %>
+        <!-- Empty State -->
+        <div class="bg-white rounded-3xl shadow-xl p-16 text-center">
+            <div class="w-32 h-32 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <svg class="w-16 h-16 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            <h3 class="text-3xl font-bold text-gray-800 mb-3">No Posts Yet</h3>
+            <p class="text-gray-600 text-lg mb-8 max-w-md mx-auto">Be the first to share something with the community! Start a discussion or share your farming experience.</p>
+            <a href="/community/problems/new" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-4 rounded-2xl font-bold text-lg inline-flex items-center gap-2 hover:shadow-2xl transition transform hover:scale-105">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                </svg>
+                Create First Post
+            </a>
+        </div>
+        <% } else { %>
+        
+        <!-- Posts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <% posts.forEach(post => { %>
+            <div onclick="window.location.href='/community/problems/<%= post._id %>'" 
+                 class="bg-white rounded-3xl shadow-xl overflow-hidden cursor-pointer group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-emerald-200">
+                
+                <!-- Post Image -->
+                <% if (post.image) { %>
+                <div class="relative h-56 overflow-hidden bg-gradient-to-br from-emerald-100 to-teal-100">
+                    <img src="<%= post.image %>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Post image">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div class="absolute top-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                        📷 Photo
+                    </div>
+                </div>
+                <% } else { %>
+                <div class="h-56 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10">
+                        <div class="absolute top-0 left-0 w-full h-full" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+                    </div>
+                    <svg class="w-24 h-24 text-white opacity-50" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                    </svg>
+                </div>
+                <% } %>
+                
+                <!-- Post Content -->
+                <div class="p-6">
+                    <!-- User Info -->
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="<%= post.user && post.user.profileImage ? post.user.profileImage : '/images/default-user.png' %>" 
+                             class="w-12 h-12 rounded-full object-cover border-3 border-emerald-400 shadow-md" 
+                             alt="<%= post.user ? post.user.name : 'Anonymous' %>">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 text-lg"><%= post.user ? post.user.name : 'Anonymous' %></h3>
+                            <p class="text-sm text-gray-500">Community Member</p>
+                        </div>
+                        <svg class="w-6 h-6 text-emerald-500 group-hover:text-emerald-600 transition" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Post Text -->
+                    <p class="text-gray-700 leading-relaxed line-clamp-3 mb-4"><%= post.text %></p>
+                    
+                    <!-- View Button -->
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="text-emerald-600 font-bold text-sm flex items-center gap-2 group-hover:gap-3 transition-all">
+                            View Discussion
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>
+                        <div class="flex items-center gap-2 text-gray-500">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-sm font-semibold">Comment</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+
+        <% } %>
+
+    </section>
+
+    <!-- Community Features -->
+    <section class="py-16 px-4 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl p-8 text-white shadow-2xl hover:shadow-3xl transition transform hover:scale-105">
+                <div class="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 13V5a2 2 0 00-2-2H4a2 2 0 00-2 2v8a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2zM5 7a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1zm1 3a1 1 0 100 2h3a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">Group Chat</h3>
+                <p class="text-emerald-100 mb-6">Join real-time discussions with farmers across India</p>
+                <a href="/community/chat" class="inline-flex items-center gap-2 font-bold hover:gap-3 transition-all">
+                    Join Now
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl p-8 text-white shadow-2xl hover:shadow-3xl transition transform hover:scale-105">
+                <div class="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">Ask Questions</h3>
+                <p class="text-purple-100 mb-6">Get expert solutions to your farming problems</p>
+                <a href="/community/problems" class="inline-flex items-center gap-2 font-bold hover:gap-3 transition-all">
+                    View Problems
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-3xl p-8 text-white shadow-2xl hover:shadow-3xl transition transform hover:scale-105">
+                <div class="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold mb-3">Share Knowledge</h3>
+                <p class="text-blue-100 mb-6">Help others with your farming expertise</p>
+                <a href="/community/problems/new" class="inline-flex items-center gap-2 font-bold hover:gap-3 transition-all">
+                    Share Now
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Action Button (Mobile) -->
+    <a href="/community/problems/new" 
+       class="md:hidden fixed bottom-24 right-6 bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-5 rounded-full shadow-2xl hover:shadow-3xl transition transform hover:scale-110 z-30 animate-pulse">
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+        </svg>
+    </a>
+
+</div>
+
+<%- include('../layouts/footer') %>
+
+<style>
+@keyframes blob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-blob {
+    animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    --webkit-line-clamp: 3;
+    --webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.border-3 {
+    border-width: 3px;
+}
+</style>
+<script>
+voiceSpeak(
+  {
+    en: "You are on the community feed.",
+    hi: "आप समुदाय फ़ीड पर हैं।",
+    kn: "ನೀವು ಸಮುದಾಯ ಫೀಡ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ."
+  }[localStorage.getItem("aarohi_lang") || "en"]
+);
+</script>
+
+</body>
+</html>

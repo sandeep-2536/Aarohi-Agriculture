@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-linear-to-br from-green-50 via-white to-green-100 min-h-screen">
+
+<%- include("../layouts/header") %>
+
+<div class="flex items-center justify-center min-h-[calc(100vh-200px)] px-4 py-12">
+    <div class="w-full max-w-md">
+        
+        <!-- OTP Card -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 border-2 border-green-100">
+            
+            <!-- Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="bg-linear-to-br from-blue-500 to-blue-600 p-6 rounded-full shadow-lg animate-pulse">
+                    <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
+                Verify OTP 📱
+            </h1>
+            <p class="text-center text-gray-600 mb-2">
+                We sent a code to
+            </p>
+            <p class="text-center text-green-600 font-bold text-lg mb-8">
+                +91 <%= mobileNumber %>
+            </p>
+
+            <!-- Test OTP Notice -->
+            <div class="mb-6 p-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl">
+                <div class="flex items-center gap-3">
+                    <div class="bg-yellow-400 p-2 rounded-full">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="text-sm">
+                        <p class="font-semibold text-gray-800">Test Mode Active</p>
+                        <p class="text-gray-600">Use OTP: <span class="font-bold text-yellow-700">1234</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form action="/auth/verify-otp" method="POST" class="space-y-6">
+                
+                <!-- OTP Input -->
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-gray-700 text-center">
+                        Enter 4-Digit OTP
+                    </label>
+                    <div id="otp-inputs" class="flex gap-3 justify-center">
+                        <input type="text" maxlength="1" class="otp-box" data-index="0" />
+                        <input type="text" maxlength="1" class="otp-box" data-index="1" />
+                        <input type="text" maxlength="1" class="otp-box" data-index="2" />
+                        <input type="text" maxlength="1" class="otp-box" data-index="3" />
+                    </div>
+                    <input type="hidden" name="otp" id="otp-hidden" required />
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    id="verify-btn"
+                    class="w-full bg-linear-to-r from-green-600 to-green-700 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200 opacity-50 cursor-not-allowed"
+                    disabled
+                >
+                    Verify & Continue ✓
+                </button>
+
+                <!-- Resend -->
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        Didn't receive the code?
+                    </p>
+                    <button 
+                        type="button" 
+                        onclick="window.location.href='/auth/login'"
+                        class="text-green-600 font-semibold hover:text-green-700 mt-1"
+                    >
+                        Resend OTP
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- Security Info -->
+        <div class="mt-6 text-center">
+            <p class="text-xs text-gray-500">
+                🔒 Your information is secure and encrypted
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<%- include("../layouts/footer") %>
+
+<style>
+.otp-box {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.otp-box:focus {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
+}
+
+@media (max-width: 640px) {
+    .otp-box {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+}
+</style>
+
+<script>
+// OTP Input Logic
+const otpInputs = document.querySelectorAll('.otp-box');
+const otpHidden = document.getElementById('otp-hidden');
+const verifyBtn = document.getElementById('verify-btn');
+
+otpInputs.forEach((input, index) => {
+    input.addEventListener('input', function(e) {
+        // Only allow numbers
+        this.value = this.value.replace(/[^0-9]/g, '');
+        
+        // Move to next input
+        if (this.value.length === 1 && index < 3) {
+            otpInputs[index + 1].focus();
+        }
+        
+        // Update hidden input
+        updateHiddenOTP();
+    });
+
+    input.addEventListener('keydown', function(e) {
+        // Move to previous on backspace
+        if (e.key === 'Backspace' && this.value === '' && index > 0) {
+            otpInputs[index - 1].focus();
+        }
+    });
+
+    // Paste handling
+    input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData('text').slice(0, 4);
+        const digits = pastedData.split('');
+        
+        digits.forEach((digit, i) => {
+            if (otpInputs[i]) {
+                otpInputs[i].value = digit;
+            }
+        });
+        
+        updateHiddenOTP();
+        otpInputs[Math.min(digits.length, 3)].focus();
+    });
+});
+
+function updateHiddenOTP() {
+    const otp = Array.from(otpInputs).map(input => input.value).join('');
+    otpHidden.value = otp;
+    
+    // Enable/disable button
+    if (otp.length === 4) {
+        verifyBtn.disabled = false;
+        verifyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    } else {
+        verifyBtn.disabled = true;
+        verifyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+}
+
+// Auto-focus first input
+otpInputs[0].focus();
+
+// Initialize button state
+updateHiddenOTP();
+</script>
+
+</body>
+</html>

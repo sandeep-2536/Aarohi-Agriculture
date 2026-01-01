@@ -1,0 +1,46 @@
+{
+  "name": "gmu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run css:watch\" \"npm run server\"",
+    "css:watch": "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch --quiet",
+    "css:build": "npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --minify",
+    "server": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/genai": "^1.31.0",
+    "@google/generative-ai": "^0.24.1",
+    "@tailwindcss/cli": "^4.1.17",
+    "axios": "^1.13.2",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "ejs-mate": "^4.0.0",
+    "env": "^0.0.2",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "http": "^0.0.1-security",
+    "i18n": "^0.15.3",
+    "mongoose": "^9.0.0",
+    "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.11",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "tailwindcss": "^4.1.17",
+    "twilio": "^5.10.7",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

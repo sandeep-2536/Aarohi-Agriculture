@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+}
+
+/* Top section */
+.scheme-top {
+    text-align: center;
+    padding: 25px;
+    background: #2b7a0b;
+    color: white;
+}
+
+.scheme-top h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.scheme-top p {
+    font-size: 16px;
+}
+
+/* Scheme List */
+.scheme-list {
+    padding: 20px;
+}
+
+.scheme-card {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 2px solid #e2e2e2;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.scheme-card:hover {
+    transform: scale(1.03);
+}
+
+.scheme-icon {
+    height: 60px;
+    width: 60px;
+    margin-right: 15px;
+}
+
+.scheme-info h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #2b7a0b;
+}
+
+.scheme-info p {
+    margin-top: 5px;
+    font-size: 15px;
+    color: #555;
+}
+
+/* Tags */
+.tag {
+    background: #e4e4e4;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-right: 5px;
+}
+
+.tag-type {
+    background: #ffd000;
+}

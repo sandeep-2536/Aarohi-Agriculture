@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Marketplace - Aarohi</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body  data-voice="Community feed opened. Scroll to read posts." data-lang="<%= userLang %>">
+    <%- include('../layouts/header') %>
+
+    <div class="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+
+        <!-- Header Section -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                        📦 Stock Marketplace
+                    </h1>
+                    <p class="text-lg text-gray-600">Find seeds, fertilizers & farming supplies near you</p>
+                </div>
+                
+                <!-- Voice Search Button -->
+                <button onclick="startVoiceSearch()" type="button" class="hidden md:flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold">Voice Search</span>
+                </button>
+            </div>
+
+            <!-- Quick Action Links -->
+            <div class="flex flex-wrap gap-3 mb-6">
+                <a href="/dealer-auth/register" class="inline-flex items-center gap-2 bg-white hover:bg-blue-500 text-blue-600 hover:text-white px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-blue-200 hover:border-blue-500">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/>
+                    </svg>
+                    <span class="font-semibold">Dealer Register</span>
+                </a>
+                
+                <a href="/dealer-auth/login" class="inline-flex items-center gap-2 bg-white hover:bg-green-500 text-green-600 hover:text-white px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-green-200 hover:border-green-500">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold">Dealer Login</span>
+                </a>
+                
+                <a href="/stock/dealer" class="inline-flex items-center gap-2 bg-purple-500 hover:bg-purple-600 text-white px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                    <span class="font-semibold">Dealer Dashboard</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <form method="GET" action="/stock" class="mb-10 bg-white rounded-3xl shadow-2xl border border-gray-100 p-6 md:p-8">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+
+                <!-- Search Input -->
+                <div class="lg:col-span-2 relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <input name="q"
+                           type="text"
+                           placeholder="Search: Urea, Cotton Seeds, Pesticide..."
+                           value="<%= query.q || '' %>"
+                           class="w-full pl-12 pr-4 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="relative">
+                    <select name="category"
+                            class="w-full px-4 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300 appearance-none cursor-pointer">
+                        <option value="">🏷️ All Categories</option>
+                        <option value="Seed" <%= query.category==='Seed'?'selected':''%>>🌱 Seeds</option>
+                        <option value="Fertilizer" <%= query.category==='Fertilizer'?'selected':''%>>💧 Fertilizers</option>
+                        <option value="Pesticide" <%= query.category==='Pesticide'?'selected':''%>>🛡️ Pesticides</option>
+                        <option value="Tools" <%= query.category==='Tools'?'selected':''%>>🔧 Tools</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- District Input -->
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <input name="district"
+                           placeholder="District / Location"
+                           value="<%= query.district || '' %>"
+                           class="w-full pl-12 pr-4 py-4 bg-white border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
+                </div>
+
+                <!-- Search Button -->
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Search</span>
+                </button>
+
+            </div>
+
+        </form>
+
+        <!-- Results Count -->
+        <% if (stocks.length > 0) { %>
+            <div class="mb-6 inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full shadow-md">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <span class="font-semibold"><%= stocks.length %> Products Found</span>
+            </div>
+        <% } %>
+
+        <!-- No Results -->
+        <% if (stocks.length === 0) { %>
+            <div class="text-center py-20">
+                <div class="inline-block p-8 bg-white rounded-3xl shadow-lg">
+                    <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-700 mb-2">No Products Found</h3>
+                    <p class="text-gray-500 mb-6">Try adjusting your search filters</p>
+                    <a href="/stock" class="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                        </svg>
+                        Clear Filters
+                    </a>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Stock Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+            <% stocks.forEach(s => { %>
+                <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border-2 border-gray-100 overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+
+                    <!-- Image -->
+                    <div class="relative overflow-hidden bg-gray-100 h-56">
+                        <% if (s.image) { %>
+                            <img src="/uploads/<%= s.image %>"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                 alt="<%= s.title %>">
+                            <!-- Category Badge -->
+                            <div class="absolute top-3 left-3 bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                <%= s.category %>
+                            </div>
+                            <!-- Availability -->
+                            <div class="absolute top-3 right-3 bg-white/90 px-3 py-1.5 rounded-full text-xs font-bold text-green-700 shadow-lg flex items-center gap-1">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                Available
+                            </div>
+                        <% } else { %>
+                            <div class="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                                <svg class="w-20 h-20 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm">No Image</span>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-5">
+
+                        <!-- Title -->
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-green-600 transition-colors">
+                            <%= s.title %>
+                        </h3>
+
+                        <!-- Info -->
+                        <div class="space-y-2 mb-4">
+                            
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <svg class="w-4 h-4 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                </svg>
+                                <span class="font-medium truncate"><%= s.dealer ? (s.dealer.shopName || s.dealer.name) : 'N/A' %></span>
+                            </div>
+
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="truncate"><%= s.location.village %>, <%= s.location.district %></span>
+                            </div>
+
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-4 bg-green-50 rounded-xl p-3 border-2 border-green-200">
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-3xl font-bold text-green-700">₹<%= s.price %></span>
+                                <span class="text-sm text-gray-600">/ <%= s.quantityUnit %></span>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="grid grid-cols-2 gap-3">
+
+                            <a href="/stock/<%= s._id %>"
+                               class="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span>View</span>
+                            </a>
+
+                            <a href="tel:<%= s.phone %>"
+                               class="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                </svg>
+                                <span>Call</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            <% }) %>
+
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-12 text-center">
+            <a href="/" class="inline-flex items-center gap-3 bg-white hover:bg-gray-50 text-gray-700 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-gray-200">
+                <svg class="w-6 h-6 transform group-hover:-translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                </svg>
+                <span class="text-lg font-semibold">Back to Home</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Voice Search Script -->
+<script>
+function startVoiceSearch() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-IN';
+        recognition.start();
+        
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            document.querySelector('input[name="q"]').value = transcript;
+            document.querySelector('form').submit();
+        };
+        
+        recognition.onerror = function() {
+            alert('Voice recognition error. Please try again.');
+        };
+    } else {
+        alert('Voice search not supported in your browser');
+    }
+}
+
+
+voiceSpeak(
+  {
+    en: "You are on the stock.",
+    hi: "आप समुदाय फ़ीड पर हैं।",
+    kn: "ನೀವು ಸಮುದಾಯ ಫೀಡ್‌ನಲ್ಲಿ ಇದ್ದೀರಿ."
+  }[localStorage.getItem("aarohi_lang") || "en"]
+);
+</script>
+
+    <%- include('../layouts/footer') %>
+</body>
+</html>

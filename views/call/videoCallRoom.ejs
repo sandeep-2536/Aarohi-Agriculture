@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Video Call</title>
+
+    <link rel="stylesheet" href="/css/call.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+<div class="video-container">
+
+    <h2>👥 Video Call Room: <%= roomId %></h2>
+
+    <div class="video-grid">
+        <video id="localVideo" autoplay muted></video>
+        <video id="remoteVideo" autoplay></video>
+    </div>
+
+    <button id="endCallBtn" class="btn-end">❌ End Call</button>
+</div>
+
+<script>
+    const socket = io();
+    const roomId = "<%= roomId %>";
+    console.log('[videoCallRoom] initialized with roomId', roomId);
+
+    const localVideo = document.getElementById("localVideo");
+    const remoteVideo = document.getElementById("remoteVideo");
+
+    let localStream;
+    let peerConnection;
+    let isInitiator = false;
+    let peerReady = false;
+
+    const iceConfig = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
+
+    async function initPeerConnection() {
+        if (peerConnection) {
+            console.log('[videoCall] peer connection already initialized');
+            return;
+        }
+
+        try {
+            console.log('[videoCall] initializing peer connection');
+            peerConnection = new RTCPeerConnection(iceConfig);
+
+            if (localStream) {
+                localStream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, localStream);
+                    console.log('[videoCall] added track:', track.kind);
+                });
+            }
+
+            peerConnection.ontrack = event => {
+                console.log('[videoCall] ontrack event - received remote stream', event.streams);
+                if (event.streams && event.streams[0]) {
+                    remoteVideo.srcObject = event.streams[0];
+                    console.log('[videoCall] remote video stream set');
+                }
+            };
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    console.log('[videoCall] emitting ice candidate');
+                    socket.emit("iceCandidate", { roomId, candidate: event.candidate });
+                }
+            };
+
+            peerConnection.onconnectionstatechange = () => {
+                console.log('[videoCall] connection state:', peerConnection.connectionState);
+            };
+
+            peerConnection.oniceconnectionstatechange = () => {
+                console.log('[videoCall] ice connection state:', peerConnection.iceConnectionState);
+            };
+
+            // If we're the initiator and peer is ready, create offer
+            if (isInitiator && peerReady) {
+                console.log('[videoCall] initiating offer');
+                const offer = await peerConnection.createOffer({ offerToReceiveVideo: true, offerToReceiveAudio: true });
+                await peerConnection.setLocalDescription(offer);
+                socket.emit("offer", { roomId, offer });
+            }
+        } catch (err) {
+            console.error('[videoCall] peer connection init failed', err);
+        }
+    }
+
+    async function start() {
+        try {
+            console.log('[videoCall] requesting media devices');
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            localVideo.srcObject = localStream;
+            console.log('[videoCall] local stream obtained');
+
+            // Initialize peer connection now that we have media
+            await initPeerConnection();
+
+            // Join the room
+            socket.emit("joinRoom", roomId);
+        } catch (err) {
+            console.error('[videoCall] getUserMedia failed', err);
+            alert('Unable to access camera/microphone. Please allow permissions and retry.');
+        }
+    }
+
+    socket.on("offer", async (offer) => {
+        console.log('[videoCall] received offer');
+        try {
+            if (!peerConnection) {
+                console.log('[videoCall] peer connection not ready, waiting');
+                // Give peer connection a moment to initialize
+                await new Promise(r => setTimeout(r, 100));
+            }
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            socket.emit("answer", { roomId, answer });
+            console.log('[videoCall] answer sent');
+        } catch (err) {
+            console.error('[videoCall] offer handling failed', err);
+        }
+    });
+
+    socket.on("answer", async (answer) => {
+        console.log('[videoCall] received answer');
+        try {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+            console.log('[videoCall] answer set');
+        } catch (err) {
+            console.error('[videoCall] answer handling failed', err);
+        }
+    });
+
+    socket.on("iceCandidate", async ({ candidate }) => {
+        if (candidate && peerConnection) {
+            try {
+                await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+            } catch (e) {
+                console.error('[videoCall] addIceCandidate failed', e);
+            }
+        }
+    });
+
+    socket.on("ready", async () => {
+        console.log('[videoCall] peer ready event received');
+        peerReady = true;
+        isInitiator = true;
+
+        // Ensure peer connection is initialized
+        if (!peerConnection) {
+            await initPeerConnection();
+        }
+
+        // Create and send offer
+        try {
+            const offer = await peerConnection.createOffer({ offerToReceiveVideo: true, offerToReceiveAudio: true });
+            await peerConnection.setLocalDescription(offer);
+            socket.emit("offer", { roomId, offer });
+            console.log('[videoCall] offer created and sent');
+        } catch (err) {
+            console.error('[videoCall] offer creation failed', err);
+        }
+    });
+
+    document.getElementById("endCallBtn").addEventListener("click", () => {
+        if (peerConnection) {
+            peerConnection.close();
+        }
+        if (localStream) {
+            localStream.getTracks().forEach(track => track.stop());
+        }
+        window.location.href = "/call/farmers";
+    });
+
+    start();
+</script>
+
+</body>
+</html>

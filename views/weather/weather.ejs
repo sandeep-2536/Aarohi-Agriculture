@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast - AAROHI Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+            animation: drift 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .weather-hero {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #10b981;
+        }
+
+        .weather-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .weather-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(5, 150, 105, 0.08) 0%, transparent 70%);
+            animation: pulse 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .weather-icon-large {
+            filter: drop-shadow(0 15px 30px rgba(16, 185, 129, 0.3));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #10b981;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+            border-color: #059669;
+        }
+
+        .hourly-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            border: 2px solid #a7f3d0;
+            transition: all 0.3s ease;
+        }
+
+        .hourly-card:hover {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: #10b981;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .hourly-scroll::-webkit-scrollbar {
+            height: 10px;
+        }
+        .hourly-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .hourly-scroll::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 10px;
+        }
+        .hourly-scroll::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+
+        .forecast-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            border: 2px solid #a7f3d0;
+            transition: all 0.3s ease;
+        }
+
+        .forecast-card:hover {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: #10b981;
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .advice-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            border: 3px solid #10b981;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advice-card::before {
+            content: '🌾';
+            position: absolute;
+            font-size: 150px;
+            top: -30px;
+            right: -30px;
+            opacity: 0.05;
+            transform: rotate(-15deg);
+        }
+
+        .quick-action-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .quick-action-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .temp-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .location-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .shimmer-effect {
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+            background-size: 1000px 100%;
+            animation: shimmer 3s infinite;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    
+    <%- include("../layouts/header") %>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 relative z-10">
+        
+        <!-- Hero Section - Current Weather -->
+        <% if (currentWeather) { %>
+        <div class="weather-hero glass-card rounded-3xl p-8 md:p-12 mb-8 relative">
+            <div class="relative z-10">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                    
+                    <!-- Left: Location & Temperature -->
+                    <div class="text-center md:text-left">
+                        <div class="flex items-center justify-center md:justify-start gap-3 mb-6">
+                            <div class="location-badge p-3 rounded-2xl">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                </svg>
+                            </div>
+                            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800"><%= locationName %></h1>
+                        </div>
+                        <div class="flex items-start justify-center md:justify-start gap-6 mb-6">
+                            <img src="http://openweathermap.org/img/wn/<%= currentWeather.icon %>@4x.png" 
+                                 class="weather-icon-large w-40 h-40" alt="weather">
+                            <div class="text-left">
+                                <div class="text-8xl font-black temp-badge mb-2"><%= currentWeather.temp %>°</div>
+                                <div class="text-2xl font-bold text-gray-700 capitalize mb-2"><%= currentWeather.description %></div>
+                                <div class="text-lg text-gray-600 bg-green-50 px-4 py-2 rounded-full inline-block">
+                                    Feels like <span class="font-bold text-green-700"><%= currentWeather.feelsLike %>°C</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-base font-semibold text-gray-600 bg-white px-6 py-3 rounded-full inline-block shadow-md">
+                            <%= new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+                        </div>
+                    </div>
+
+                    <!-- Right: Weather Stats Grid -->
+                    <div class="grid grid-cols-2 gap-4 w-full md:w-auto">
+                        <div class="stat-card rounded-2xl p-6 text-center">
+                            <svg class="w-12 h-12 mx-auto mb-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                            </svg>
+                            <div class="text-3xl font-black text-green-700"><%= currentWeather.humidity %>%</div>
+                            <div class="text-xs font-bold text-gray-600 uppercase tracking-widest mt-2">Humidity</div>
+                        </div>
+                        <div class="stat-card rounded-2xl p-6 text-center">
+                            <svg class="w-12 h-12 mx-auto mb-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                            <div class="text-3xl font-black text-green-700"><%= currentWeather.windSpeed %></div>
+                            <div class="text-xs font-bold text-gray-600 uppercase tracking-widest mt-2">km/h Wind</div>
+                        </div>
+                        <div class="stat-card rounded-2xl p-6 text-center">
+                            <svg class="w-12 h-12 mx-auto mb-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                            <div class="text-3xl font-black text-green-700"><%= currentWeather.sunrise %></div>
+                            <div class="text-xs font-bold text-gray-600 uppercase tracking-widest mt-2">Sunrise</div>
+                        </div>
+                        <div class="stat-card rounded-2xl p-6 text-center">
+                            <svg class="w-12 h-12 mx-auto mb-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                            </svg>
+                            <div class="text-3xl font-black text-green-700"><%= currentWeather.sunset %></div>
+                            <div class="text-xs font-bold text-gray-600 uppercase tracking-widest mt-2">Sunset</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } else { %>
+        <div class="glass-card rounded-3xl p-12 mb-8 text-center">
+            <div class="text-green-600 mb-4">
+                <svg class="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <p class="text-2xl font-bold text-gray-700">Weather data unavailable</p>
+            <p class="text-gray-600 mt-2">Please update your location in settings</p>
+        </div>
+        <% } %>
+
+        <!-- Hourly Forecast -->
+        <% if (detailedForecast && detailedForecast.length > 0) { %>
+        <div class="glass-card rounded-3xl p-6 md:p-8 mb-8">
+            <h2 class="text-3xl font-black section-header mb-6 flex items-center gap-3">
+                <div class="bg-green-100 p-3 rounded-2xl">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                Hourly Forecast
+            </h2>
+            <div class="flex gap-4 overflow-x-auto hourly-scroll pb-4">
+                <% detailedForecast.forEach(hour => { %>
+                <div class="hourly-card rounded-2xl p-5 min-w-[140px] text-center">
+                    <div class="text-sm font-bold text-gray-700 mb-3 bg-green-50 px-3 py-1 rounded-full inline-block"><%= hour.time %></div>
+                    <img src="http://openweathermap.org/img/wn/<%= hour.icon %>@2x.png" class="w-20 h-20 mx-auto mb-2" alt="weather">
+                    <div class="text-3xl font-black text-green-700 mb-2"><%= hour.temp %>°</div>
+                    <div class="text-xs font-semibold text-gray-600 mb-3 capitalize"><%= hour.desc %></div>
+                    <% if (hour.pop > 0) { %>
+                    <div class="text-xs font-bold bg-blue-100 text-blue-700 rounded-full px-3 py-1">
+                        💧 <%= hour.pop %>%
+                    </div>
+                    <% } %>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <% } %>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- 5-Day Forecast -->
+            <div class="lg:col-span-2">
+                <div class="glass-card rounded-3xl p-6 md:p-8">
+                    <h2 class="text-3xl font-black section-header mb-6 flex items-center gap-3">
+                        <div class="bg-green-100 p-3 rounded-2xl">
+                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        5-Day Forecast
+                    </h2>
+                    
+                    <% if (weatherData && weatherData.length > 0) { %>
+                    <div class="space-y-4">
+                        <% weatherData.forEach(day => { %>
+                        <div class="forecast-card rounded-2xl p-5 flex items-center justify-between">
+                            <div class="flex items-center gap-4 flex-1">
+                                <div class="w-20 text-left font-black text-gray-700 text-lg"><%= day.date %></div>
+                                <img src="http://openweathermap.org/img/wn/<%= day.icon %>@2x.png" class="w-16 h-16" alt="weather">
+                                <div class="flex-1">
+                                    <div class="font-bold text-gray-800 capitalize text-lg"><%= day.desc %></div>
+                                    <div class="text-sm font-semibold text-gray-600 mt-1">💧 Humidity: <%= day.humidity %>%</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-4xl font-black text-green-700"><%= day.temp %>°</div>
+                                <div class="text-sm font-bold text-gray-600 mt-1"><%= day.tempMin %>° / <%= day.tempMax %>°</div>
+                            </div>
+                        </div>
+                        <% }) %>
+                    </div>
+                    <% } else { %>
+                    <p class="text-center text-gray-600 font-semibold py-8">No forecast data available</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- AI Farming Advice -->
+                <div class="advice-card glass-card rounded-3xl p-6">
+                    <h2 class="text-2xl font-black section-header mb-6 flex items-center gap-3">
+                        <div class="bg-green-100 p-3 rounded-2xl">
+                            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        AI Farm Advice
+                    </h2>
+                    <div class="text-sm leading-relaxed text-gray-700 space-y-3 relative z-10 font-medium">
+                        <%- aiAdvice %>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="glass-card rounded-3xl p-6">
+                    <h3 class="text-xl font-black text-gray-800 mb-4 flex items-center gap-2">
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        Quick Actions
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="/dashboard" class="quick-action-btn block rounded-xl p-4 transition-all flex items-center gap-3 text-white relative overflow-hidden">
+                            <svg class="w-6 h-6 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span class="font-bold text-lg relative z-10">Dashboard</span>
+                        </a>
+                        <a href="/ai/assistant" class="quick-action-btn block rounded-xl p-4 transition-all flex items-center gap-3 text-white relative overflow-hidden">
+                            <svg class="w-6 h-6 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                            </svg>
+                            <span class="font-bold text-lg relative z-10">Ask AI Assistant</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <%- include("../layouts/footer") %>
+    <script>
+        (function() {
+            // If URL already contains lat/lon, do nothing.
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('lat') || params.has('lon')) return;
+
+            // Ask for geolocation; if granted, redirect to server with coords
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    // Redirect to weather page with coordinates so server reverse-geocodes and returns location-specific weather
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('lat', lat);
+                    url.searchParams.set('lon', lon);
+                    window.location.replace(url.toString());
+                }, function(err) {
+                    console.warn('Geolocation error or permission denied:', err && err.message);
+                    // silently continue with server-side/default location
+                }, { enableHighAccuracy: true, timeout: 8000 });
+            }
+        })();
+    </script>
+</body>
+</html>

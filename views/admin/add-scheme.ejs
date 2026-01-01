@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Scheme - Admin Panel</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-gradient-to-br from-green-50 via-white to-yellow-50 min-h-screen">
+
+    <!-- Admin Navigation Bar -->
+    <nav class="bg-gradient-to-r from-green-600 to-green-700 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <a href="/admin/dashboard" class="flex items-center gap-3 hover:opacity-80 transition">
+                        <div class="bg-white/20 p-2 rounded-lg">
+                            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-white text-xl font-bold">Admin Panel</h1>
+                            <p class="text-green-100 text-sm">Add New Scheme</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="/admin/schemes" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg font-semibold transition">
+                        View All Schemes
+                    </a>
+                    <a href="/admin/logout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <a href="/admin/schemes" class="text-green-600 hover:text-green-700 font-semibold mb-4 inline-flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                </svg>
+                Back to Schemes
+            </a>
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 mt-4">Add New Government Scheme</h2>
+            <p class="text-gray-600">Fill in the details and notify farmers via SMS</p>
+        </div>
+
+        <!-- Success Message -->
+        <% if (success) { %>
+        <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-lg animate-fadeIn">
+            <div class="flex items-center">
+                <svg class="w-6 h-6 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                    <p class="text-green-700 font-semibold"><%= success %></p>
+                    <p class="text-green-600 text-sm mt-1">SMS notifications sent to all registered farmers</p>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Error Message -->
+        <% if (error) { %>
+        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg animate-fadeIn">
+            <div class="flex items-center">
+                <svg class="w-6 h-6 text-red-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                <p class="text-red-700 font-semibold"><%= error %></p>
+            </div>
+        </div>
+        <% } %>
+
+        <!-- Form -->
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            <form action="/admin/schemes/add" method="POST" id="addSchemeForm">
+                
+                <!-- Scheme Name -->
+                <div class="mb-6">
+                    <label for="name" class="block text-gray-700 font-bold mb-2">
+                        Scheme Name <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        required
+                        placeholder="e.g., PM-KISAN, Krishi Rin Yojana"
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition"
+                    >
+                </div>
+
+                <!-- Description -->
+                <div class="mb-6">
+                    <label for="desc" class="block text-gray-700 font-bold mb-2">
+                        Short Description <span class="text-red-500">*</span>
+                    </label>
+                    <textarea 
+                        id="desc" 
+                        name="desc" 
+                        required
+                        rows="3"
+                        placeholder="Brief description of the scheme benefits (max 200 characters)"
+                        maxlength="200"
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition"
+                    ></textarea>
+                    <p class="text-sm text-gray-500 mt-1">
+                        <span id="charCount">0</span>/200 characters
+                    </p>
+                </div>
+
+                <!-- State Selection -->
+                <div class="mb-6">
+                    <label for="state" class="block text-gray-700 font-bold mb-2">
+                        State/Region <span class="text-red-500">*</span>
+                    </label>
+                    <select 
+                        id="state" 
+                        name="state" 
+                        required
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition"
+                    >
+                        <option value="">Select State</option>
+                        <option value="All India">All India</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                    </select>
+                </div>
+
+                <!-- Scheme Type -->
+                <div class="mb-6">
+                    <label for="type" class="block text-gray-700 font-bold mb-2">
+                        Scheme Type <span class="text-red-500">*</span>
+                    </label>
+                    <select 
+                        id="type" 
+                        name="type" 
+                        required
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition"
+                    >
+                        <option value="">Select Type</option>
+                        <option value="Income Support">Income Support</option>
+                        <option value="Insurance">Insurance</option>
+                        <option value="Loan">Loan</option>
+                        <option value="Subsidy">Subsidy</option>
+                        <option value="Training">Training</option>
+                        <option value="Equipment">Equipment</option>
+                        <option value="Fertilizer Guidance">Fertilizer Guidance</option>
+                        <option value="Market Access">Market Access</option>
+                        <option value="Irrigation">Irrigation</option>
+                        <option value="Support">General Support</option>
+                    </select>
+                </div>
+
+                <!-- Icon URL -->
+                <div class="mb-6">
+                    <label for="icon" class="block text-gray-700 font-bold mb-2">
+                        Icon URL <span class="text-gray-500">(Optional)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="icon" 
+                        name="icon" 
+                        placeholder="/images/scheme-icon.png"
+                        class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-green-500 focus:outline-none transition"
+                    >
+                    <p class="text-sm text-gray-500 mt-1">Leave blank to use default icon</p>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="mb-8 p-6 bg-green-50 rounded-xl">
+                    <h3 class="font-bold text-lg text-green-800 mb-3">📱 SMS Preview</h3>
+                    <div class="bg-white p-4 rounded-lg border border-green-200">
+                        <p class="text-sm text-gray-700">
+                            🌾 <strong>New Government Scheme Alert!</strong><br><br>
+                            "<span id="previewName" class="font-semibold">Scheme Name</span>" is now available for <span id="previewState" class="font-semibold">State</span> farmers.<br><br>
+                            Visit Aarohi Agriculture app to learn more and apply!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="flex gap-4">
+                    <button 
+                        type="submit" 
+                        class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-4 px-8 rounded-xl font-bold text-lg hover:shadow-xl transition transform hover:scale-105 flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Add Scheme & Notify Farmers
+                    </button>
+                    <a 
+                        href="/admin/schemes" 
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-4 px-8 rounded-xl font-bold text-lg transition flex items-center justify-center"
+                    >
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Box -->
+        <div class="mt-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
+            <div class="flex items-start">
+                <svg class="w-6 h-6 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <div>
+                    <p class="text-blue-700 font-semibold mb-1">Important Information</p>
+                    <ul class="text-blue-600 text-sm space-y-1">
+                        <li>• SMS will be sent to all registered farmers automatically</li>
+                        <li>• Make sure the scheme details are accurate before submitting</li>
+                        <li>• Farmers can view full details in the schemes section</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+    // Character counter
+    const descTextarea = document.getElementById('desc');
+    const charCount = document.getElementById('charCount');
+    
+    descTextarea.addEventListener('input', function() {
+        charCount.textContent = this.value.length;
+    });
+
+    // Live preview
+    const nameInput = document.getElementById('name');
+    const stateSelect = document.getElementById('state');
+    const previewName = document.getElementById('previewName');
+    const previewState = document.getElementById('previewState');
+
+    nameInput.addEventListener('input', function() {
+        previewName.textContent = this.value || 'Scheme Name';
+    });
+
+    stateSelect.addEventListener('change', function() {
+        previewState.textContent = this.value || 'State';
+    });
+
+    // Form validation
+    document.getElementById('addSchemeForm').addEventListener('submit', function(e) {
+        const name = document.getElementById('name').value;
+        const desc = document.getElementById('desc').value;
+        const state = document.getElementById('state').value;
+        const type = document.getElementById('type').value;
+
+        if (!name || !desc || !state || !type) {
+            e.preventDefault();
+            alert('Please fill in all required fields');
+            return false;
+        }
+
+        // Confirm before submitting
+        const confirmed = confirm(
+            `Are you sure you want to add this scheme?\n\n` +
+            `Scheme: ${name}\n` +
+            `State: ${state}\n\n` +
+            `SMS will be sent to all registered farmers.`
+        );
+
+        if (!confirmed) {
+            e.preventDefault();
+        }
+    });
+    </script>
+
+    <style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out;
+    }
+    </style>
+
+</body>
+</html>

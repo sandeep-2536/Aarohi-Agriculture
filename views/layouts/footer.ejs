@@ -1,0 +1,249 @@
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-40">
+    <div class="max-w-lg mx-auto">
+        <div class="flex items-center justify-around py-2">
+            
+            <a href="/" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                <span class="text-xs font-medium" data-i18n="nav.home">Home</span>
+            </a>
+
+            <button onclick="startGlobalVoice()" class="flex flex-col items-center gap-1 px-4 py-2 -mt-8">
+                <div class="bg-gradient-to-br from-red-500 to-red-600 p-4 rounded-full shadow-xl">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/></svg>
+                </div>
+                <span class="text-xs font-medium text-red-600 mt-1" data-i18n="nav.voice">Speak</span>
+            </button>
+
+            <a href="/community" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/></svg>
+                <span class="text-xs font-medium" data-i18n="nav.community">Community</span>
+            </a>
+
+            <div id="mobileProfileLink"></div>
+        </div>
+    </div>
+</nav>
+
+<div class="h-20 md:hidden"></div>
+
+<footer class="hidden md:block bg-gradient-to-br from-gray-800 to-gray-900 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-white rounded-full p-2">
+                        <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/><circle cx="8" cy="8" r="1.5"/><circle cx="16" cy="8" r="1.5"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold" data-i18n="footer.about_title">Aarohi Agriculture</h3>
+                        <p class="text-xs text-gray-400" data-i18n="footer.about_desc">Digital Farming Assistant</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400" data-i18n="footer.about_text">
+                    Empowering farmers with technology, connecting communities, and building a sustainable future.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-lg mb-4" data-i18n="footer.quick_links">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/" class="text-gray-400 hover:text-white transition" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/schemes" class="text-gray-400 hover:text-white transition" data-i18n="nav.schemes">Government Schemes</a></li>
+                    <li><a href="/ai/assistant" class="text-gray-400 hover:text-white transition" data-i18n="nav.ask_ai">AI Assistant</a></li>
+                    <li><a href="/community" class="text-gray-400 hover:text-white transition" data-i18n="nav.community">Community</a></li>
+                    <li><a href="/admin/login" class="text-gray-400 hover:text-white transition" >Admin Panel</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-lg mb-4" data-i18n="footer.marketplace">Marketplace</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/animals" class="text-gray-400 hover:text-white transition" data-i18n="footer.livestock">Livestock Trading</a></li>
+                    <li><a href="/crops" class="text-gray-400 hover:text-white transition" data-i18n="footer.crops">Sell Crops</a></li>
+                    <li><a href="/stock" class="text-gray-400 hover:text-white transition" data-i18n="footer.stock">Find Stock</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-lg mb-4" data-i18n="footer.support">Support</h4>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+                        <span data-i18n="footer.support_247">24/7 Support Available</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+                        <span>help@aarohi.ag</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
+                        <span data-i18n="footer.location">Karnataka, India</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+            <p>&copy; 2024 Aarohi Agriculture. All rights reserved.</p>
+            <p class="mt-2" data-i18n="footer.made_with">Made with ❤️ for Indian Farmers</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Incoming call UI removed -->
+
+<!-- Embed logged-in user data for client-side access -->
+<% if (user) { %>
+<div id="currentUserData" style="display:none;" data-user-id="<%= user._id %>" data-user-name="<%= user.name %>" data-user-profile="<%= user.profileImage || '/images/default-user.png' %>"></div>
+<% } %>
+<% if (typeof vet !== 'undefined' && vet) { %>
+<div id="currentVetData" style="display:none;" data-vet-id="<%= vet._id %>" data-vet-name="<%= vet.name %>"></div>
+<% } %>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    // Set global user/lang config
+    window.CURRENT_USER = null;
+    window.CURRENT_VET = null;
+    window.SERVER_USER_LANG = "<%= typeof userLang !== 'undefined' ? userLang : 'en' %>"; // from Express
+    
+    // Read user data from DOM
+    var userDataEl = document.getElementById('currentUserData');
+    if (userDataEl) {
+        var userId = userDataEl.getAttribute('data-user-id');
+        if (userId) {
+            window.CURRENT_USER = {
+                _id: userId,
+                name: userDataEl.getAttribute('data-user-name'),
+                profileImage: userDataEl.getAttribute('data-user-profile')
+            };
+        }
+    }
+    
+    // Read vet data from DOM
+    var vetDataEl = document.getElementById('currentVetData');
+    if (vetDataEl) {
+        var vetId = vetDataEl.getAttribute('data-vet-id');
+        if (vetId) {
+            window.CURRENT_VET = {
+                _id: vetId,
+                name: vetDataEl.getAttribute('data-vet-name')
+            };
+        }
+    }
+    function renderMobileProfile() {
+        var container = document.getElementById('mobileProfileLink');
+        if (!container) return;
+        
+        // Define translations for dynamic JS content
+        const t = {
+            profile: window.I18N_DATA ? window.I18N_DATA.nav.profile : 'Profile',
+            login: window.I18N_DATA ? window.I18N_DATA.nav.login : 'Login'
+        };
+
+        if (CURRENT_USER) {
+            container.innerHTML = `<a href="/dashboard" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <img src="${CURRENT_USER.profileImage}" class="w-6 h-6 rounded-full object-cover border-2 border-green-600">
+                <span class="text-xs font-medium" data-i18n="nav.profile">${t.profile}</span>
+            </a>`;
+        } else {
+            container.innerHTML = `<a href="/auth/login" class="flex flex-col items-center gap-1 px-4 py-2 text-gray-600 hover:text-green-600 transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"/></svg>
+                <span class="text-xs font-medium" data-i18n="nav.login">${t.login}</span>
+            </a>`;
+        }
+    }
+    
+    // Initial Render
+    document.addEventListener("DOMContentLoaded", renderMobileProfile);
+    // Re-render when language changes
+    window.addEventListener('languageChanged', renderMobileProfile);
+</script>
+
+<script src="/js/i18n.js"></script>
+<script src="/js/voiceOver.js"></script>
+<script src="/js/pageVoice.js"></script>
+
+<script>
+    // Initialize Voice Widget State
+    document.addEventListener("DOMContentLoaded", () => {
+        let enabled = localStorage.getItem("aarohi_voice_enabled");
+        if (enabled === null) enabled = "true";
+        window.voiceToggle(enabled === "true");
+        document.getElementById("voiceState").innerText = enabled === "true" ? "On" : "Off";
+
+        let lang = localStorage.getItem("aarohi_lang") || window.SERVER_USER_LANG;
+        document.getElementById("voiceLang").value = lang;
+        if(window.voiceSetLang) window.voiceSetLang(lang);
+
+                // Populate voice select once voices are available
+                if (window.getAvailableVoices) {
+                    window.getAvailableVoices().then(voices => {
+                        const sel = document.getElementById('voiceSelect');
+                        if (!sel) return;
+                        sel.innerHTML = '';
+                        voices.forEach(v => {
+                            const opt = document.createElement('option');
+                            opt.value = v.voiceURI || v.name;
+                            opt.innerText = `${v.name} (${v.lang})`;
+                            sel.appendChild(opt);
+                        });
+
+                        // select previously chosen voice
+                        const pref = window.getPreferredVoice && window.getPreferredVoice();
+                        if (pref) {
+                            const match = Array.from(sel.options).find(o => o.value === pref || o.text.includes(pref));
+                            if (match) sel.value = match.value;
+                        }
+                    }).catch(err => console.error('[voice] list error', err));
+                }
+    });
+
+    function toggleVoice() {
+        let newState = !window.AAROHIVoice.enabled;
+        window.voiceToggle(newState);
+        localStorage.setItem("aarohi_voice_enabled", newState);
+        document.getElementById("voiceState").innerText = newState ? "On" : "Off";
+        
+        // Speak feedback in current lang
+        const feedback = {
+            en: newState ? "Voice Enabled" : "Voice Disabled",
+            hi: newState ? "आवाज़ चालू है" : "आवाज़ बंद है",
+            kn: newState ? "ಧ್ವನಿ ಸಕ್ರಿಯವಾಗಿದೆ" : "ಧ್ವನಿ ನಿಷ್ಕ್ರಿಯವಾಗಿದೆ"
+        };
+        const currentLang = document.getElementById("voiceLang").value;
+        if(newState) voiceSpeak(feedback[currentLang] || feedback['en']);
+    }
+
+        // Voice select handlers
+        document.addEventListener('DOMContentLoaded', () => {
+            const saveBtn = document.getElementById('saveVoiceBtn');
+            const testBtn = document.getElementById('testVoiceBtn');
+            const sel = document.getElementById('voiceSelect');
+            if (!sel || !saveBtn || !testBtn) return;
+
+            saveBtn.addEventListener('click', () => {
+                const val = sel.value;
+                if (window.setPreferredVoice) window.setPreferredVoice(val);
+                alert('Preferred voice saved');
+            });
+
+            testBtn.addEventListener('click', () => {
+                const val = sel.value;
+                const label = sel.options[sel.selectedIndex].text;
+                // Try to use selected voice immediately for a test phrase in current language
+                window.setPreferredVoice && window.setPreferredVoice(val);
+                const lang = document.getElementById('voiceLang').value || 'en';
+                const sample = {
+                    en: 'Hello, this is a test voice.',
+                    hi: 'नमस्ते, यह परीक्षण आवाज़ है।',
+                    kn: 'ನಮಸ್ಕಾರ, ಇದು ಟೆಸ್ಟ್ ಧ್ವನಿ.'
+                }[lang] || 'Test voice';
+                voiceSpeak(sample);
+            });
+        });
+</script>

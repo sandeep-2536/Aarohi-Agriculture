@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Problem - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-white to-pink-50 min-h-screen">
+
+    <%- include("../../layouts/header") %>
+
+    <section class="py-12 px-4 max-w-3xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mb-4">
+                <a href="/" class="flex items-center gap-3">
+    <img src="/aarohi_logo.png" class="w-16 h-16 object-contain" alt="Aarohi Logo" />
+
+    <div class="text-white">
+        <h1 class="text-2xl font-bold">Aarohi Agriculture</h1>
+        <p class="text-xs text-green-100">Your Digital Farming Assistant</p>
+    </div>
+</a>
+
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-3">
+                📢 Report Your Problem
+            </h1>
+            <p class="text-xl text-gray-600">
+                Describe your farming issue. Our community will help you find solutions.
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
+            <form action="/community/problems/new" method="POST" enctype="multipart/form-data">
+                
+                <!-- Problem Description -->
+                <div class="mb-8">
+                    <label class="block text-gray-700 font-bold mb-3 text-lg">
+                        <svg class="inline w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/>
+                        </svg>
+                        Describe Your Problem
+                    </label>
+                    <textarea 
+                        name="text" 
+                        rows="6"
+                        placeholder="Example: My tomato plants have yellow spots on leaves and the fruits are not ripening properly. The weather has been humid lately..."
+                        class="input-field w-full resize-none"
+                        required
+                    ></textarea>
+                    <p class="text-sm text-gray-500 mt-2">
+                        💡 Be specific: Mention crop type, symptoms, location, and what you've tried.
+                    </p>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="mb-8">
+                    <label class="block text-gray-700 font-bold mb-3 text-lg">
+                        <svg class="inline w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                        Upload Photo (Optional)
+                    </label>
+                    
+                    <div class="relative">
+                        <input 
+                            type="file" 
+                            name="image" 
+                            id="imageInput"
+                            accept="image/*"
+                            class="hidden"
+                            onchange="previewImage(event)"
+                        >
+                        <label for="imageInput" 
+                               class="block w-full border-3 border-dashed border-gray-300 rounded-2xl p-10 text-center cursor-pointer hover:border-purple-500 hover:bg-purple-50 transition">
+                            <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                            </svg>
+                            <p class="text-lg font-semibold text-gray-700 mb-1">
+                                Click to upload image
+                            </p>
+                            <p class="text-sm text-gray-500">
+                                Photos help experts identify problems faster
+                            </p>
+                        </label>
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div id="imagePreview" class="hidden mt-4">
+                        <p class="text-sm font-semibold text-gray-700 mb-2">Preview:</p>
+                        <div class="relative rounded-2xl overflow-hidden">
+                            <img id="previewImg" src="" class="w-full h-64 object-cover">
+                            <button type="button" onclick="removeImage()" 
+                                    class="absolute top-4 right-4 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-lg transition">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips Box -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 mb-8">
+                    <h3 class="font-bold text-purple-800 mb-3 flex items-center gap-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                        Tips for Better Responses
+                    </h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Include photos showing the problem clearly</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Mention your location's weather conditions</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>List any treatments or fertilizers you've used</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-4">
+                    <button type="submit" 
+                            class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 px-8 rounded-2xl font-bold text-lg hover:shadow-2xl transition transform hover:scale-105 flex items-center justify-center gap-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                        </svg>
+                        Submit Problem
+                    </button>
+                    <a href="/community/problems" 
+                       class="bg-gray-200 hover:bg-gray-300 text-gray-700 py-4 px-8 rounded-2xl font-bold text-lg transition">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+
+    </section>
+
+    <%- include("../../layouts/footer") %>
+
+    <script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('imagePreview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function removeImage() {
+        document.getElementById('imageInput').value = '';
+        document.getElementById('imagePreview').classList.add('hidden');
+        document.getElementById('previewImg').src = '';
+    }
+    </script>
+
+</body>
+</html>

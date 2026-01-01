@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAROHI | Farmer Dashboard</title>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/css/output.css">
+    
+    <style>
+        /* Earthy, calming background palette for farmers */
+        body { 
+            background-color: #f0f7f4; /* Mint Cream */
+            background-image: radial-gradient(#d1fae5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(22, 101, 52, 0.15);
+            border-color: #86efac; /* green-300 */
+        }
+
+        /* Premium Weather Glass Effect */
+        .weather-container {
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Abstract mesh gradient background for weather */
+        .weather-mesh {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 50%);
+            animation: rotate 60s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar for Forecast List */
+        .forecast-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+        .forecast-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .forecast-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 antialiased font-sans">
+
+    <%- include("../layouts/header") %>
+
+    <!-- LOCATION MODAL (Shows if village is not set) -->
+    <% if (!user.village) { %>
+        <div id="locationModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Set Your Location</h2>
+                    <p class="text-slate-600 text-sm">Help us provide weather-based farm advice</p>
+                </div>
+
+                <form id="locationForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Village/City</label>
+                        <input type="text" id="villageInput" name="village" placeholder="e.g., Bengaluru" 
+                               class="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-green-500 transition-colors"
+                               required>
+                        <p class="text-xs text-slate-500 mt-1">💡 Use a well-known city name if your village is small</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">State</label>
+                        <input type="text" id="stateInput" name="state" placeholder="e.g., Karnataka" 
+                               class="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-green-500 transition-colors"
+                               required>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg transition-colors">
+                        Save Location & Get Weather
+                    </button>
+                </form>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- EDIT LOCATION MODAL (Always available, hidden by default) -->
+    <div id="editLocationModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2">Update Location</h2>
+                <p class="text-slate-600 text-sm">Change your village or state for accurate weather</p>
+            </div>
+
+            <form id="editLocationForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Village/City</label>
+                    <input type="text" id="editVillageInput" name="village" placeholder="e.g., Bengaluru" 
+                           class="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-green-500 transition-colors"
+                           value="<%= user.village || '' %>" required>
+                    <p class="text-xs text-slate-500 mt-1">💡 Use a well-known city name if your village is small</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">State</label>
+                    <input type="text" id="editStateInput" name="state" placeholder="e.g., Karnataka" 
+                           class="w-full px-4 py-2 border-2 border-slate-200 rounded-lg focus:outline-none focus:border-green-500 transition-colors"
+                           value="<%= user.state || '' %>" required>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="document.getElementById('editLocationModal').style.display='none'" class="flex-1 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 rounded-lg transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg transition-colors">
+                        Update & Refresh
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- HEADER SECTION with Language & Voice Controls -->
+        <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-800 flex items-center gap-2">
+                    <span class="text-green-700">Namaste,</span> <span data-user-name><%= user.name %></span>
+                </h1>
+                <p class="text-slate-500 mt-1 flex items-center gap-2">
+                    <!-- Location Pin Icon -->
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span id="locationDisplay"><%= user.village || "Unknown Village" %>, <%= user.state || "India" %></span>
+                    <button onclick="document.getElementById('editLocationModal').style.display='flex'" class="text-xs text-green-600 hover:text-green-800 ml-2 font-semibold">Edit</button>
+                </p>
+            </div>
+            <div class="text-right hidden md:block">
+                <!-- Language & Voice Controls -->
+                <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-end md:gap-3">
+                    <select id="langSelect" onchange="changeDashboardLanguage(this.value)" class="px-3 py-2 rounded-lg bg-white text-slate-700 font-semibold cursor-pointer border border-slate-200 hover:border-green-400 transition-colors text-sm">
+                        <option value="en" <%= lang === 'en' ? 'selected' : '' %>>English</option>
+                        <option value="hi" <%= lang === 'hi' ? 'selected' : '' %>>हिंदी (Hindi)</option>
+                        <option value="kn" <%= lang === 'kn' ? 'selected' : '' %>>ಕನ್ನಡ (Kannada)</option>
+                    </select>
+                    
+                    <button onclick="toggleVoice()" id="voiceToggleBtn" class="px-4 py-2 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors flex items-center gap-2 text-sm">
+                        🔊 Voice On
+                    </button>
+                </div>
+                <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold bg-white text-green-700 border border-green-200 shadow-sm mt-3">
+                    <!-- Leaf Icon -->
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <%= user.farmerType || "General Farmer" %>
+                </span>
+            </div>
+        </div>
+
+        <!-- MAIN DASHBOARD GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+            
+            <!-- LEFT COLUMN: Profile & Stats (4 cols) -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- PROFILE CARD -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+                    
+                    <div class="flex items-center gap-5 relative z-10">
+                        <div class="relative">
+                            <img src="<%= user.profileImage || 'https://ui-avatars.com/api/?name=' + user.name + '&background=DCFCE7&color=166534' %>" 
+                                 class="w-20 h-20 rounded-2xl object-cover border-4 border-white shadow-lg">
+                            <div class="absolute -bottom-2 -right-2 bg-green-500 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center">
+                                <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-green-600 tracking-wider uppercase mb-1">Farmers ID</p>
+                            <p class="font-mono font-bold text-xl text-slate-800 tracking-tight">#<%= user._id.toString().slice(-6).toUpperCase() %></p>
+                            <p class="text-sm text-slate-500 mt-2 flex items-center gap-2 bg-slate-50 px-2 py-1 rounded-lg inline-block">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                <%= user.mobileNumber %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUICK STATS GRID -->
+                <div class="grid grid-cols-2 gap-4">
+                    <% 
+                    const stats = [
+                        { count: myCommunityPosts.length, label: "Posts", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
+                        { count: myAnimals.length, label: "Livestock", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
+                        { count: myCrops.length, label: "Crops", color: "text-yellow-600", bg: "bg-yellow-50", border: "border-yellow-100" },
+                        { count: myProblems.length, label: "Issues", color: "text-rose-600", bg: "bg-rose-50", border: "border-rose-100" }
+                    ];
+                    %>
+                    <% stats.forEach(stat => { %>
+                        <div class="bg-white p-4 rounded-2xl border <%= stat.border %> shadow-sm flex flex-col items-center justify-center text-center hover:shadow-md transition-shadow">
+                            <span class="text-3xl font-extrabold <%= stat.color %>"><%= stat.count %></span>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2"><%= stat.label %></span>
+                        </div>
+                    <% }) %>
+                </div>
+
+                <!-- AI ADVICE BOX -->
+                <div class="bg-white rounded-2xl p-5 border-l-4 border-indigo-500 shadow-md relative overflow-hidden" data-ai-advice>
+                    <div class="absolute top-0 right-0 p-4 opacity-5">
+                        <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8z"></path></svg>
+                    </div>
+                    <div class="flex items-center gap-3 mb-3 relative z-10">
+                        <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="font-bold text-slate-700 text-sm tracking-wide">AI FARM INSIGHT</h3>
+                        <button onclick="DashboardVoice.speakAdvice()" class="ml-auto px-2 py-1 rounded bg-indigo-100 text-indigo-700 text-xs font-semibold hover:bg-indigo-200 transition" title="Read advice aloud">🔊</button>
+                    </div>
+                    <div class="text-sm text-slate-600 leading-relaxed relative z-10 font-medium">
+                        <%- aiAdvice || "AI is analyzing weather data..." %>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: Enhanced Weather Container (8 cols) -->
+            <div class="lg:col-span-8 space-y-6">
+
+                <!-- REDESIGNED WEATHER CONTAINER -->
+                <div class="weather-container rounded-3xl p-1 shadow-2xl">
+                    <div class="weather-mesh"></div>
+                    
+                    <div class="bg-white/10 backdrop-blur-md rounded-[1.3rem] p-6 text-white relative z-10">
+                        
+                        <!-- 1. HEADER & CURRENT STATUS (Top Row) -->
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+                            
+                            <!-- Left: Current Weather -->
+                            <div class="flex items-center gap-5">
+                                <% if (weather && weather.length > 0) { 
+                                    const today = weather[0];
+                                    const isRain = today.desc.toLowerCase().includes('rain') || today.desc.toLowerCase().includes('drizzle');
+                                    const isClear = today.desc.toLowerCase().includes('clear') || today.desc.toLowerCase().includes('sun');
+                                    const statusColor = isRain ? 'bg-blue-500/80' : (isClear ? 'bg-yellow-400/80' : 'bg-slate-500/80');
+                                %>
+                                <div class="w-16 h-16 rounded-2xl <%= statusColor %> flex items-center justify-center shadow-lg backdrop-blur-sm ring-4 ring-white/10">
+                                    <img src="http://openweathermap.org/img/wn/<%= today.icon %>.png" class="w-10 h-10 drop-shadow-md" alt="weather-icon">
+                                </div>
+                                <div>
+                                    <div class="text-4xl font-extrabold tracking-tight flex items-start">
+                                        <span data-weather-temp="<%= today.temp %>" data-weather-desc="<%= today.desc %>" data-weather-date="<%= today.date %>"><%= today.temp %></span>
+                                        <span class="text-lg font-medium opacity-60 mt-1">°C</span>
+                                    </div>
+                                    <div class="text-sm font-medium text-green-100 capitalize opacity-90"><%= today.desc %></div>
+                                    <div class="text-xs text-white/50 font-medium uppercase tracking-wider mt-1"><%= user.village || 'Region' %></div>
+                                </div>
+                                <% } else { %>
+                                    <div class="text-white/60">Loading...</div>
+                                <% } %>
+                            </div>
+
+                            <!-- Right: Farm Suitability Badge -->
+                            <% if (weather && weather.length > 0) { 
+                                const today = weather[0];
+                                const isRain = today.desc.toLowerCase().includes('rain');
+                            %>
+                            <div class="bg-black/20 rounded-xl px-5 py-3 border border-white/5 backdrop-blur-sm self-stretch md:self-auto flex flex-col justify-center">
+                                <p class="text-[10px] text-green-200 uppercase tracking-widest font-bold mb-1">Farm Impact</p>
+                                <p class="text-sm font-semibold flex items-center gap-2">
+                                    <% if(isRain) { %>
+                                        <svg class="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                        Rain expected. Pause Spraying.
+                                    <% } else { %>
+                                        <svg class="w-4 h-4 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        Good conditions for field work.
+                                    <% } %>
+                                </p>
+                                <button onclick="DashboardVoice.speakWeather()" class="mt-2 px-3 py-1 rounded bg-white/20 text-white text-xs font-semibold hover:bg-white/30 transition" title="Read weather aloud">🔊 Read</button>
+                            </div>
+                            <% } %>
+                        </div>
+
+                        <!-- 2. GRAPH AREA (Middle Row - Full Width) -->
+                        <div class="relative w-full h-40 mb-6">
+                            <div class="absolute top-0 left-0 text-[10px] font-bold text-white/30 uppercase tracking-wider">5-Day Temperature Trend</div>
+                            <canvas id="tempChart" class="w-full h-full mt-2"></canvas>
+                        </div>
+
+                        <!-- 3. DAILY FORECAST (Bottom Row) -->
+                        <div class="border-t border-white/10 pt-5">
+                            <div class="flex gap-3 overflow-x-auto forecast-scroll pb-2">
+                                <% if (weather && weather.length > 0) { %>
+                                    <% weather.forEach((day, index) => { %>
+                                        <div class="flex flex-col items-center min-w-[5rem] bg-white/5 hover:bg-white/10 rounded-xl p-3 backdrop-blur-sm transition-all border border-transparent hover:border-white/20 group">
+                                            <span class="text-[10px] font-bold text-green-100/70 mb-2 uppercase"><%= day.date.split(',')[0] %></span>
+                                            <img src="http://openweathermap.org/img/wn/<%= day.icon %>.png" class="w-8 h-8 mb-1 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform">
+                                            <span class="font-bold text-base"><%= day.temp %>°</span>
+                                        </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <p class="text-white/50 text-sm">Weather data unavailable.</p>
+                                <% } %>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ACTION GRID (Modern Buttons) -->
+                <h3 class="text-lg font-bold text-slate-700 px-1">Quick Actions</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Community -->
+                    <a href="/community" class="card-hover bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center gap-3 group">
+                        <div class="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-colors shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <span class="font-semibold text-slate-700 group-hover:text-green-700 transition-colors">Community</span>
+                    </a>
+
+                    <!-- Sell Crop -->
+                    <a href="/crops" class="card-hover bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center gap-3 group">
+                        <div class="w-12 h-12 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center group-hover:bg-yellow-600 group-hover:text-white transition-colors shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <span class="font-semibold text-slate-700 group-hover:text-yellow-700 transition-colors">Sell Crops</span>
+                    </a>
+
+                    <!-- Vet Call -->
+                    <a href="/teleVet" class="card-hover bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center gap-3 group">
+                        <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-colors shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                        <span class="font-semibold text-slate-700 group-hover:text-rose-700 transition-colors">Tele-Vet</span>
+                    </a>
+
+                    <!-- AI Assistant -->
+                    <a href="/ai/assistant" class="card-hover bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center justify-center gap-3 group">
+                        <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        </div>
+                        <span class="font-semibold text-slate-700 group-hover:text-indigo-700 transition-colors">Ask AI</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECENT ACTIVITY LIST -->
+        <h3 class="text-lg font-bold text-slate-700 mb-4 px-1">Recent Updates</h3>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 divide-y divide-slate-50">
+            <% if(recentActivity.length === 0) { %>
+                <div class="p-10 text-center text-slate-400">
+                    <div class="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <p class="font-medium">No recent activity yet.</p>
+                </div>
+            <% } %>
+
+            <% recentActivity.forEach(a => { %>
+                <a href="<%= a.url %>" class="flex items-center gap-4 p-4 hover:bg-slate-50 transition-colors group">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center group-hover:bg-green-100 group-hover:text-green-700 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-bold text-slate-700 group-hover:text-green-800 transition-colors"><%= a.text %></p>
+                        <p class="text-xs text-slate-400 font-medium"><%= new Date(a.date).toLocaleDateString() %></p>
+                    </div>
+                    <div class="text-slate-300 group-hover:translate-x-1 transition-transform">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </div>
+                </a>
+            <% }) %>
+        </div>
+
+    </main>
+
+    <%- include("../layouts/footer") %>
+
+    <!-- Hidden Weather Data Element -->
+    <div id="weatherData" data-weather="<%- weather ? JSON.stringify(weather) : '[]' %>" style="display: none;"></div>
+
+    <!-- CANVAS SCRIPT FOR WEATHER CHART -->
+    <script>
+        // Handle Location Form Submission (initial setup)
+        const locationForm = document.getElementById('locationForm');
+        if (locationForm) {
+            locationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const village = document.getElementById('villageInput').value;
+                const state = document.getElementById('stateInput').value;
+                await submitLocationForm(village, state);
+            });
+        }
+
+        // Handle Edit Location Form Submission
+        const editLocationForm = document.getElementById('editLocationForm');
+        if (editLocationForm) {
+            editLocationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const village = document.getElementById('editVillageInput').value;
+                const state = document.getElementById('editStateInput').value;
+                await submitLocationForm(village, state);
+            });
+        }
+
+        // Submit location and refresh
+        async function submitLocationForm(village, state) {
+            try {
+                const res = await fetch('/dashboard/saveLocation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ village, state })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    console.log('[dashboard] Location saved:', data.user);
+                    // Hide modals
+                    const locationModal = document.getElementById('locationModal');
+                    const editModal = document.getElementById('editLocationModal');
+                    if (locationModal) locationModal.style.display = 'none';
+                    if (editModal) editModal.style.display = 'none';
+                    
+                    // Update location display
+                    const locationDisplay = document.getElementById('locationDisplay');
+                    if (locationDisplay) {
+                        locationDisplay.textContent = `${data.user.village}, ${data.user.state}`;
+                    }
+                    
+                    // Reload to fetch fresh weather
+                    setTimeout(() => window.location.reload(), 800);
+                } else {
+                    alert('Error saving location: ' + data.message);
+                }
+            } catch (err) {
+                console.error('[dashboard] Location save error:', err);
+                alert('Failed to save location. Please try again.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get Weather Data safely from DOM
+            const weatherElement = document.getElementById('weatherData');
+            const weatherRaw = weatherElement ? JSON.parse(weatherElement.dataset.weather || '[]') : [];
+            
+            if (!weatherRaw || weatherRaw.length === 0) {
+                console.warn('[dashboard] No weather data available for chart');
+                return;
+            }
+
+            const canvas = document.getElementById('tempChart');
+            if (!canvas) return;
+
+            // Setup Canvas
+            const ctx = canvas.getContext('2d');
+            
+            // Handle retina display crispness
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            
+            const width = rect.width;
+            const height = rect.height;
+
+            // Extract Data
+            const temps = weatherRaw.map(d => parseInt(d.temp));
+            const labels = weatherRaw.map(d => d.date.split(',')[0]); // "Mon", "Tue"
+
+            // Configuration
+            const padding = 15;
+            const chartWidth = width - (padding * 2);
+            const chartHeight = height - (padding * 2);
+            const maxTemp = Math.max(...temps) + 2;
+            const minTemp = Math.min(...temps) - 2;
+
+            const getY = (temp) => {
+                return height - padding - ((temp - minTemp) / (maxTemp - minTemp)) * chartHeight;
+            };
+
+            const getX = (index) => {
+                return padding + (index / (temps.length - 1)) * chartWidth;
+            };
+
+            // Draw
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Draw The Line
+            ctx.beginPath();
+            ctx.moveTo(getX(0), getY(temps[0]));
+            for (let i = 1; i < temps.length; i++) {
+                const x = getX(i);
+                const y = getY(temps[i]);
+                const prevX = getX(i - 1);
+                const prevY = getY(temps[i - 1]);
+                
+                // Smooth bezier curve
+                const cp1x = prevX + (x - prevX) / 2;
+                const cp1y = prevY;
+                const cp2x = x - (x - prevX) / 2;
+                const cp2y = y;
+                ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+            }
+            
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 10;
+            ctx.stroke();
+            ctx.shadowBlur = 0; // Reset shadow
+
+            // 2. Fill Area (Gradient)
+            ctx.lineTo(getX(temps.length - 1), height);
+            ctx.lineTo(getX(0), height);
+            ctx.closePath();
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // 3. Draw Points & Labels
+            temps.forEach((temp, i) => {
+                const x = getX(i);
+                const y = getY(temp);
+
+                // Point
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+                // Ring
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Temp Label
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(temp + '°', x, y - 12);
+            });
+        });
+
+        // ========================================
+        // VOICE AND LANGUAGE FUNCTIONS
+        // ========================================
+        let voiceEnabled = localStorage.getItem('aarohi_voice_enabled') !== 'false';
+        
+        function updateVoiceButtonState() {
+            const btn = document.getElementById('voiceToggleBtn');
+            if (btn) {
+                if (voiceEnabled) {
+                    btn.textContent = '🔊 Voice On';
+                    btn.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                    btn.classList.add('bg-green-500', 'hover:bg-green-600');
+                } else {
+                    btn.textContent = '🔇 Voice Off';
+                    btn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    btn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                }
+            }
+        }
+        
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            localStorage.setItem('aarohi_voice_enabled', voiceEnabled);
+            
+            if (window.voiceToggle) {
+                window.voiceToggle(voiceEnabled);
+            }
+            
+            updateVoiceButtonState();
+            
+            if (voiceEnabled && window.voiceSpeak) {
+                window.voiceSpeak("Voice enabled");
+            }
+        }
+        
+        function changeDashboardLanguage(lang) {
+            localStorage.setItem('aarohi_lang', lang);
+            
+            if (window.voiceSetLang) {
+                window.voiceSetLang(lang);
+            }
+            
+            // Reload page with new language
+            window.location.href = window.location.pathname + '?lang=' + lang;
+        }
+        
+        // Initialize voice button state
+        document.addEventListener('DOMContentLoaded', function() {
+            updateVoiceButtonState();
+        });
+    </script>
+
+    <!-- Include voice functionality -->
+    <script src="/js/voiceOver.js"></script>
+    <script src="/js/dashboardVoice.js"></script>
+</body>
+</html>

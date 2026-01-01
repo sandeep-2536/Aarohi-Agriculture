@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Problems - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-white to-pink-50 min-h-screen">
+
+    <%- include("../../layouts/header") %>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-purple-600 to-pink-600 py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="text-white flex-1">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                        🧑‍🌾 Farmers' Problems
+                    </h1>
+                    <p class="text-xl text-purple-100 mb-6">
+                        Share your farming challenges. Get solutions from experts and fellow farmers.
+                    </p>
+                    <div class="flex gap-4 flex-wrap">
+                        <span class="bg-white/20 backdrop-blur-lg px-4 py-2 rounded-full text-sm font-semibold">
+                            <%= problems.length %> Problems Shared
+                        </span>
+                        <span class="bg-white/20 backdrop-blur-lg px-4 py-2 rounded-full text-sm font-semibold">
+                            Community Support
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <a href="/community/problems/new" class="bg-white text-purple-600 hover:bg-purple-50 px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transition transform hover:scale-105 inline-flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        Report Problem
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems List -->
+    <section class="py-12 px-4 max-w-7xl mx-auto">
+        
+        <% if (problems.length === 0) { %>
+        <div class="text-center py-20">
+            <svg class="w-32 h-32 mx-auto text-gray-300 mb-6" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            <h2 class="text-3xl font-bold text-gray-400 mb-2">No problems yet</h2>
+            <p class="text-gray-500 mb-6">Be the first to share a problem and get help from the community!</p>
+            <a href="/community/problems/new" class="btn-primary">
+                Report Your First Problem
+            </a>
+        </div>
+<<<<<<< HEAD
+        <% } else { %>
+
+        <!-- Problems Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% problems.forEach(problem => { %>
+            <div onclick="window.location.href='/community/problems/<%= problem._id %>'" 
+                 class="problem-card cursor-pointer">
+                
+                <!-- User Info -->
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="<%= problem.user.profileImage || '/images/default-user.svg' %>" 
+                         class="w-12 h-12 rounded-full object-cover border-2 border-purple-200">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-gray-800"><%= problem.user.name %></h3>
+                        <p class="text-sm text-gray-500">
+                            <%= new Date(problem.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) %>
+                        </p>
+                    </div>
+                    <svg class="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <!-- Problem Text -->
+                <p class="text-gray-700 mb-4 line-clamp-3 leading-relaxed">
+                    <%= problem.text %>
+                </p>
+
+                <!-- Problem Image -->
+                <% if (problem.image) { %>
+                <div class="mb-4 rounded-xl overflow-hidden">
+                    <img src="<%= problem.image %>" 
+                         class="w-full h-48 object-cover hover:scale-110 transition-transform duration-300" 
+                         alt="Problem image">
+                </div>
+                <% } %>
+
+                <!-- Action Button -->
+                <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                    <span class="text-sm text-gray-500 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd"/>
+                        </svg>
+                        View Discussion
+                    </span>
+                    <svg class="w-5 h-5 text-gray-400 transform rotate-0 group-hover:rotate-45 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+=======
+    <% } else { %>
+        <% problems.forEach(p => { %>
+            <div class="post-card">
+                <div class="post-user"><%= p.user ? p.user.name : 'Anonymous' %></div>
+                <div class="post-text"><%= p.text %></div>
+                <% if (p.image) { %>
+                    <img src="<%= p.image %>" class="post-image" />
+                <% } %>
+                <a href="/community/problems/<%= p._id %>">View</a>
+            </div>
+        <% }) %>
+    <% } %>
+>>>>>>> 335fef7a7f03dacd276230d8eb162d26bbfcf7e4
+
+        <% } %>
+
+        <!-- Floating Action Button (Mobile) -->
+        <a href="/community/problems/new" 
+           class="md:hidden fixed bottom-24 right-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-5 rounded-full shadow-2xl hover:shadow-3xl transition transform hover:scale-110 z-30">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+            </svg>
+        </a>
+    </section>
+
+    <%- include("../../layouts/footer") %>
+
+    <style>
+    .problem-card {
+        background: linear-gradient(135deg, #ffffff, #fdf4ff);
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s;
+        border: 2px solid transparent;
+    }
+
+    .problem-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(147, 51, 234, 0.15);
+        border-color: #e9d5ff;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    </style>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile - Aarohi Agriculture</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body class="bg-linear-to-br from-green-50 via-white to-green-100 min-h-screen">
+
+<%- include("../layouts/header") %>
+
+<div class="flex items-center justify-center min-h-[calc(100vh-200px)] px-4 py-12">
+    <div class="w-full max-w-2xl">
+        
+        <!-- Profile Card -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10 border-2 border-green-100">
+            
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-semibold text-gray-700">Profile Setup</span>
+                    <span class="text-sm font-semibold text-green-600">Step 3 of 3</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-linear-to-r from-green-500 to-green-600 h-2 rounded-full" style="width: 100%"></div>
+                </div>
+            </div>
+
+            <!-- Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="bg-linear-to-br from-purple-500 to-purple-600 p-6 rounded-full shadow-lg">
+                    <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
+                Complete Your Profile 👤
+            </h1>
+            <p class="text-center text-gray-600 mb-8">
+                Tell us a bit about yourself to get started
+            </p>
+
+            <!-- Form -->
+            <form action="/auth/create-profile" method="POST" class="space-y-6">
+                
+                <input type="hidden" name="mobileNumber" value="<%= mobileNumber %>" />
+
+                <!-- Name Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        Full Name <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            name="name" 
+                            placeholder="Enter your full name"
+                            class="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <!-- Village Input (Optional) -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        Village (Optional)
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            name="village" 
+                            placeholder="Your village name"
+                            class="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition"
+                        />
+                    </div>
+                </div>
+
+                <!-- State Input (Optional) -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        State (Optional)
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <select 
+                            name="state"
+                            class="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 transition appearance-none bg-white"
+                        >
+                            <option value="">Select your state</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            <option value="West Bengal">West Bengal</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Odisha">Odisha</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="w-full bg-linear-to-r from-green-600 to-green-700 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200"
+                >
+                    Complete Setup 🎉
+                </button>
+
+            </form>
+
+            <!-- Info Box -->
+            <div class="mt-8 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                    <div class="text-sm text-gray-700">
+                        <p class="font-semibold mb-1">Why we need this?</p>
+                        <p>Your profile helps other farmers connect with you and access location-specific schemes and information.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Features Preview -->
+        <div class="mt-8 grid grid-cols-2 gap-4">
+            <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-green-100 text-center">
+                <div class="text-3xl mb-2">🤝</div>
+                <p class="text-sm font-semibold text-gray-800 mb-1">Connect with Farmers</p>
+                <p class="text-xs text-gray-600">Join a community of thousands</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-blue-100 text-center">
+                <div class="text-3xl mb-2">💰</div>
+                <p class="text-sm font-semibold text-gray-800 mb-1">Access Schemes</p>
+                <p class="text-xs text-gray-600">Get benefits instantly</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<%- include("../layouts/footer") %>
+
+<!-- Auto-capitalize name -->
+<script>
+document.querySelector('input[name="name"]').addEventListener('input', function(e) {
+    // Capitalize first letter of each word
+    this.value = this.value.replace(/\b\w/g, function(char) {
+        return char.toUpperCase();
+    });
+});
+</script>
+
+</body>
+</html>

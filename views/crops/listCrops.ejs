@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Listings - Aarohi</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body>
+    <%- include('../layouts/header') %>
+
+    <div class="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+
+            <!-- Header Section -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+                    <div>
+                        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                            🌾 Crop Listings
+                        </h1>
+                        <p class="text-lg text-gray-600">Fresh produce from farmers near you</p>
+                    </div>
+                    
+                    <!-- Add New Crop Button -->
+                    <a href="/crops/new" class="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="font-semibold">List Your Crops</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Results Count -->
+            <% if (crops.length > 0) { %>
+                <div class="mb-6 inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full shadow-md">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold"><%= crops.length %> Crops Available</span>
+                </div>
+            <% } %>
+
+            <!-- No Results -->
+            <% if (crops.length === 0) { %>
+                <div class="text-center py-20">
+                    <div class="inline-block p-8 bg-white rounded-3xl shadow-lg">
+                        <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-2">No Crop Listings Yet</h3>
+                        <p class="text-gray-500 mb-6">Be the first to list your crops!</p>
+                        <a href="/crops/new" class="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-xl hover:bg-orange-700 transition-all">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                            </svg>
+                            Add Your First Crop
+                        </a>
+                    </div>
+                </div>
+            <% } %>
+
+            <!-- Crop Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+                <% crops.forEach(c => { %>
+                    <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl border-2 border-gray-100 overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+
+                        <!-- Image -->
+                        <div class="relative overflow-hidden bg-gray-100 h-56">
+                            <% if (c.images && c.images.length > 0) { %>
+                                <img src="/uploads/<%= c.images[0] %>"
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                     alt="<%= c.cropName %>">
+                                <!-- Fresh Badge -->
+                                <div class="absolute top-3 left-3 bg-green-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1">
+                                    <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                                    Fresh
+                                </div>
+                            <% } else { %>
+                                <div class="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                                    <svg class="w-20 h-20 mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-sm">No Image</span>
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-5">
+
+                            <!-- Crop Name -->
+                            <h3 class="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-orange-600 transition-colors">
+                                <%= c.cropName %>
+                            </h3>
+
+                            <!-- Info -->
+                            <div class="space-y-2 mb-4">
+                                
+                                <!-- Quantity -->
+                                <div class="flex items-center gap-2 text-sm text-gray-600">
+                                    <svg class="w-4 h-4 text-amber-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="font-medium"><strong>Quantity:</strong> <%= c.quantity %> <%= c.quantityUnit %></span>
+                                </div>
+
+                                <!-- Location -->
+                                <div class="flex items-center gap-2 text-sm text-gray-600">
+                                    <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="truncate"><%= c.location.village %>, <%= c.location.district %></span>
+                                </div>
+
+                            </div>
+
+                            <!-- Price -->
+                            <div class="mb-4 bg-orange-50 rounded-xl p-3 border-2 border-orange-200">
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-3xl font-bold text-orange-700">
+                                        ₹<%= c.expectedPrice %>
+                                    </span>
+                                    <span class="text-sm text-gray-600">
+                                        <% if (c.priceType === 'per_unit') { %>
+                                            / <%= c.quantityUnit %>
+                                        <% } else { %>
+                                            (total)
+                                        <% } %>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- View Button -->
+                            <a href="/crops/<%= c._id %>"
+                               class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span>View Details</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+                <% }) %>
+
+            </div>
+
+            <!-- Back Button -->
+            <div class="mt-12 text-center">
+                <a href="/" class="inline-flex items-center gap-3 bg-white hover:bg-gray-50 text-gray-700 px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-gray-200">
+                    <svg class="w-6 h-6 transform group-hover:-translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-lg font-semibold">Back to Home</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <%- include('../layouts/footer') %>
+</body>
+</html>

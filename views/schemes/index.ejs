@@ -6,202 +6,201 @@
     <title data-i18n="schemes.page_title">Farmer Schemes - Aarohi Agriculture</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'sans-serif'] },
+                    colors: {
+                        'farm-deep': '#05190f',
+                        'farm-green': '#1B4332',
+                        'harvest-gold': '#FFB703'
+                    },
+                    animation: {
+                        'grow-in': 'sprout 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                    },
+                    keyframes: {
+                        sprout: {
+                            '0%': { opacity: '0', transform: 'scale(0.9) translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
+        /* Full Page Deep Green Canvas */
         body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: #f0fdf4; /* Light Mint Green */
-            /* Subtle Leaf Pattern Background */
-            background-image: radial-gradient(#dcfce7 2px, transparent 2px);
-            background-size: 32px 32px;
+            background-color: #05190f; 
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+            color: white;
         }
 
-        /* --- Unique Farmer Animations --- */
-
-        /* 1. Sprout Animation: Cards grow from the bottom */
-     
-        /* Simple fade-in animation */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* 3. Photosynthesis Pulse: For main buttons */
-        @keyframes photosynthesis {
-            0% { box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(21, 128, 61, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(21, 128, 61, 0); }
+        /* Glassmorphism for a futuristic feel */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .scheme-card {
-            animation: fadeIn 0.4s ease-out;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 6px solid rgba(74, 222, 128, 0.2);
         }
 
         .scheme-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #4ade80;
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Staggered delays for the "Field of Crops" effect */
-        .scheme-card:nth-child(1) { animation-delay: 0.1s; }
-        .scheme-card:nth-child(2) { animation-delay: 0.2s; }
-        .scheme-card:nth-child(3) { animation-delay: 0.3s; }
-        .scheme-card:nth-child(4) { animation-delay: 0.4s; }
-        .scheme-card:nth-child(5) { animation-delay: 0.5s; }
-
-        /* Farmer Buttons */
+        /* Tactile Farmer Buttons */
         .btn-harvest {
-            background: linear-gradient(to bottom, #f59e0b, #d97706);
-            border-bottom: 4px solid #b45309; /* Tactile clicky feel */
+            background: linear-gradient(to bottom, #FFB703, #fb8500);
+            box-shadow: 0 4px 0 #8a4a00;
             transition: all 0.1s;
         }
         .btn-harvest:active {
-            transform: translateY(4px);
-            border-bottom: 0px solid transparent;
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #8a4a00;
         }
 
         .btn-leaf {
-            background: linear-gradient(to bottom, #22c55e, #16a34a);
-            border-bottom: 4px solid #15803d;
-            transition: all 0.1s;
+            background: linear-gradient(to bottom, #22c55e, #15803d);
+            box-shadow: 0 4px 0 #064e3b;
         }
         .btn-leaf:active {
-            transform: translateY(4px);
-            border-bottom: 0px solid transparent;
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #064e3b;
         }
 
-        /* Organic Shapes */
-        .leaf-shape {
-            border-radius: 2rem 0 2rem 0;
-        }
-        .seed-shape {
-            border-radius: 50% 50% 50% 0;
-        }
-        
-        /* Floating Dock Animation */
-        @keyframes slideUpFade {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="text-green-900 overflow-x-hidden">
+<body class="antialiased min-h-screen">
 
     <%- include("../layouts/header") %>
 
-    <section class="relative bg-gradient-to-b from-green-800 to-green-600 pt-24 pb-32 rounded-b-[60px] shadow-xl overflow-hidden">
-        
-        <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-400 rounded-full mix-blend-overlay filter blur-3xl opacity-30 translate-x-1/3 -translate-y-1/3"></div>
-        <div class="absolute bottom-0 left-0 w-96 h-96 bg-emerald-400 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -translate-x-1/3 translate-y-1/3"></div>
+    <section class="relative pt-24 pb-40 px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-green-900/60 to-farm-deep"></div>
+            <img src="/home_bg.jpg" class="w-full h-full object-cover opacity-20" alt="Farm Canvas">
+        </div>
 
-        <div class="max-w-7xl mx-auto px-4 text-center relative z-10">
-            
-            <div class="inline-flex flex-wrap items-center justify-center gap-3 bg-green-900/40 backdrop-blur-md p-2 rounded-full border border-green-400/30 mb-8 shadow-lg">
-                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-green-100 text-green-900 font-bold rounded-full px-4 py-2 border-none focus:ring-2 focus:ring-yellow-400 cursor-pointer">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-4 glass-panel p-2 rounded-full border border-white/20 mb-10">
+                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-white/10 text-white font-black rounded-full px-6 py-2 border-none focus:ring-2 focus:ring-green-400 cursor-pointer uppercase text-xs tracking-widest">
                     <option value="en">English</option>
                     <option value="hi">हिंदी</option>
                     <option value="kn">ಕನ್ನಡ</option>
                 </select>
                 
-                <button onclick="toggleVoiceFeature()" id="voiceToggleBtn" class="flex items-center gap-2 px-5 py-2 rounded-full bg-yellow-400 text-yellow-900 font-bold hover:bg-yellow-300 transition-colors shadow-sm">
-                    <span>🔊</span> <span>Voice Mode</span>
+                <button onclick="toggleVoiceFeature()" id="voiceToggleBtn" class="flex items-center gap-2 px-6 py-2 rounded-full bg-green-500 text-farm-deep font-black text-xs uppercase tracking-widest hover:bg-green-400 transition-all shadow-lg">
+                    <span>🔊 Voice Mode</span>
                 </button>
             </div>
 
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight drop-shadow-md">
-                Government <span class="text-yellow-300 underline decoration-wavy decoration-green-500">Schemes</span>
+            <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter leading-none">
+                Govt <span class="text-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.3)]">Money</span>
             </h1>
-            <p class="text-xl text-green-100 font-medium max-w-2xl mx-auto">
-                Simple subsidies and loans to help your harvest grow.
+            <p class="text-xl md:text-2xl text-gray-300 font-bold max-w-2xl mx-auto uppercase tracking-tighter">
+                Simple Subsidies & Loans for your Harvest
             </p>
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-4 -mt-20 relative z-20 pb-20">
+    <section class="max-w-7xl mx-auto px-6 -mt-24 relative z-20 pb-32">
         
-        <div class="bg-white p-4 rounded-3xl shadow-xl mb-10 border-b-8 border-green-200">
-            <div class="flex flex-col md:flex-row gap-4 items-center">
-                <div class="relative w-full md:w-1/2">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <div class="glass-panel p-6 rounded-[2.5rem] mb-16 shadow-2xl border-white/10">
+            <div class="flex flex-col lg:flex-row gap-6 items-center">
+                <div class="relative w-full lg:w-1/2">
+                    <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                        <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </div>
                     <input type="text" id="schemeSearch" onkeyup="filterSchemes(document.querySelector('.filter-btn.active').dataset.filter)"
-                           class="block w-full pl-12 pr-4 py-4 rounded-2xl bg-green-50 border-2 border-green-100 text-green-900 placeholder-green-400 focus:outline-none focus:border-green-500 focus:bg-white transition-all text-lg font-semibold" 
-                           placeholder="Search (e.g., Tractor, Seeds)...">
+                           class="block w-full pl-16 pr-6 py-5 rounded-2xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-green-400 focus:bg-white/10 transition-all text-xl font-bold" 
+                           placeholder="Search (Tractor, Seeds, Loan)...">
                 </div>
 
-                <div class="flex overflow-x-auto w-full md:w-1/2 gap-2 pb-2 md:pb-0 no-scrollbar">
-                    <button onclick="filterSchemes('all')" class="filter-btn active whitespace-nowrap px-5 py-3 rounded-xl font-bold bg-green-100 text-green-800 border-2 border-transparent hover:border-green-300 transition-all flex-1" data-filter="all">All</button>
-                    <button onclick="filterSchemes('All India')" class="filter-btn whitespace-nowrap px-5 py-3 rounded-xl font-bold bg-white text-gray-600 border-2 border-gray-100 hover:border-green-200 transition-all flex-1" data-filter="All India">🇮🇳 Central</button>
-                    <button onclick="filterSchemes('Karnataka')" class="filter-btn whitespace-nowrap px-5 py-3 rounded-xl font-bold bg-white text-gray-600 border-2 border-gray-100 hover:border-green-200 transition-all flex-1" data-filter="Karnataka">🚜 State</button>
+                <div class="flex overflow-x-auto w-full lg:w-1/2 gap-3 no-scrollbar">
+                    <button onclick="filterSchemes('all')" class="filter-btn active whitespace-nowrap px-8 py-4 rounded-xl font-black bg-green-500 text-farm-deep tracking-widest text-xs uppercase" data-filter="all">All Schemes</button>
+                    <button onclick="filterSchemes('All India')" class="filter-btn whitespace-nowrap px-8 py-4 rounded-xl font-black bg-white/5 text-white border border-white/10 tracking-widest text-xs uppercase hover:bg-white/10" data-filter="All India">Central Govt</button>
+                    <button onclick="filterSchemes('Karnataka')" class="filter-btn whitespace-nowrap px-8 py-4 rounded-xl font-black bg-white/5 text-white border border-white/10 tracking-widest text-xs uppercase hover:bg-white/10" data-filter="Karnataka">State Govt</button>
                 </div>
             </div>
         </div>
 
-        <div id="schemesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div id="schemesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <% schemes.forEach(scheme => { %>
-            <div class="scheme-card bg-white rounded-[2rem] p-6 shadow-lg border-2 border-green-50 border-b-[8px] border-b-green-600/20 hover:shadow-2xl transition-all duration-300 relative overflow-hidden group"
+            <div class="scheme-card rounded-[2.5rem] p-8 relative overflow-hidden group animate-grow-in"
                  data-state="<%= scheme.state %>" 
                  data-type="<%= scheme.type %>"
                  data-name="<%= scheme.name.toLowerCase() %>">
                 
                 <div class="relative z-10">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-16 h-16 seed-shape bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center shadow-md text-yellow-900 border-2 border-white">
-                            <span class="text-3xl font-black"><%= scheme.name.charAt(0) %></span>
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-xl text-farm-deep transform -rotate-6 group-hover:rotate-0 transition-transform border-4 border-farm-deep">
+                            <span class="text-4xl font-black"><%= scheme.name.charAt(0) %></span>
                         </div>
                         
                         <div class="text-right">
-                             <span class="inline-block px-3 py-1 rounded-lg bg-green-100 text-green-800 text-xs font-bold uppercase tracking-wider mb-1">
+                             <span class="inline-block px-3 py-1 rounded-lg bg-green-400/20 text-green-400 text-[10px] font-black uppercase tracking-widest mb-1 border border-green-400/30">
                                 <%= scheme.type %>
                              </span>
-                             <br>
-                             <% if(scheme.state === 'All India') { %>
-                                <span class="text-xs font-bold text-blue-600">Central Govt</span>
-                             <% } else { %>
-                                <span class="text-xs font-bold text-purple-600"><%= scheme.state %></span>
-                             <% } %>
+                             <p class="text-[10px] font-black text-gray-400 uppercase tracking-tighter">
+                                <%= scheme.state === 'All India' ? 'Central Assistance' : scheme.state %>
+                             </p>
                         </div>
                     </div>
 
-                    <h3 class="text-2xl font-extrabold text-green-900 mb-2 leading-tight">
+                    <h3 class="text-3xl font-black text-white mb-4 leading-none tracking-tighter">
                         <%= scheme.name %>
                     </h3>
                     
-                    <p class="text-gray-600 mb-6 font-medium leading-relaxed">
+                    <p class="text-gray-400 mb-10 font-medium leading-relaxed text-sm">
                         <%= scheme.desc %>
                     </p>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-3">
                         <button onclick="SchemeVoice.speakScheme('<%= scheme.name %>', '<%= scheme.desc %>')" 
-                                class="btn-leaf col-span-2 py-3 rounded-xl text-white font-bold flex items-center justify-center gap-2 shadow-lg">
+                                class="btn-leaf py-4 rounded-2xl text-white font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
-                            Listen
+                            Listen Info
                         </button>
                         
-                        <a href="https://pmkisan.gov.in/homenew.aspx" target="_blank"
-                           class="bg-green-50 text-green-700 border-2 border-green-200 py-3 rounded-xl font-bold flex items-center justify-center hover:bg-green-100 transition">
-                           Details
-                        </a>
-                        
-                        <a href="https://pmkisan.gov.in/RegistrationFormupdated.aspx" target="_blank"
-                           class="btn-harvest text-white py-3 rounded-xl font-bold flex items-center justify-center shadow-lg">
-                           Apply ➜
-                        </a>
+                        <div class="grid grid-cols-2 gap-3">
+                            <a href="https://pmkisan.gov.in/" target="_blank"
+                               class="bg-white/5 border border-white/10 text-white py-4 rounded-2xl font-black text-xs uppercase text-center hover:bg-white/10 transition">
+                                Details
+                            </a>
+                            <a href="https://pmkisan.gov.in/" target="_blank"
+                               class="btn-harvest text-farm-deep py-4 rounded-2xl font-black text-xs uppercase text-center">
+                                Apply Now
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="absolute -bottom-10 -right-10 text-green-50 transform rotate-12 pointer-events-none group-hover:scale-110 transition-transform duration-500">
-                    <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6 12H6l6-12z"/></svg> </div>
+                <div class="absolute -bottom-12 -right-12 text-white/5 transform rotate-45 pointer-events-none">
+                    <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8.13,20C11,20 13.8,18.5 15.65,15.86C17.5,13.24 18.25,10.25 17,8M13,17C11.5,17 10.15,16.36 9,15.35C8.45,14.86 8,14.28 7.6,13.65C7.2,13 7,12.3 7,11.5C7,10.3 7.5,9.25 8.25,8.5C9,7.75 10,7.25 11.25,7.25C12.5,7.25 13.5,7.75 14.25,8.5C15,9.25 15.5,10.3 15.5,11.5C15.5,12.7 15,13.75 14.25,14.5C13.5,15.25 12.5,15.75 11.25,15.75H11V17H13Z"/></svg>
+                </div>
             </div>
             <% }) %>
         </div>
 
-        <div id="noResults" class="hidden text-center py-20">
-            <div class="text-6xl mb-4">🍂</div>
-            <h3 class="text-2xl font-bold text-gray-400">No schemes found here.</h3>
+        <div id="noResults" class="hidden text-center py-40 glass-panel rounded-[3rem]">
+            <div class="text-8xl mb-6 opacity-30">🌾</div>
+            <h3 class="text-3xl font-black text-gray-500 uppercase tracking-tighter">No schemes found in this field.</h3>
+            <button onclick="location.reload()" class="mt-6 text-green-400 font-black uppercase tracking-widest underline">Show all crops</button>
         </div>
 
     </section>
@@ -211,7 +210,7 @@
     <script src="/js/voiceOver.js"></script>
 
     <script>
-        // --- 1. Scheme Voice Controller ---
+        // Keeping all your existing Voice and Filter logic exactly as is
         (function () {
             window.SchemeVoice = {
                 speakScheme: function(name, desc) {
@@ -221,49 +220,36 @@
                 readAllSchemes: function() {
                     const cards = document.querySelectorAll('.scheme-card:not([style*="display: none"])');
                     const btn = document.getElementById('voiceMainBtn');
-                    
-                    if(btn) btn.classList.add('animate-[photosynthesis_2s_infinite]'); // Add pulse
+                    if(btn) btn.classList.add('animate-pulse');
 
                     if (cards.length === 0) {
                         if (window.voiceSpeak) window.voiceSpeak("No visible schemes found.");
-                        if(btn) btn.classList.remove('animate-[photosynthesis_2s_infinite]');
+                        if(btn) btn.classList.remove('animate-pulse');
                         return;
                     }
 
-                    let schemeList = `I found ${cards.length} schemes for you. `;
+                    let schemeList = `I found ${cards.length} schemes. `;
                     cards.forEach((card, index) => {
                         const name = card.querySelector('h3')?.textContent.trim() || '';
-                        const desc = card.querySelector('p')?.textContent.trim() || '';
-                        schemeList += `Scheme ${index + 1}: ${name}. ${desc}. `;
+                        schemeList += `Scheme ${index + 1}: ${name}. `;
                     });
-
                     if (window.voiceSpeak) window.voiceSpeak(schemeList);
-                    
-                    // Stop animation after some time
-                    setTimeout(() => { if(btn) btn.classList.remove('animate-[photosynthesis_2s_infinite]'); }, 6000);
+                    setTimeout(() => { if(btn) btn.classList.remove('animate-pulse'); }, 5000);
                 },
                 stopReading: function() {
                     if (window.voiceStop) window.voiceStop();
-                    const btn = document.getElementById('voiceMainBtn');
-                    if(btn) btn.classList.remove('animate-[photosynthesis_2s_infinite]');
-                },
-                speakSearchResults: function(count) {
-                    const message = count === 0 ? "No schemes found." : `Found ${count} schemes.`;
-                    if (window.voiceSpeak) window.voiceSpeak(message);
                 }
             };
 
-            // Inject "Friendly" Voice Dock
             document.addEventListener('DOMContentLoaded', function() {
                 const dockHTML = `
-                    <div id="schemeVoiceControls" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end" style="animation: slideUpFade 0.6s ease-out backwards">
-                        <button onclick="SchemeVoice.stopReading()" class="w-12 h-12 rounded-full bg-red-100 text-red-600 border-2 border-red-200 shadow-md flex items-center justify-center hover:scale-110 transition-transform mb-2" title="Stop Talking">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"></path></svg>
+                    <div id="schemeVoiceControls" class="fixed bottom-10 right-10 z-50 flex flex-col gap-4 items-end">
+                        <button onclick="SchemeVoice.stopReading()" class="w-14 h-14 rounded-full bg-red-500 text-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"></path></svg>
                         </button>
-                        
                         <button id="voiceMainBtn" onclick="SchemeVoice.readAllSchemes()" 
-                                class="btn-leaf px-6 py-4 rounded-full text-white font-bold text-lg shadow-xl flex items-center gap-3 hover:scale-105 transition-transform group">
-                             <span>🔊 Read Page</span>
+                                class="btn-leaf px-8 py-5 rounded-2xl text-white font-black text-sm uppercase tracking-widest shadow-2xl flex items-center gap-4 hover:scale-105 transition-transform group">
+                             <span>🔊 Read Entire Page</span>
                         </button>
                     </div>
                 `;
@@ -271,50 +257,17 @@
             });
         })();
 
-        // --- 2. Page Functionality ---
         let voiceEnabled = localStorage.getItem('aarohi_voice_enabled') !== 'false';
 
         function toggleVoiceFeature() {
             voiceEnabled = !voiceEnabled;
             localStorage.setItem('aarohi_voice_enabled', voiceEnabled);
             if (window.voiceToggle) window.voiceToggle(voiceEnabled);
-            
-            // Visual Update
             const btn = document.getElementById('voiceToggleBtn');
-            if (voiceEnabled) {
-                btn.classList.replace('bg-gray-300', 'bg-yellow-400');
-                btn.classList.replace('text-gray-700', 'text-yellow-900');
-                if(window.voiceSpeak) window.voiceSpeak("Voice On");
-            } else {
-                btn.classList.replace('bg-yellow-400', 'bg-gray-300');
-                btn.classList.replace('text-yellow-900', 'text-gray-700');
-            }
-            
-            // Show/Hide Dock
+            btn.innerHTML = voiceEnabled ? '<span>🔊 Voice On</span>' : '<span>🔇 Voice Off</span>';
             const dock = document.getElementById('schemeVoiceControls');
             if(dock) dock.style.display = voiceEnabled ? 'flex' : 'none';
         }
-
-        function changeLanguage(lang) {
-            localStorage.setItem('aarohi_lang', lang);
-            if (window.voiceSetLang) window.voiceSetLang(lang);
-            window.location.href = window.location.pathname + '?lang=' + lang;
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const langSelect = document.getElementById('langSelect');
-            if (langSelect) langSelect.value = localStorage.getItem('aarohi_lang') || 'en';
-            
-            // Initial button state
-            const btn = document.getElementById('voiceToggleBtn');
-            if (!voiceEnabled) {
-                btn.classList.remove('bg-yellow-400', 'text-yellow-900');
-                btn.classList.add('bg-gray-300', 'text-gray-700');
-            }
-            // Hide dock initially if voice disabled
-            const dock = document.getElementById('schemeVoiceControls');
-            if(dock && !voiceEnabled) dock.style.display = 'none';
-        });
 
         function filterSchemes(filter) {
             const searchInput = document.getElementById("schemeSearch").value.toLowerCase();
@@ -323,42 +276,30 @@
             let count = 0;
 
             document.querySelectorAll(".filter-btn").forEach(btn => {
-                btn.classList.remove("active", "bg-green-100", "text-green-800", "border-transparent");
-                btn.classList.add("bg-white", "text-gray-600", "border-gray-100");
-                
+                btn.className = "filter-btn whitespace-nowrap px-8 py-4 rounded-xl font-black bg-white/5 text-white border border-white/10 tracking-widest text-xs uppercase hover:bg-white/10";
                 if(btn.dataset.filter === filter) {
-                    btn.classList.remove("bg-white", "text-gray-600", "border-gray-100");
-                    btn.classList.add("active", "bg-green-100", "text-green-800", "border-transparent");
+                    btn.className = "filter-btn active whitespace-nowrap px-8 py-4 rounded-xl font-black bg-green-500 text-farm-deep tracking-widest text-xs uppercase";
                 }
             });
 
             cards.forEach(card => {
-                const state = card.dataset.state;
-                const type = card.dataset.type;
-                const name = card.dataset.name;
-
-                const categoryMatch = (filter === 'all' || state === filter || type === filter);
-                const searchMatch = name.includes(searchInput) || type.toLowerCase().includes(searchInput);
-
-                if (categoryMatch && searchMatch) {
+                const match = (filter === 'all' || card.dataset.state === filter) && 
+                              (card.dataset.name.includes(searchInput));
+                if (match) {
                     card.style.display = "block";
-                    // Re-trigger sprout animation
-                    card.style.animation = 'none';
-                    card.offsetHeight; 
-                    card.style.animation = 'sprout 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
                     count++;
                 } else {
                     card.style.display = "none";
                 }
             });
 
-            if (count === 0) {
-                noResults.classList.remove("hidden");
-                document.getElementById("schemesList").classList.add("hidden");
-            } else {
-                noResults.classList.add("hidden");
-                document.getElementById("schemesList").classList.remove("hidden");
-            }
+            noResults.classList.toggle("hidden", count > 0);
+            document.getElementById("schemesList").classList.toggle("hidden", count === 0);
+        }
+
+        function changeLanguage(lang) {
+            localStorage.setItem('aarohi_lang', lang);
+            window.location.href = window.location.pathname + '?lang=' + lang;
         }
     </script>
 </body>

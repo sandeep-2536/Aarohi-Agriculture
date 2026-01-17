@@ -4,211 +4,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Animal Listing - Aarohi</title>
-    <link rel="stylesheet" href="/css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f7fee7; /* Daylight Mint */
+            color: #1a2e05;
+        }
+
+        .glass-card-light {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 2px solid #ffffff;
+            border-radius: 3rem;
+            box-shadow: 0 20px 50px rgba(101, 163, 13, 0.1);
+        }
+
+        .input-box {
+            background: #ffffff;
+            border: 2px solid #d9f99d;
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .input-box:focus {
+            border-color: #65a30d;
+            box-shadow: 0 0 15px rgba(101, 163, 13, 0.2);
+            outline: none;
+        }
+
+        .btn-harvest {
+            background: linear-gradient(135deg, #facc15 0%, #eab308 100%);
+            box-shadow: 0 6px 0 #a16207;
+            transition: all 0.1s;
+        }
+
+        .btn-harvest:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #a16207;
+        }
+
+        .step-badge {
+            background: #ecfccb;
+            color: #365314;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-weight: 900;
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased min-h-screen">
+
     <%- include('../layouts/header') %>
 
-    <div class="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-lime-50 py-8">
-        <div class="max-w-4xl mx-auto px-4">
-
-            <!-- Back Button -->
-            <div class="mb-6">
-                <a href="/animals" class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 transition-colors">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
-                    </svg>
-                    <span class="font-semibold">Back to Listings</span>
-                </a>
-            </div>
-
-            <!-- Form Card -->
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
-                
-                <!-- Header -->
-                <div class="bg-gradient-to-r from-green-500 to-emerald-500 px-8 py-6">
-                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-3">
-                        🐄 Add Animal Listing
-                    </h1>
-                    <p class="text-white/90 text-lg">List your livestock for sale</p>
-                </div>
-
-                <!-- Form -->
-                <form action="/animals" method="POST" enctype="multipart/form-data" class="p-8">
-                    
-                    <!-- Animal Information Section -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                            </svg>
-                            Animal Information
-                        </h3>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            
-                            <!-- Animal Type -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Animal Type <span class="text-red-500">*</span>
-                                </label>
-                                <div class="relative">
-                                    <select name="type" required
-                                            class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300 appearance-none cursor-pointer">
-                                        <option value="Cow">🐄 Cow</option>
-                                        <option value="Goat">🐐 Goat</option>
-                                        <option value="Buffalo">🐃 Buffalo</option>
-                                        <option value="Sheep">🐑 Sheep</option>
-                                        <option value="Bull">🐂 Bull</option>
-                                        <option value="Other">📦 Other</option>
-                                    </select>
-                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                        <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Breed -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Breed <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="breed" required placeholder="e.g., Jersey, Sahiwal"
-                                       class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
-                            </div>
-
-                            <!-- Age -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Age (years) <span class="text-red-500">*</span>
-                                </label>
-                                <input type="number" name="age" min="0" required placeholder="Enter age"
-                                       class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
-                            </div>
-
-                            <!-- Price -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Expected Price (₹) <span class="text-red-500">*</span>
-                                </label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-500 font-semibold">₹</span>
-                                    <input type="number" name="price" required placeholder="Enter price"
-                                           class="w-full pl-10 pr-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Description Section -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-                            </svg>
-                            Additional Details
-                        </h3>
-
-                        <div class="space-y-6">
-                            
-                            <!-- Description -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Description <span class="text-gray-400 text-xs">(optional)</span>
-                                </label>
-                                <textarea name="description" rows="4" placeholder="Describe the animal's health, temperament, milk yield, etc..."
-                                          class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300 resize-none"></textarea>
-                            </div>
-
-                            <!-- Images Upload -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Upload Images <span class="text-gray-400 text-xs">(up to 5 images)</span>
-                                </label>
-                                <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-green-400 transition-colors cursor-pointer bg-gray-50">
-                                    <input type="file" name="images" accept="image/*" multiple id="imageUpload"
-                                           class="hidden">
-                                    <label for="imageUpload" class="cursor-pointer">
-                                        <div class="text-6xl mb-3">🐄</div>
-                                        <p class="text-gray-600 mb-1"><span class="text-green-600 font-semibold">Click to upload</span> or drag and drop</p>
-                                        <p class="text-sm text-gray-500">PNG, JPG, JPEG (MAX. 5 images)</p>
-                                    </label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Location Section -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
-                            </svg>
-                            Location
-                        </h3>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            
-                            <!-- Village -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Village <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="village" placeholder="Enter village" required
-                                       class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
-                            </div>
-
-                            <!-- Taluk -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Taluk <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="taluk" placeholder="Enter taluk" required
-                                       class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
-                            </div>
-
-                            <!-- District -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                                    District <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="district" placeholder="Enter district" required
-                                       class="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-green-200 focus:border-green-500 outline-none transition-all duration-300">
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="flex flex-wrap gap-4">
-                        <button type="submit"
-                                class="flex-1 min-w-[200px] flex items-center justify-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 transition-all duration-300">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span>Add Listing</span>
-                        </button>
-
-                        <a href="/animals"
-                           class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-gray-200">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                            </svg>
-                            Cancel
-                        </a>
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
+    <div class="fixed inset-0 z-[-1] opacity-50">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-lime-200 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-emerald-200 rounded-full blur-[100px]"></div>
     </div>
 
+    <main class="max-w-[95%] w-full mx-auto px-4 py-10">
+
+        <div class="mb-8">
+            <a href="/animals" class="inline-flex items-center gap-3 text-lime-800 font-black uppercase text-xs tracking-widest hover:text-lime-600 transition-all group">
+                <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                Back to Market
+            </a>
+        </div>
+
+        <div class="glass-card-light overflow-hidden relative">
+            <div class="absolute top-10 right-10 opacity-10 pointer-events-none">
+                <svg width="200" height="200" viewBox="0 0 24 24" fill="currentColor"><path d="M10,13C10,13 10,11.5 11,10.5C12,9.5 14,9 14,9C14,9 14.5,7 13,5.5C11.5,4 9,4 9,4C9,4 7,4.5 5.5,6C4,7.5 4,10 4,10C4,10 4.5,12 5.5,13C6.5,14 8,14.5 9,14.5C10,14.5 10,13 10,13M18,9C18,9 17.5,7 16,5.5C14.5,4 12,4 12,4C12,4 10,4.5 8.5,6C7,7.5 7,10 7,10C7,10 7.5,12 8.5,13C9.5,14 11,14.5 12,14.5C13,14.5 13,13 13,13C13,13 13,11.5 14,10.5C15,9.5 17,9 17,9C17,9 18,9 18,9Z"/></svg>
+            </div>
+
+            <div class="p-10 border-b border-lime-100 bg-white/50">
+                <h1 class="text-4xl md:text-5xl font-black tracking-tighter text-lime-950 uppercase leading-none">
+                    Sell Your <span class="text-lime-600">Livestock</span>
+                </h1>
+                <p class="text-lg text-lime-700 font-bold mt-2 uppercase tracking-widest">Reach hundreds of local farmers instantly</p>
+            </div>
+
+            <form action="/animals" method="POST" enctype="multipart/form-data" class="p-10 md:p-16 space-y-16">
+                
+                <section>
+                    <div class="flex items-center gap-4 mb-8">
+                        <span class="step-badge">1</span>
+                        <h2 class="text-2xl font-black text-lime-900 uppercase tracking-tight">Animal Details</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Choose Animal</label>
+                            <select name="type" required class="input-box w-full appearance-none">
+                                <option value="Cow">🐄 Cow / ಆಕಳು</option>
+                                <option value="Goat">🐐 Goat / ಮೇಕೆ</option>
+                                <option value="Buffalo">🐃 Buffalo / ಎಮ್ಮೆ</option>
+                                <option value="Sheep">🐑 Sheep / ಕುರಿ</option>
+                                <option value="Bull">🐂 Bull / ಎತ್ತು</option>
+                                <option value="Other">📦 Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Breed (ತಳಿ)</label>
+                            <input type="text" name="breed" required placeholder="e.g. Jersey, Sahiwal" class="input-box w-full">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Age (ವಯಸ್ಸು)</label>
+                            <input type="number" name="age" required placeholder="Years" class="input-box w-full">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Price (ಬೆಲೆ)</label>
+                            <div class="relative">
+                                <span class="absolute left-5 top-1/2 -translate-y-1/2 font-black text-lime-600 text-xl">₹</span>
+                                <input type="number" name="price" required placeholder="Enter Amount" class="input-box w-full pl-12">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="flex items-center gap-4 mb-8">
+                        <span class="step-badge">2</span>
+                        <h2 class="text-2xl font-black text-lime-900 uppercase tracking-tight">Photos & Info</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Tell us more (optional)</label>
+                            <textarea name="description" rows="5" placeholder="Mention milk yield, health, or behavior..." class="input-box w-full resize-none"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Upload Pictures</label>
+                            <input type="file" name="images" accept="image/*" multiple id="imageUpload" class="hidden">
+                            <label for="imageUpload" class="flex flex-col items-center justify-center border-4 border-dashed border-lime-200 rounded-3xl p-10 bg-lime-50 hover:bg-white hover:border-lime-500 transition-all cursor-pointer group">
+                                <span class="text-6xl mb-4 group-hover:scale-110 transition-transform">📸</span>
+                                <p class="text-lg font-black text-lime-900 uppercase tracking-tighter">Tap to add photos</p>
+                                <p class="text-sm font-bold text-lime-500 mt-2 text-center underline">Farmers buy faster when they see photos!</p>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="flex items-center gap-4 mb-8">
+                        <span class="step-badge">3</span>
+                        <h2 class="text-2xl font-black text-lime-900 uppercase tracking-tight">Your Location</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Village</label>
+                            <input type="text" name="village" required placeholder="Your Village" class="input-box w-full">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">Taluk</label>
+                            <input type="text" name="taluk" required placeholder="Your Taluk" class="input-box w-full">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black text-lime-700 uppercase tracking-widest mb-3">District</label>
+                            <input type="text" name="district" required placeholder="Your District" class="input-box w-full">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="pt-10 border-t border-lime-100 flex flex-col md:flex-row gap-6">
+                    <button type="submit" class="btn-harvest flex-1 py-6 rounded-[2rem] text-white font-black text-2xl uppercase tracking-[0.2em] shadow-xl flex items-center justify-center gap-4">
+                        Post Listing ➜
+                    </button>
+                    <a href="/animals" class="px-12 py-6 rounded-[2rem] bg-white border-4 border-lime-100 text-lime-800 font-black text-xl uppercase tracking-widest text-center hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
     <%- include('../layouts/footer') %>
+
 </body>
 </html>

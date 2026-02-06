@@ -128,6 +128,7 @@ router.post("/call/initiate/:vetId", isFarmerAuth, async (req, res) => {
       const vetSocketId = userSocketMap[vetId.toString()];
       
       if (vetSocketId) {
+        // Emit the legacy/internal notification
         io.to(vetSocketId).emit('new-call-for-vet', {
           callId: populatedCall._id,
           roomId: populatedCall.roomId,
@@ -137,7 +138,16 @@ router.post("/call/initiate/:vetId", isFarmerAuth, async (req, res) => {
           farmerLocation: `${populatedCall.farmerId.village || ''}, ${populatedCall.farmerId.state || ''}`,
           timestamp: populatedCall.createdAt
         });
-        console.log(`[TeleVet] Notified vet ${vetId} of incoming call`);
+
+        // Also emit `incomingCall` which client-side dashboard scripts listen for
+        io.to(vetSocketId).emit('incomingCall', {
+          fromUserId: populatedCall.farmerId._id,
+          fromName: populatedCall.farmerId.name,
+          roomId: populatedCall.roomId,
+          type: 'teleVet'
+        });
+
+        console.log(`[TeleVet] Notified vet ${vetId} of incoming call (new-call-for-vet + incomingCall)`);
       } else {
         console.log(`[TeleVet] Vet ${vetId} not connected to socket`);
       }

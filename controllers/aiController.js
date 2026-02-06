@@ -35,7 +35,7 @@ exports.analyze = async (req, res) => {
         }
 
         const apiKey = process.env.GEMINI_API_KEY || process.env.AI_API_KEY;
-        const modelName = process.env.GEMINI_MODEL || "gemini-2.5-pro";
+        const modelName = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 
         // ----------------- Initialize Model Once -----------------
         if (!cachedModel) {

@@ -198,6 +198,30 @@
       };
     </script>
 
+        <script>
+            // Ensure legacy globals and hidden config exist so client socket scripts can register
+            window.CURRENT_VET = window.CURRENT_VET || {
+                _id: "<%= vet._id %>",
+                name: "<%= vet.name %>"
+            };
+
+            // Hidden element used by incomingCall.js to auto-register sockets
+            (function(){
+                try {
+                    var el = document.getElementById('incomingConfig');
+                    if (!el) {
+                        el = document.createElement('div');
+                        el.id = 'incomingConfig';
+                        el.style.display = 'none';
+                        el.dataset.userId = "<%= vet._id %>";
+                        document.body.appendChild(el);
+                    } else {
+                        el.dataset.userId = "<%= vet._id %>";
+                    }
+                } catch (e) {}
+            })();
+        </script>
+
     <script src="/js/teleVetVetDashboard.js"></script>
 
     <%- include('../layouts/footer') %>

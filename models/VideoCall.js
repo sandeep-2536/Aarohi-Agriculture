@@ -41,12 +41,16 @@ const VideoCallSchema = new mongoose.Schema({
   }
 });
 
-// Calculate duration when call ends
-VideoCallSchema.pre('save', function(next) {
-  if (this.status === 'ended' && this.acceptedAt && this.endTime) {
-    this.duration = Math.floor((this.endTime - this.acceptedAt) / 1000);
+// Calculate duration when call ends (async version)
+VideoCallSchema.pre('save', async function() {
+  try {
+    if (this.status === 'ended' && this.acceptedAt && this.endTime) {
+      this.duration = Math.floor((this.endTime - this.acceptedAt) / 1000);
+    }
+  } catch (e) {
+    console.error('[VideoCall] pre-save hook error:', e);
+    throw e;
   }
-  next();
 });
 
 module.exports = mongoose.model("VideoCall", VideoCallSchema);

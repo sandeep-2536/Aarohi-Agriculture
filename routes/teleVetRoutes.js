@@ -84,25 +84,25 @@ router.get("/farmer/call/:vetId", isFarmerAuth, async (req, res) => {
   }
 });
 
-// Initiate call from farmer to vet - UPDATED WITH SOCKET NOTIFICATION
+// Initiate call from farmer to vet - WITH PROPER SOCKET NOTIFICATION
 router.post("/call/initiate/:vetId", isFarmerAuth, async (req, res) => {
   try {
     const { vetId } = req.params;
     const farmerId = req.session.user._id;
 
-    console.log('[TeleVet] Call initiate request - farmerId:', farmerId, 'vetId:', vetId);
+    console.log('[TeleVet] 📞 Call initiate request - farmerId:', farmerId, 'vetId:', vetId);
 
     // Check if vet exists
     const vet = await Vet.findById(vetId);
     if (!vet) {
-      console.log('[TeleVet] Vet not found:', vetId);
+      console.log('[TeleVet] ✗ Vet not found:', vetId);
       return res.status(404).json({ success: false, message: "Vet not found" });
     }
 
     // Check if farmer exists
     const farmer = await User.findById(farmerId);
     if (!farmer) {
-      console.log('[TeleVet] Farmer not found:', farmerId);
+      console.log('[TeleVet] ✗ Farmer not found:', farmerId);
       return res.status(404).json({ success: false, message: "Farmer not found" });
     }
 
@@ -117,18 +117,18 @@ router.post("/call/initiate/:vetId", isFarmerAuth, async (req, res) => {
       status: "pending"
     });
 
-    console.log('[TeleVet] VideoCall created:', videoCall._id, 'roomId:', roomId);
+    console.log('[TeleVet] ✓ VideoCall created:', videoCall._id, 'roomId:', roomId);
 
     // Populate farmer data for notification
     const populatedCall = await VideoCall.findById(videoCall._id)
       .populate("farmerId", "name village state profileImage");
 
-    // Notify vet via socket if online
+    // CRITICAL: Notify vet via socket if online
     if (io && userSocketMap) {
       const vetSocketId = userSocketMap[vetId.toString()];
       
       if (vetSocketId) {
-        // Emit the legacy/internal notification
+        // Use consistent event name: 'new-call-for-vet'
         io.to(vetSocketId).emit('new-call-for-vet', {
           callId: populatedCall._id,
           roomId: populatedCall.roomId,
@@ -139,20 +139,13 @@ router.post("/call/initiate/:vetId", isFarmerAuth, async (req, res) => {
           timestamp: populatedCall.createdAt
         });
 
-        // Also emit `incomingCall` which client-side dashboard scripts listen for
-        io.to(vetSocketId).emit('incomingCall', {
-          fromUserId: populatedCall.farmerId._id,
-          fromName: populatedCall.farmerId.name,
-          roomId: populatedCall.roomId,
-          type: 'teleVet'
-        });
-
-        console.log(`[TeleVet] Notified vet ${vetId} of incoming call (new-call-for-vet + incomingCall)`);
+        console.log(`[TeleVet] ✓ VET NOTIFIED: ${vetId} received 'new-call-for-vet' event (socketId: ${vetSocketId})`);
       } else {
-        console.log(`[TeleVet] Vet ${vetId} not connected to socket`);
+        console.log(`[TeleVet] ⚠ Vet ${vetId} NOT ONLINE (not in userSocketMap). Call pending.`);
+        console.log(`[TeleVet] ℹ Active sockets: ${Object.keys(userSocketMap).join(', ') || 'none'}`);
       }
     } else {
-      console.warn('[TeleVet] io or userSocketMap not initialized');
+      console.warn('[TeleVet] ✗ io or userSocketMap not initialized');
     }
 
     res.json({
@@ -162,7 +155,7 @@ router.post("/call/initiate/:vetId", isFarmerAuth, async (req, res) => {
       vetName: vet.name
     });
   } catch (error) {
-    console.error("[TeleVet] Error initiating call:", error.message, error.stack);
+    console.error("[TeleVet] ✗ Error initiating call:", error.message, error.stack);
     res.status(500).json({ success: false, message: "Failed to initiate call", error: error.message });
   }
 });
@@ -211,8 +204,11 @@ router.post("/call/accept/:callId", isVetAuth, async (req, res) => {
     const { callId } = req.params;
     const vetId = req.session.vet._id;
 
+    console.log('[TeleVet] ✓ VET ACCEPTING call:', callId);
+
     const call = await VideoCall.findOne({ _id: callId, vetId });
     if (!call) {
+      console.log('[TeleVet] ✗ Call not found:', callId);
       return res.status(404).json({ success: false, message: "Call not found" });
     }
 
@@ -220,7 +216,9 @@ router.post("/call/accept/:callId", isVetAuth, async (req, res) => {
     call.acceptedAt = new Date();
     await call.save();
 
-    // Notify farmer that call was accepted (optional)
+    console.log('[TeleVet] ✓ Call status updated to ACCEPTED. roomId:', call.roomId);
+
+    // Notify farmer that call was accepted
     if (io && userSocketMap) {
       const farmerSocketId = userSocketMap[call.farmerId.toString()];
       if (farmerSocketId) {
@@ -229,15 +227,19 @@ router.post("/call/accept/:callId", isVetAuth, async (req, res) => {
           roomId: call.roomId,
           vetName: req.session.vet.name
         });
+        console.log(`[TeleVet] ✓ FARMER NOTIFIED: ${call.farmerId} received 'call-accepted' event`);
+      } else {
+        console.log(`[TeleVet] ⚠ Farmer ${call.farmerId} NOT ONLINE`);
       }
     }
 
     res.json({
       success: true,
-      roomId: call.roomId
+      roomId: call.roomId,
+      message: 'Call accepted'
     });
   } catch (error) {
-    console.error("Error accepting call:", error);
+    console.error("✗ [TeleVet] Error accepting call:", error);
     res.status(500).json({ success: false, message: "Failed to accept call" });
   }
 });
@@ -248,8 +250,11 @@ router.post("/call/reject/:callId", isVetAuth, async (req, res) => {
     const { callId } = req.params;
     const vetId = req.session.vet._id;
 
+    console.log('[TeleVet] ✗ VET REJECTING call:', callId);
+
     const call = await VideoCall.findOne({ _id: callId, vetId });
     if (!call) {
+      console.log('[TeleVet] ✗ Call not found:', callId);
       return res.status(404).json({ success: false, message: "Call not found" });
     }
 
@@ -257,7 +262,9 @@ router.post("/call/reject/:callId", isVetAuth, async (req, res) => {
     call.endTime = new Date();
     await call.save();
 
-    // Notify farmer that call was rejected (optional)
+    console.log('[TeleVet] ✓ Call status updated to REJECTED');
+
+    // Notify farmer that call was rejected
     if (io && userSocketMap) {
       const farmerSocketId = userSocketMap[call.farmerId.toString()];
       if (farmerSocketId) {
@@ -265,12 +272,16 @@ router.post("/call/reject/:callId", isVetAuth, async (req, res) => {
           callId: call._id,
           message: 'The veterinarian is not available'
         });
+        console.log(`[TeleVet] ✓ FARMER NOTIFIED: ${call.farmerId} received 'call-rejected' event`);
       }
     }
 
-    res.json({ success: true });
+    res.json({
+      success: true,
+      message: 'Call rejected'
+    });
   } catch (error) {
-    console.error("Error rejecting call:", error);
+    console.error("✗ [TeleVet] Error rejecting call:", error);
     res.status(500).json({ success: false, message: "Failed to reject call" });
   }
 });

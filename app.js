@@ -122,14 +122,18 @@ teleVetroutes.setSocketIO(io, userSocketMap);
 io.on("connection", (socket) => {
 
     // Register a logged-in user with their socket id
+    // Called from: farmer call page, vet dashboard, chat rooms, etc.
     socket.on('register', (userId) => {
         try {
             if (userId) {
                 userSocketMap[userId] = socket.id;
-                console.log('[socket] registered user', userId, '->', socket.id);
+                console.log('[socket] ✓ registered user', userId, '-> socket:', socket.id);
+                // Acknowledge successful registration
+                socket.emit('register-ack', { userId, socketId: socket.id });
             }
         } catch (e) {
             console.warn('[socket] register error', e);
+            socket.emit('register-error', { message: 'Failed to register' });
         }
     });
 
@@ -244,7 +248,7 @@ const televetRooms = {}; // { roomId: [socket.id, socket.id] }
 // Join TeleVet room
 socket.on('televet-join-room', async ({ roomId, userId, userName, userRole }) => {
     try {
-        console.log(`[TeleVet] ${userName} (${userRole}) joining room: ${roomId}`);
+        console.log(`[TeleVet] ✓ ${userName} (${userRole}) joining room: ${roomId}`);
         
         socket.join(roomId);
         
@@ -261,50 +265,61 @@ socket.on('televet-join-room', async ({ roomId, userId, userName, userRole }) =>
             userRole
         });
         
-        console.log(`[TeleVet] Room ${roomId} now has ${televetRooms[roomId].length} participants`);
+        const participantCount = televetRooms[roomId].length;
+        console.log(`[TeleVet] Room ${roomId} now has ${participantCount} participant(s)`);
         
         // Confirm to joining user that room is ready
-        socket.emit('televet-room-ready', { roomId, participants: televetRooms[roomId].length });
+        socket.emit('televet-room-ready', { 
+            roomId, 
+            participants: participantCount,
+            message: `You joined. Waiting for ${participantCount === 1 ? 'other participant' : 'participants'}...`
+        });
         
         // Notify others in room that user joined
         socket.to(roomId).emit('televet-user-joined', {
             userId,
             userName,
-            userRole
+            userRole,
+            participantCount
         });
         
-        // Update call status to active if both parties present
-        if (televetRooms[roomId].length === 2) {
+        // CRITICAL: Update call status to active if BOTH parties present
+        if (participantCount === 2) {
             await VideoCall.findOneAndUpdate(
-                { roomId },
-                { status: 'active' }
+                { roomId, status: { $in: ['pending', 'accepted'] } },
+                { status: 'active', startTime: new Date() }
             );
-            // Notify both parties that call is now active with 2 participants
-            io.to(roomId).emit('televet-both-ready', { message: 'Both participants connected' });
+            console.log(`[TeleVet] ✓ Call ${roomId} now ACTIVE (both parties connected)`);
+            
+            // Notify BOTH parties that call is active and they can start WebRTC
+            io.to(roomId).emit('televet-both-ready', { 
+                message: 'Both participants connected. Starting video...',
+                timestamp: new Date()
+            });
         }
     } catch (error) {
-        console.error('[TeleVet] Error joining room:', error);
-        socket.emit('televet-error', { message: 'Failed to join room' });
+        console.error('[TeleVet] ✗ Error joining room:', error);
+        socket.emit('televet-error', { message: 'Failed to join room', error: error.message });
     }
 });
 
 // WebRTC Offer
 socket.on('televet-offer', ({ roomId, offer }) => {
     try {
-        console.log(`[TeleVet] Relaying offer in room: ${roomId}`);
+        console.log(`[TeleVet] ⬆️  Offer relayed in room: ${roomId}`);
         socket.to(roomId).emit('televet-offer', { offer });
     } catch (error) {
-        console.error('[TeleVet] Error relaying offer:', error);
+        console.error('[TeleVet] ✗ Error relaying offer:', error);
     }
 });
 
 // WebRTC Answer
 socket.on('televet-answer', ({ roomId, answer }) => {
     try {
-        console.log(`[TeleVet] Relaying answer in room: ${roomId}`);
+        console.log(`[TeleVet] ⬇️  Answer relayed in room: ${roomId}`);
         socket.to(roomId).emit('televet-answer', { answer });
     } catch (error) {
-        console.error('[TeleVet] Error relaying answer:', error);
+        console.error('[TeleVet] ✗ Error relaying answer:', error);
     }
 });
 
@@ -313,7 +328,7 @@ socket.on('televet-ice-candidate', ({ roomId, candidate }) => {
     try {
         socket.to(roomId).emit('televet-ice-candidate', { candidate });
     } catch (error) {
-        console.error('[TeleVet] Error relaying ICE candidate:', error);
+        console.error('[TeleVet] ✗ Error relaying ICE candidate:', error);
     }
 });
 
@@ -323,7 +338,9 @@ socket.on('televet-leave-room', async (roomId) => {
         console.log(`[TeleVet] User leaving room: ${roomId}`);
         
         socket.leave(roomId);
-        socket.to(roomId).emit('televet-user-left');
+        socket.to(roomId).emit('televet-user-left', {
+            message: 'Other participant left the call'
+        });
         
         // Remove from room tracking
         if (televetRooms[roomId]) {
@@ -335,18 +352,21 @@ socket.on('televet-leave-room', async (roomId) => {
             if (televetRooms[roomId].length === 0) {
                 delete televetRooms[roomId];
                 
-                // Update call status to ended
-                await VideoCall.findOneAndUpdate(
+                // Update call status to ended if it was active
+                const result = await VideoCall.findOneAndUpdate(
                     { roomId, status: 'active' },
                     { 
                         status: 'ended',
                         endTime: new Date()
                     }
                 );
+                if (result) {
+                    console.log(`[TeleVet] ✓ Call ${roomId} ended (no participants)`);
+                }
             }
         }
     } catch (error) {
-        console.error('[TeleVet] Error leaving room:', error);
+        console.error('[TeleVet] ✗ Error leaving room:', error);
     }
 });
 

@@ -119,6 +119,9 @@ app.get('/debug/sockets', (req, res) => {
 // Initialize teleVet routes with socket.io instance and user socket map
 teleVetroutes.setSocketIO(io, userSocketMap);
 
+// Store active rooms and their participants (shared across all connections)
+const televetRooms = {}; // { roomId: [ { socketId, userId, userName, userRole }, ... ] }
+
 io.on("connection", (socket) => {
 
     // Register a logged-in user with their socket id
@@ -239,11 +242,12 @@ io.on("connection", (socket) => {
         }
     });
     const VideoCall = require('./models/VideoCall');
-const User = require('./models/User');
-const Vet = require('./models/Vet');
+    const User = require('./models/User');
+    const Vet = require('./models/Vet');
 
-// Store active rooms and their participants
-const televetRooms = {}; // { roomId: [socket.id, socket.id] }
+    // Store active rooms and their participants
+    // moved outside of connection handler so it persists across sockets
+    
 
 // Join TeleVet room
 socket.on('televet-join-room', async ({ roomId, userId, userName, userRole }) => {

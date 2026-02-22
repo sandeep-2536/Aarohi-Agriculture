@@ -410,7 +410,7 @@ exports.showCallRoom = async (req, res) => {
       });
     }
 
-    res.render("televet/call-room", {
+    res.render("teleVet/call-room", {
       roomId,
       call,
       userRole,

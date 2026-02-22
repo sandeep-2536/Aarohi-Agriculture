@@ -312,7 +312,7 @@ router.get("/room/:roomId", async (req, res) => {
     const userName = req.session.user ? req.session.user.name : req.session.vet.name;
     const userId = req.session.user ? req.session.user._id : req.session.vet._id;
 
-    res.render("televet/call-room", {
+    res.render("teleVet/call-room", {
       roomId,
       call,
       userRole,

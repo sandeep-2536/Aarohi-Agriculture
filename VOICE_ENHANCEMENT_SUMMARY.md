@@ -150,7 +150,8 @@ This phase completed the modernization and optimization of the voice navigation 
 - **English**: 40+ keywords
 - **Hindi (हिंदी)**: 40+ keywords  
 - **Kannada (ಕನ್ನಡ)**: 40+ keywords
-- **Total Aliases**: 150+ unique mappings
+
+- Kannada audio output now uses a remote TTS proxy when no native Kannada voice is available in the browser; this makes the spoken words sound authentic rather than Hindi/English.- **Total Aliases**: 150+ unique mappings
 
 ## Key Improvements Over Previous Version
 

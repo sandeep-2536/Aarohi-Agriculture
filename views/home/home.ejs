@@ -71,7 +71,7 @@
         }
     </style>
 </head>
-<body class="text-white antialiased">
+<body class="text-white antialiased" data-i18n-voice="home.voiceIntro">
 
     <%- include("../layouts/header") %>
 
@@ -83,12 +83,13 @@
 
         <section class="relative z-10 flex-grow flex flex-col items-center justify-center px-6 pt-20">
             <div class="text-center mb-12 animate-fade-in">
-                <h1 class="text-6xl md:text-8xl font-black mb-4 tracking-tighter leading-none">
+                <h1 class="text-6xl md:text-8xl font-black mb-4 tracking-tighter leading-none" data-i18n="home.heroTitle">
                     Upliftment of <span class="text-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.5)]">Farmers</span>
                 </h1>
-                <p class="text-xl md:text-2xl text-gray-300 font-semibold tracking-wide uppercase">Your Digital Agriculture Assistant</p>
+                <p class="text-xl md:text-2xl text-gray-300 font-semibold tracking-wide uppercase" data-i18n="home.heroSubtitle">Your Digital Agriculture Assistant</p>
             </div>
 
+            <p class="text-lg text-gray-300 font-medium mb-6" data-i18n="home.prompt">Tap or Speak to use the App</p>
             <div class="relative flex items-center justify-center mb-20">
                 <div class="absolute w-40 h-40 bg-green-500 rounded-full animate-ping opacity-20"></div>
                 <div class="absolute w-56 h-56 bg-green-400 rounded-full animate-pulse opacity-10"></div>
@@ -97,7 +98,7 @@
                     <svg class="w-14 h-14 group-hover:text-green-600 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z"/>
                     </svg>
-                    <span class="text-[10px] font-black uppercase tracking-tighter mt-1">Tap to Speak</span>
+                    <span class="text-[10px] font-black uppercase tracking-tighter mt-1" data-i18n="home.speakNow">Tap to Speak</span>
                 </button>
             </div>
         </section>
@@ -108,13 +109,13 @@
                 <div onclick="window.location.href='/schemes'" class="glass-panel group cursor-pointer overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1760872645824-49f21b002e61?w=600" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Schemes">
                     <div class="p-6">
-                        <h3 class="text-3xl font-black text-white" data-i18n="home.featSchemes">Govt Money</h3>
-                        <p class="text-green-400 font-bold uppercase text-sm tracking-widest">Schemes</p>
+                        <h3 class="text-3xl font-black text-white" data-i18n="home.featSchemes">Govt Schemes</h3>
+                        <p class="text-green-400 font-bold uppercase text-sm tracking-widest">Funds</p>
                     </div>
                 </div>
 
                 <div onclick="window.location.href='/ai/assistant'" class="glass-panel group cursor-pointer overflow-hidden border-blue-500/30">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Ask AI">
+                    <img src="https://plus.unsplash.com/premium_photo-1683121710572-7723bd2e235d?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Ask AI">
                     <div class="p-6">
                         <h3 class="text-3xl font-black text-white" data-i18n="home.featAI">Ask Robot</h3>
                         <p class="text-blue-400 font-bold uppercase text-sm tracking-widest">AI Help</p>
@@ -122,7 +123,7 @@
                 </div>
 
                 <div onclick="window.location.href='/weather'" class="glass-panel group cursor-pointer overflow-hidden border-yellow-500/30">
-                    <img src="https://images.unsplash.com/photo-1698213120340-3fd8fca285ea?w=600" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Weather">
+                    <img src="https://plus.unsplash.com/premium_photo-1725408051956-a6dc142169bd?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Weather">
                     <div class="p-6">
                         <h3 class="text-3xl font-black text-white" data-i18n="home.featWeather">Rain & Sun</h3>
                         <p class="text-yellow-400 font-bold uppercase text-sm tracking-widest">Weather</p>
@@ -130,7 +131,7 @@
                 </div>
 
                 <div onclick="window.location.href='/community'" class="glass-panel group cursor-pointer overflow-hidden border-purple-500/30">
-                    <img src="https://media.istockphoto.com/id/1483599231/photo/beautiful-composition-of-happy-indian-farmers-standing-together-in-the-farm-land-four-farmers.webp?w=600" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Community">
+                    <img src="https://plus.unsplash.com/premium_photo-1681885032909-8d645ac23be4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Community">
                     <div class="p-6">
                         <h3 class="text-3xl font-black text-white" data-i18n="home.featCommunity">Community</h3>
                         <p class="text-purple-400 font-bold uppercase text-sm tracking-widest">Connect</p>
@@ -138,15 +139,15 @@
                 </div>
 
                 <div onclick="window.location.href='/animals'" class="glass-panel group cursor-pointer overflow-hidden border-orange-500/30">
-                    <img src="https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=600" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Livestock">
+                    <img src="https://images.unsplash.com/photo-1596733430284-f7437764b1a9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Livestock">
                     <div class="p-6">
                         <h3 class="text-3xl font-black text-white" data-i18n="home.featAnimals">Animals</h3>
-                        <p class="text-orange-400 font-bold uppercase text-sm tracking-widest">Buy & Sell</p>
+                        <p class="text-orange-400 font-bold uppercase text-sm tracking-widest">Connecting for trade</p>
                     </div>
                 </div>
 
                 <div onclick="window.location.href='/crops'" class="glass-panel group cursor-pointer overflow-hidden border-yellow-200/30">
-                    <img src="https://plus.unsplash.com/premium_photo-1664301486196-6517faf72dec?w=600" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Crops">
+                    <img src="https://images.unsplash.com/photo-1643474004250-05d73e1473e0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Crops">
                     <div class="p-6">
                         <h3 class="text-3xl font-black text-white" data-i18n="home.featCrops">Sell Crops</h3>
                         <p class="text-yellow-200 font-bold uppercase text-sm tracking-widest">Market</p>
@@ -154,7 +155,7 @@
                 </div>
 
                 <div onclick="window.location.href='/teleVet'" class="glass-panel group cursor-pointer overflow-hidden border-red-500/30">
-                    <img src="https://media.istockphoto.com/id/844394412/photo/group-of-veterinary-students-in-an-anatomy-class.webp?w=600" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Vet">
+                    <img src="https://plus.unsplash.com/premium_photo-1681880789166-6085eaa4ed8b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-48 object-cover img-mask group-hover:scale-110 transition-transform duration-700" alt="Vet">
                     <div class="p-6">
                         <h3 class="text-3xl font-black text-white" data-i18n="home.featVet">Animal Doc</h3>
                         <p class="text-red-400 font-bold uppercase text-sm tracking-widest">Video Call</p>
@@ -176,13 +177,13 @@
             <div class="max-w-5xl mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-center gap-12">
                     <div class="md:w-1/3">
-                        <h2 class="text-5xl font-black text-white mb-4 leading-tight">New to <br><span class="text-green-400">Aarohi?</span></h2>
-                        <p class="text-gray-400 text-lg font-medium">Watch this quick video to learn how to grow your farming business today.</p>
+                        <h2 class="text-5xl font-black text-white mb-4 leading-tight" data-i18n="home.newToAarohi">New to <br><span class="text-green-400">Aarohi?</span></h2>
+                        <p class="text-gray-400 text-lg font-medium" data-i18n="home.trainingDesc">Watch this quick video to learn how to grow your farming business today.</p>
                     </div>
                     <div class="md:w-2/3 w-full">
                         <div class="rounded-[2.5rem] overflow-hidden border-4 border-white/20 shadow-2xl aspect-video bg-black">
                             <video controls class="w-full h-full object-cover">
-                                <source src="/Aarohi.mp4" type="video/mp4">
+                                <source src="/videos/Aarohi.mp4" type="video/mp4">
                             </video>
                         </div>
                     </div>
@@ -194,23 +195,59 @@
     <%- include("../layouts/footer") %>
 
     <script>
-        function startVoiceCommand() {
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.lang = 'en-IN';
-                recognition.start();
-                recognition.onresult = (e) => {
-                    const t = e.results[0][0].transcript.toLowerCase();
-                    if (t.includes('scheme')) window.location.href = '/schemes';
-                    else if (t.includes('weather')) window.location.href = '/weather';
-                    else if (t.includes('animal')) window.location.href = '/animals';
-                    else if (t.includes('doctor')) window.location.href = '/teleVet';
-                    else {
-                        localStorage.setItem('voiceQuery', t);
-                        window.location.href = '/ai/assistant';
+        async function startVoiceCommand() {
+            if (!('webkitSpeechRecognition' in window)) return;
+
+            // speak a welcome / instruction phrase based on locale
+            try {
+                const lang = localStorage.getItem('aarohi_lang') || 'en';
+                const res = await fetch(`/i18n/${lang}`);
+                if (res.ok) {
+                    const locale = await res.json();
+                    if (locale.home && locale.home.voiceIntro) {
+                        voiceSpeak(locale.home.voiceIntro);
                     }
+                }
+            } catch (_) {}
+
+            const recognition = new webkitSpeechRecognition();
+            const lang = localStorage.getItem('aarohi_lang') || 'en';
+            const langMap = { en: 'en-IN', hi: 'hi-IN', kn: 'kn-IN' };
+            recognition.lang = langMap[lang] || 'en-IN';
+            recognition.start();
+            recognition.onresult = (e) => {
+                const t = e.results[0][0].transcript.toLowerCase();
+                console.log('[voiceCommand] recognized:', t, 'lang', lang);
+
+                const redirect = (url) => { window.location.href = url; };
+                const storeAndGotoAI = (text) => {
+                    localStorage.setItem('voiceQuery', text);
+                    window.location.href = '/ai/assistant';
                 };
-            }
+
+                if (lang === 'hi') {
+                    if (t.includes('योजना') || t.includes('scheme')) redirect('/schemes');
+                    else if (t.includes('मौसम') || t.includes('weather')) redirect('/weather');
+                    else if (t.includes('पशु') || t.includes('animal')) redirect('/animals');
+                    else if (t.includes('डॉक्टर') || t.includes('doctor')) redirect('/teleVet');
+                    else if (t.includes('होम') || t.includes('स्वागत')) redirect('/');
+                    else storeAndGotoAI(t);
+                } else if (lang === 'kn') {
+                    if (t.includes('ಯೋಜನೆ') || t.includes('scheme')) redirect('/schemes');
+                    else if (t.includes('ಹವಾಮಾನ') || t.includes('weather')) redirect('/weather');
+                    else if (t.includes('ಪ್ರಾಣಿ') || t.includes('animal')) redirect('/animals');
+                    else if (t.includes('ಡಾಕ್ಟರ್') || t.includes('doctor')) redirect('/teleVet');
+                    else if (t.includes('ಮುಖಪುಟ') || t.includes('ಸ್ವಾಗತ')) redirect('/');
+                    else storeAndGotoAI(t);
+                } else {
+                    if (t.includes('scheme')) redirect('/schemes');
+                    else if (t.includes('weather')) redirect('/weather');
+                    else if (t.includes('animal')) redirect('/animals');
+                    else if (t.includes('doctor')) redirect('/teleVet');
+                    else if (t.includes('home') || t.includes('welcome')) redirect('/');
+                    else storeAndGotoAI(t);
+                }
+            };
         }
     </script>
 </body>

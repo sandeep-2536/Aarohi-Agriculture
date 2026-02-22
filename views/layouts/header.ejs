@@ -88,8 +88,12 @@
     });
 
     function changeLanguage(lang) {
+        // persist selection so other scripts can read it
         localStorage.setItem('aarohi_lang', lang);
-        if (typeof loadTranslations === 'function') {
+        // prefer the new helper; fallback to previous helpers or full reload
+        if (window.setLanguage) {
+            window.setLanguage(lang);
+        } else if (typeof loadTranslations === 'function') {
             loadTranslations(lang);
         } else {
             window.location.reload(); 

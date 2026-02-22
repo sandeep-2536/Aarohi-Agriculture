@@ -151,6 +151,18 @@ home, dashboard, community, chat, problems, animals, crops, stock, vet, schemes,
 - ಯೋಜನೆ (scheme)
 - ಎಐ (AI)
 
+> **Note:** not all browsers ship with Kannada voices. the platform now automatically falls back to a lightweight server‑side TTS proxy (Google Translate) when a native Kannada voice cannot be found, ensuring spoken Kannada actually sounds correct.
+
+
+### Customizing Audio
+If the browser provides multiple voices you can choose one explicitly by calling:
+
+```
+setPreferredVoice('<voice name or URI>', 'kn'); // 'kn' for Kannada only
+```
+
+Run `getAvailableVoices().then(v=>console.log(v))` in the console to inspect names/URIs. This allows you to pick a voice just for Kannada while leaving other languages unchanged.
+
 ## Processing Flow Diagram
 
 ```

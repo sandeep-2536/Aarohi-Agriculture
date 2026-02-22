@@ -27,15 +27,33 @@
     localStorage.setItem("aarohi_voice_enabled", state);
   };
 
-  // Stop speaking
+  // Stop speaking (cancel both native and any remote audio)
+  let _remoteAudio = null;
   window.voiceStop = function () {
     if (speechSynthesis) speechSynthesis.cancel();
+    if (_remoteAudio) {
+      _remoteAudio.pause();
+      _remoteAudio = null;
+    }
   };
 
-  // Speak text
+  // Speak text (with optional remote fallback for Kannada)
   window.voiceSpeak = function (text) {
     if (!window.AAROHIVoice.enabled) return;
     if (!text || !window.speechSynthesis) return;
+
+    // helper to play audio fetched from our /tts proxy
+    const remoteSpeak = (txt, lang) => {
+      // cancel any existing remote clip
+      if (_remoteAudio) {
+        _remoteAudio.pause();
+        _remoteAudio = null;
+      }
+      const audio = new Audio(`/tts?lang=${encodeURIComponent(lang)}&text=${encodeURIComponent(txt)}`);
+      _remoteAudio = audio;
+      audio.play().catch(e => console.warn('[voice] remote play failed', e));
+      return audio;
+    };
 
     // Helper: ensure voices are loaded
     const ensureVoices = () => new Promise((resolve) => {
@@ -83,14 +101,36 @@
         const voices = await ensureVoices();
         const langTag = LANG_MAP[window.AAROHIVoice.lang] || 'en-IN';
 
+        // if Kannada requested and browser has no native Kannada voice, use remote service
+        if (langTag.toLowerCase().startsWith('kn')) {
+          const hasKannada = voices.some(v => v.lang && v.lang.toLowerCase().startsWith('kn'));
+          if (!hasKannada) {
+            remoteSpeak(text, 'kn');
+            return;
+          }
+        }
+
         const u = new SpeechSynthesisUtterance(text);
         u.lang = langTag;
         u.rate = window.AAROHIVoice.rate;
         u.pitch = window.AAROHIVoice.pitch;
         u.volume = window.AAROHIVoice.volume;
 
-        // Prefer a voice that matches the language
-        let selected = findVoiceFor(voices, langTag);
+        // if user has chosen a preferred voice, try it first
+        let preferredId = null;
+        try {
+          preferredId = (window.AAROHIVoice.preferredByLang && window.AAROHIVoice.preferredByLang[window.AAROHIVoice.lang])
+            || window.AAROHIVoice.preferred;
+        } catch (e) {
+          preferredId = window.AAROHIVoice.preferred;
+        }
+        let selected = null;
+        if (preferredId) {
+          selected = voices.find(v => v.name === preferredId || v.voiceURI === preferredId);
+        }
+
+        // Prefer a voice that matches the language if we still need one
+        if (!selected) selected = findVoiceFor(voices, langTag);
 
         // If Kannada requested but no Kannada voice, try Hindi as a closer fallback
         if (!selected && (langTag.toLowerCase().startsWith('kn') || langTag.toLowerCase().startsWith('kn-in'))) {
@@ -149,25 +189,41 @@
     });
   };
 
-  // Set a preferred voice by its name or voiceURI; stores in localStorage
-  window.setPreferredVoice = async function(id) {
+  // Set a preferred voice by its name or voiceURI; stores in localStorage.
+  // Optionally specify a language key for per‑language preferences.
+  window.setPreferredVoice = async function(id, lang) {
     try {
-      localStorage.setItem('aarohi_voice_choice', id || '');
-      window.AAROHIVoice.preferred = id || null;
+      if (lang) {
+        localStorage.setItem(`aarohi_voice_choice_${lang}`, id || '');
+        if (!window.AAROHIVoice.preferredByLang) window.AAROHIVoice.preferredByLang = {};
+        window.AAROHIVoice.preferredByLang[lang] = id || null;
+      } else {
+        localStorage.setItem('aarohi_voice_choice', id || '');
+        window.AAROHIVoice.preferred = id || null;
+      }
     } catch (err) {
       console.error('[voice] setPreferredVoice error', err);
     }
   };
 
-  // Get preferred voice id
-  window.getPreferredVoice = function() {
+  // Get preferred voice id (checking lang-specific first)
+  window.getPreferredVoice = function(lang) {
+    if (lang) {
+      return localStorage.getItem(`aarohi_voice_choice_${lang}`) || null;
+    }
     return localStorage.getItem('aarohi_voice_choice') || null;
   };
 
   // Ensure any previously chosen preference is loaded into runtime state
   try {
     window.AAROHIVoice.preferred = window.getPreferredVoice();
+    window.AAROHIVoice.preferredByLang = {
+      en: window.getPreferredVoice('en'),
+      hi: window.getPreferredVoice('hi'),
+      kn: window.getPreferredVoice('kn')
+    };
   } catch (err) {
     window.AAROHIVoice.preferred = null;
+    window.AAROHIVoice.preferredByLang = {};
   }
 })();

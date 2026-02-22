@@ -75,6 +75,7 @@ const i18nRoutes = require('./routes/i18nRoutes');
 const adminRoutes = require('./routes/admin'); // Imported from first block
 const weatherroutes = require('./routes/weatherRoutes');
 const teleVetroutes=require('./routes/teleVetRoutes');
+const ttsRoutes = require('./routes/tts');
 
 // --- Route Definitions ---
 
@@ -84,9 +85,10 @@ app.get('/', (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/schemes", schemeRoutes);
 app.use("/ai", aiRoutes);
 app.use('/i18n', i18nRoutes); // For changing language
-app.use("/schemes", schemeRoutes);
+app.use('/tts', ttsRoutes); // Text‑to‑speech proxy (Kannada fallback)app.use("/schemes", schemeRoutes);
 app.use('/farmer', farmerRoutes);
 app.use("/community", communityRoutes);
 app.use("/community/chat", chatRoutes);

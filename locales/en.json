@@ -26,6 +26,8 @@
     "welcome": "Welcome Farmer ",
     "prompt": "Tap or Speak to use the App",
     "speakNow": "Speak Now",
+    "heroTitle": "Upliftment of Farmers",
+    "heroSubtitle": "Your Digital Agriculture Assistant",
     "statsActiveFarmers": "Active Farmers",
     "statsGovtSchemes": "Govt Schemes",
     "statsAISupport": "AI Support",
@@ -48,6 +50,8 @@
     "featWeatherSub": "Get real-time alerts",
     "ctaTitle": "Ready to Transform Your Farming?",
     "ctaSubtitle": "Join thousands of farmers using Aarohi Agriculture",
+    "trainingDesc": "Watch this quick video to learn how to grow your farming business today.",
+    "newToAarohi": "New to Aarohi?",
     "voiceIntro": "Welcome to Aarohi Agriculture. I am your digital farming assistant. Tap or speak to get started."
   },
   "ai": {

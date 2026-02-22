@@ -89,6 +89,9 @@
     }
   };
 
+  // alias for legacy callers (header used loadTranslations previously)
+  window.loadTranslations = window.setLanguage;
+
   // Auto-apply on load
   document.addEventListener('DOMContentLoaded', async () => {
     const lang = localStorage.getItem('aarohi_lang') || (window.SERVER_USER_LANG || 'en');

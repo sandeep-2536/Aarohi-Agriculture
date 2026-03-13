@@ -195,7 +195,7 @@
     try {
       console.log('[teleVetCallRoom] 📹 Requesting media...');
       localStream = await navigator.mediaDevices.getUserMedia({
-        video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+        video: true,
         audio: true
       });
       
@@ -208,10 +208,7 @@
       // Farmer creates offer, vet answers
       if (userRole === 'farmer') {
         console.log('[teleVetCallRoom] 👨‍🌾 Farmer: Creating offer');
-        const offer = await pc.createOffer({
-          offerToReceiveVideo: true,
-          offerToReceiveAudio: true
-        });
+        const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
         socket.emit('televet-offer', { roomId, offer });
         console.log('[teleVetCallRoom] ✓ Offer sent');

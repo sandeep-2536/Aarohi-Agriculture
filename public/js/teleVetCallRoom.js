@@ -144,10 +144,24 @@
 
     // Add local stream tracks
     if (localStream) {
-      localStream.getTracks().forEach(track => {
-        console.log('[teleVetCallRoom] Adding track:', track.kind);
-        pc.addTrack(track, localStream);
+      const tracks = localStream.getTracks();
+      console.log('[teleVetCallRoom] Adding', tracks.length, 'local tracks to peer connection');
+      tracks.forEach(track => {
+        console.log('[teleVetCallRoom] Adding track:', {
+          kind: track.kind,
+          enabled: track.enabled,
+          label: track.label,
+          readyState: track.readyState
+        });
+        try {
+          pc.addTrack(track, localStream);
+          console.log('[teleVetCallRoom] ✓ Track added successfully:', track.kind);
+        } catch (err) {
+          console.error('[teleVetCallRoom] ✗ Error adding track:', track.kind, err);
+        }
       });
+    } else {
+      console.warn('[teleVetCallRoom] ⚠ No local stream available when creating peer connection');
     }
 
     // Listen for remote stream
@@ -155,34 +169,78 @@
       console.log('[teleVetCallRoom] ✓ ontrack:', event.streams.length, 'streams');
       if (event.streams && event.streams[0]) {
         const stream = event.streams[0];
-        console.log('[teleVetCallRoom] Remote stream tracks:', stream.getTracks().map(t => ({ kind: t.kind, enabled: t.enabled })));
+        console.log('[teleVetCallRoom] Remote stream tracks:', stream.getTracks().map(t => ({ kind: t.kind, enabled: t.enabled, readyState: t.readyState })));
+        
+        // Ensure video element is ready
+        if (!remoteVideo) {
+          console.error('[teleVetCallRoom] ✗ Remote video element not found');
+          return;
+        }
+        
         console.log('[teleVetCallRoom] Setting remote video srcObject');
         remoteVideo.srcObject = stream;
-        remoteVideo.play().catch(e => console.log('Play failed:', e)); // Ensure video plays
-        isConnected = true;
-        if (statusEl) statusEl.innerText = "Connected ✓";
+        
+        // Attempt to play with proper error handling
+        const playPromise = remoteVideo.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log('[teleVetCallRoom] ✓ Remote video playing successfully');
+              isConnected = true;
+              if (statusEl) statusEl.innerText = "Connected ✓";
+            })
+            .catch(error => {
+              console.error('[teleVetCallRoom] ✗ Remote video play error:', error);
+              // Try to unmute and play again (sometimes helps with autoplay policy)
+              if (remoteVideo.muted) {
+                console.log('[teleVetCallRoom] Attempting to unmute and play...');
+                remoteVideo.muted = false;
+                remoteVideo.play().catch(e => console.error('[teleVetCallRoom] Still failed after unmute:', e));
+              }
+            });
+        }
       } else {
-        console.log('[teleVetCallRoom] No streams in ontrack event');
+        console.log('[teleVetCallRoom] ⚠ No streams in ontrack event');
       }
     };
 
     // Send ICE candidates to remote peer
     pc.onicecandidate = (event) => {
       if (event.candidate) {
-        console.log('[teleVetCallRoom] ❄️  ICE candidate');
+        console.log('[teleVetCallRoom] ❄️  ICE candidate:', event.candidate.type);
         socket.emit('televet-ice-candidate', {
           roomId,
           candidate: event.candidate
         });
+      } else {
+        console.log('[teleVetCallRoom] ℹ ICE gathering complete');
       }
     };
 
     // Monitor connection state
     pc.onconnectionstatechange = () => {
       console.log('[teleVetCallRoom] 🔗 Connection state:', pc.connectionState);
-      if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') {
+      if (pc.connectionState === 'failed') {
+        console.error('[teleVetCallRoom] ✗ Connection failed');
+        if (statusEl) statusEl.innerText = 'Connection failed...';
+      } else if (pc.connectionState === 'disconnected') {
+        console.log('[teleVetCallRoom] ⚠ Connection disconnected');
         if (statusEl) statusEl.innerText = 'Connection lost...';
+      } else if (pc.connectionState === 'connected') {
+        console.log('[teleVetCallRoom] ✓ Connection established');
+        isConnected = true;
+        if (statusEl) statusEl.innerText = 'Connected ✓';
       }
+    };
+
+    // Monitor ICE connection state
+    pc.oniceconnectionstatechange = () => {
+      console.log('[teleVetCallRoom] ❄️  ICE connection state:', pc.iceConnectionState);
+    };
+
+    // Monitor signaling state
+    pc.onsignalingstatechange = () => {
+      console.log('[teleVetCallRoom] 📡 Signaling state:', pc.signalingState);
     };
 
     return pc;
@@ -196,23 +254,42 @@
     try {
       console.log('[teleVetCallRoom] 📹 Requesting media...');
       localStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
+        video: {
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        }
       });
       
       localVideo.srcObject = localStream;
       console.log('[teleVetCallRoom] ✓ Media obtained');
-      console.log('[teleVetCallRoom] Local stream tracks:', localStream.getTracks().map(t => ({ kind: t.kind, enabled: t.enabled })));
+      
+      const localTracks = localStream.getTracks();
+      console.log('[teleVetCallRoom] Local stream tracks:', localTracks.map(t => ({ 
+        kind: t.kind, 
+        enabled: t.enabled, 
+        readyState: t.readyState,
+        label: t.label 
+      })));
 
       createPeerConnection();
+      
+      console.log('[teleVetCallRoom] ✓ Peer connection created');
 
       // Farmer creates offer, vet answers
       if (userRole === 'farmer') {
         console.log('[teleVetCallRoom] 👨‍🌾 Farmer: Creating offer');
-        const offer = await pc.createOffer();
+        const offer = await pc.createOffer({
+          offerToReceiveAudio: true,
+          offerToReceiveVideo: true
+        });
         await pc.setLocalDescription(offer);
         socket.emit('televet-offer', { roomId, offer });
-        console.log('[teleVetCallRoom] ✓ Offer sent');
+        console.log('[teleVetCallRoom] ✓ Offer sent with media constraints');
       } else {
         // Vet waits for offer, will handle it in onmessage
         console.log('[teleVetCallRoom] 🩺 Vet: Waiting for offer...');
@@ -220,7 +297,7 @@
     } catch (err) {
       console.error('[teleVetCallRoom] ✗ Media error:', err);
       if (statusEl) statusEl.innerText = "Camera/mic permission denied";
-      alert("Please allow camera and microphone access");
+      alert("Please allow camera and microphone access. Error: " + err.message);
     }
   }
 

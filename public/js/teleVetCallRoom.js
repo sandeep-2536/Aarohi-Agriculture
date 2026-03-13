@@ -151,11 +151,17 @@
 
     // Listen for remote stream
     pc.ontrack = (event) => {
-      console.log('[teleVetCallRoom] ✓ ontrack:', event.streams.length);
+      console.log('[teleVetCallRoom] ✓ ontrack:', event.streams.length, 'streams');
       if (event.streams && event.streams[0]) {
-        remoteVideo.srcObject = event.streams[0];
+        const stream = event.streams[0];
+        console.log('[teleVetCallRoom] Remote stream tracks:', stream.getTracks().map(t => ({ kind: t.kind, enabled: t.enabled })));
+        console.log('[teleVetCallRoom] Setting remote video srcObject');
+        remoteVideo.srcObject = stream;
+        remoteVideo.play().catch(e => console.log('Play failed:', e)); // Ensure video plays
         isConnected = true;
         if (statusEl) statusEl.innerText = "Connected ✓";
+      } else {
+        console.log('[teleVetCallRoom] No streams in ontrack event');
       }
     };
 
@@ -195,6 +201,7 @@
       
       localVideo.srcObject = localStream;
       console.log('[teleVetCallRoom] ✓ Media obtained');
+      console.log('[teleVetCallRoom] Local stream tracks:', localStream.getTracks().map(t => ({ kind: t.kind, enabled: t.enabled })));
 
       createPeerConnection();
 
@@ -346,7 +353,7 @@
     
     // Redirect after delay
     setTimeout(() => {
-      window.location.href = userRole === 'farmer' ? '/televet/vets' : '/televet/vet/dashboard';
+      window.location.href = '/dashboard';
     }, 2000);
   }
 

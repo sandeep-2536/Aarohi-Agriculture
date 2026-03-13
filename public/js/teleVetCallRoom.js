@@ -23,6 +23,7 @@
 
   let localStream = null;
   let pc = null;
+  let pendingIceCandidates = [];
   let isMuted = false;
   let cameraOff = false;
   let isConnected = false;
@@ -239,6 +240,9 @@
       await pc.setRemoteDescription(new RTCSessionDescription(offer));
       console.log('[teleVetCallRoom] ✓ Offer set as remote description');
 
+      // Apply any queued ICE candidates now that remote description is set
+      await drainPendingIceCandidates();
+
       // Vet creates answer
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
@@ -262,6 +266,9 @@
       
       await pc.setRemoteDescription(new RTCSessionDescription(answer));
       console.log('[teleVetCallRoom] ✓ Answer set as remote description');
+
+      // Apply any queued ICE candidates now that remote description is set
+      await drainPendingIceCandidates();
     } catch (err) {
       console.error('[teleVetCallRoom] ✗ Answer error:', err);
     }
@@ -270,11 +277,33 @@
   /**
    * Receive ICE candidate from remote peer
    */
+  async function drainPendingIceCandidates() {
+    if (!pc || !pendingIceCandidates.length) return;
+    console.log('[teleVetCallRoom] 🧹 Adding pending ICE candidates:', pendingIceCandidates.length);
+    const candidates = [...pendingIceCandidates];
+    pendingIceCandidates = [];
+
+    for (const candidate of candidates) {
+      try {
+        await pc.addIceCandidate(new RTCIceCandidate(candidate));
+      } catch (err) {
+        console.error('[teleVetCallRoom] ✗ addIceCandidate (pending) error:', err);
+      }
+    }
+  }
+
   socket.on('televet-ice-candidate', async ({ candidate }) => {
     try {
-      if (candidate && pc && pc.remoteDescription) {
-        await pc.addIceCandidate(new RTCIceCandidate(candidate));
+      if (!candidate || !pc) return;
+
+      // If remote description isn't yet set, queue the candidate.
+      if (!pc.remoteDescription || !pc.remoteDescription.type) {
+        console.log('[teleVetCallRoom] ℹ Queueing ICE candidate (waiting for remote description)');
+        pendingIceCandidates.push(candidate);
+        return;
       }
+
+      await pc.addIceCandidate(new RTCIceCandidate(candidate));
     } catch (err) {
       console.error('[teleVetCallRoom] ✗ ICE error:', err);
     }
@@ -342,6 +371,9 @@
       });
       localStream = null;
     }
+
+    // Clear pending ICE candidates so a new call starts fresh
+    pendingIceCandidates = [];
     
     if (localVideo) localVideo.srcObject = null;
     if (remoteVideo) remoteVideo.srcObject = null;

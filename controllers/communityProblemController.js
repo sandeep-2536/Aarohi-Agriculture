@@ -26,7 +26,7 @@ exports.createProblem = async (req, res) => {
         image: req.file ? "/uploads/" + req.file.filename : null
     });
 
-    res.redirect("/community/problems");
+    res.redirect("/community");
 };
 
 exports.getProblemById = async (req, res) => {
